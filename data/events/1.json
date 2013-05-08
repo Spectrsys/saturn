@@ -21,7 +21,8 @@
         "editable": true,
         "color": "#00ffff",
         "textColor": "#ff6600",
-        "description": "This is my awesome description"
+        "description": "This is my awesome description",
+        "location": "Timisoara, Piata 700"
     },
     {
         "id": 2,

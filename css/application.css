@@ -118,6 +118,10 @@ input {
 }
 
 /* calendar */
+.fc-view {
+    overflow: visible;
+}
+
 .fc-event {
     border: 1px solid #99CCFF;
     color: #333;
@@ -160,6 +164,15 @@ input {
 
 .mini-calendar .fc-header-center {
     text-align: left;
+}
+
+.event-dates {
+    margin-bottom: 3px;
+}
+
+.event-location {
+    font-size: 85%;
+    color: #999;
 }
 
 /* overrides for bootstrap and jquery UI */

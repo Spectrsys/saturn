@@ -161,28 +161,31 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
         eventDrop: $scope.eventDrop,
         eventResize: $scope.eventResize,
         eventRender: function(event, element, view){
-            var position = element.position(),
-                content = '';
+            var content = '';
 
-            if(event.description) {
-                content += '<p>' + event.description + '</p>';
-            }
-
-            content += '<p><i class="icon-calendar"></i> ' + $filter('date')(event.start, 'dd/MM/yyyy') + ', ';
+            content += '<div class="event-dates"><i class="icon-calendar"></i> ' + $filter('date')(event.start, 'dd/MM/yyyy') + ', ';
             content +=  $filter('date')(event.start, 'shortTime');
             if(event.end){
                 content += ' - ' + $filter('date')(event.end, 'dd/MM/yyyy') + ', ';
                 content += $filter('date')(event.start, 'shortTime');
             }
+            content += '</div>';
 
-            content += '</p>';
+            if(event.description) {
+                content += '<p class="event-description">' + event.description + '</p>';
+            }
+
+            if(event.location) {
+                content += '<div class="event-location">' + event.location + '</div>';
+            }
 
             element.popover({
                 'title': event.title,
                 'content': content,
                 'html': true,
-                'trigger': 'click',
-                'placement': 'top'
+                'trigger': 'hover',
+                'placement': 'top',
+                'delay': 200
             });
         },
         select: $scope.select,

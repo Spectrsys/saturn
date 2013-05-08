@@ -2,19 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/ui-bootstrap-tpls-0.3.0.min.js" />
-      <change type="DELETED" beforePath="D:\Work\projects\saturn\js\ui-bootstrap-0.3.0.min.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/events/1.json" afterPath="$PROJECT_DIR$/data/events/1.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/application.css" afterPath="$PROJECT_DIR$/css/application.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/application.js" afterPath="$PROJECT_DIR$/js/application.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/fullcalendar.min.js" afterPath="$PROJECT_DIR$/js/fullcalendar.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="fullcalendar.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368003315839" ignored="false" />
-    <file path="/application.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368019216209" ignored="false" />
-    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368018193980" ignored="false" />
+    <file path="/application.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368020935213" ignored="false" />
+    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368020851768" ignored="false" />
     <file path="/add-event.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367254898578" ignored="false" />
     <file path="/event-details.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1365497251589" ignored="false" />
     <file path="/Dummy.txt" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368010596192" ignored="false" />
@@ -25,7 +22,7 @@
     <file path="/settings.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367994126089" ignored="false" />
     <file path="/edit-event.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367252005392" ignored="false" />
     <file path="/details.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367420465912" ignored="false" />
-    <file path="/1.json" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367942693522" ignored="false" />
+    <file path="/1.json" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368019417986" ignored="false" />
     <file path="/style.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367506782708" ignored="false" />
     <file path="$PROJECT_DIR$/../radugolban/wp-content/themes/radugolban/style.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367506786597" ignored="false" />
     <file path="$PROJECT_DIR$/../radugolban/wp-content/themes/radugolban/styles/app.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367529372462" ignored="false" />
@@ -92,7 +89,7 @@
       <file leaf-file-name="application.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="164" column="29" selection-start="4691" selection-end="4691" vertical-scroll-proportion="0.0">
+            <state line="153" column="28" selection-start="4320" selection-end="4320" vertical-scroll-proportion="-9.92">
               <folding />
             </state>
           </provider>
@@ -101,10 +98,10 @@
       <file leaf-file-name="fullcalendar.min.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/fullcalendar.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="16727" selection-start="16831" selection-end="16831" vertical-scroll-proportion="-3.4">
+            <state line="5" column="16725" selection-start="16829" selection-end="16829" vertical-scroll-proportion="-3.4">
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1368019134887" expanded="true" signature="16814:16854" placeholder="..." />
+                <marker date="1368019740376" expanded="true" signature="16814:16852" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -131,7 +128,7 @@
       <file leaf-file-name="application.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/css/application.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="128" column="1" selection-start="3120" selection-end="3120" vertical-scroll-proportion="0.3577332">
+            <state line="169" column="23" selection-start="3740" selection-end="3740" vertical-scroll-proportion="0.6387249">
               <folding>
                 <element signature="e#911#1574#2" expanded="true" />
               </folding>
@@ -142,7 +139,7 @@
       <file leaf-file-name="1.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/events/1.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="55" selection-start="423" selection-end="423" vertical-scroll-proportion="0.0">
+            <state line="24" column="41" selection-start="688" selection-end="688" vertical-scroll-proportion="-8.0">
               <folding />
             </state>
           </provider>
@@ -183,13 +180,13 @@
         <option value="$PROJECT_DIR$/js/directives/colorpicker.js" />
         <option value="$PROJECT_DIR$/css/colorPicker.css" />
         <option value="$PROJECT_DIR$/css/fullcalendar.css" />
-        <option value="$PROJECT_DIR$/data/events/1.json" />
         <option value="$PROJECT_DIR$/partials/settings.html" />
         <option value="$PROJECT_DIR$/js/ui-bootstrap-tpls-0.3.0.min.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/partials/index.html" />
-        <option value="$PROJECT_DIR$/js/application.js" />
+        <option value="$PROJECT_DIR$/data/events/1.json" />
         <option value="$PROJECT_DIR$/js/fullcalendar.min.js" />
+        <option value="$PROJECT_DIR$/js/application.js" />
         <option value="$PROJECT_DIR$/css/application.css" />
       </list>
     </option>
@@ -283,6 +280,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="settings" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fullcalendar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="saturn" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="events" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fullcalendar" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="saturn" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -338,7 +371,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1932" height="1062" extended-state="1" />
+    <frame x="-6" y="-6" width="1932" height="1062" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32930845" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -352,7 +385,7 @@
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2497332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2673426" sideWeight="0.67069155" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2673426" sideWeight="0.67069155" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -465,13 +498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/events/1.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="55" selection-start="423" selection-end="423" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="46" column="46" selection-start="2870" selection-end="2870" vertical-scroll-proportion="0.0">
@@ -507,26 +533,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/application.js">
+    <entry file="file://$PROJECT_DIR$/data/events/1.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="164" column="29" selection-start="4691" selection-end="4691" vertical-scroll-proportion="0.0">
+        <state line="24" column="41" selection-start="688" selection-end="688" vertical-scroll-proportion="-8.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/fullcalendar.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="16727" selection-start="16831" selection-end="16831" vertical-scroll-proportion="-3.4">
+        <state line="5" column="16725" selection-start="16829" selection-end="16829" vertical-scroll-proportion="-3.4">
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1368019134887" expanded="true" signature="16814:16854" placeholder="..." />
+            <marker date="1368019740376" expanded="true" signature="16814:16852" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="28" selection-start="4320" selection-end="4320" vertical-scroll-proportion="-9.92">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/application.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="128" column="1" selection-start="3120" selection-end="3120" vertical-scroll-proportion="0.3577332">
+        <state line="169" column="23" selection-start="3740" selection-end="3740" vertical-scroll-proportion="0.6387249">
           <folding>
             <element signature="e#911#1574#2" expanded="true" />
           </folding>
