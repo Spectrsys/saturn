@@ -23,21 +23,41 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
 saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     //get events from google calendar
     $scope.googleCalendarEvents = {
-        url : "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic"
+        'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
+        'title': 'Google Calendar events',
+        'state': false,
+        'cache': true
     };
 
     //get events from a JSON file
     $scope.JSONEvents = {
-        url : "/data/events/1.json"
+        'url' : '/data/events/1.json',
+        'color': '#ff0000',
+        'textColor': '#fff',
+        'editable': true,
+        'title': 'Events from JSON file',
+        'state': true,
+        'cache': true
     };
 
-    $scope.events = [];
+    $scope.JSONEvents2 = {
+        'url' : '/data/events/2.json',
+        'color': '#00ff00',
+        'textColor': '#0000ff',
+        'editable': false,
+        'title': 'Events from JSON file number 2',
+        'state': false,
+        'cache': true
+    };
 
-    $scope.eventSources = [$scope.events, $scope.JSONEvents, $scope.googleCalendarEvents];
-
-    $scope.action = 'Add';
+    $scope.eventsCache = [$scope.JSONEvents, $scope.JSONEvents2, $scope.googleCalendarEvents];
+    $scope.eventSources = $.grep([$scope.JSONEvents, $scope.JSONEvents2, $scope.googleCalendarEvents], function(arrayElement, index){
+        return arrayElement.state === true;
+    });
 
     $scope.resetEventDetails = function(start, end){
+        $scope.action = 'Add';
+
         var date = new Date(),
             d = date.getDate(),
             m = date.getMonth(),
@@ -101,6 +121,23 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 
     $scope.resetEventDetails();
 
+    $scope.addRemoveEventSource = function(sources,source) {
+        var canAdd = 0;
+        angular.forEach(sources,function(value, key){
+            if(sources[key] === source) {
+                sources.splice(key,1)
+                canAdd = 1;
+            }
+        })
+        if(canAdd === 0){
+            sources.push(source);
+        }
+    };
+
+    $scope.removeEventSource = function(sources,index) {
+        sources.splice(index,1);
+    };
+
     /*******************************************************/
     //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
@@ -113,8 +150,9 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     $scope.eventClick = function(event, jsEvent, view){
         window.console.log(event);
 
-        if(event.editable) {
+        if(event.editable || event.source.editable) {
             $scope.$apply(function(){
+                $scope.action = 'Edit';
                 $scope.currentEvent = event;
             });
         }

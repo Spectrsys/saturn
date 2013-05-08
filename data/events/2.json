@@ -1,0 +1,8 @@
+[
+    {
+        "id": 1234234,
+        "title": "this is some random event",
+        "allDay": true,
+        "start": "2013-04-30T13:15:30Z"
+    }
+]

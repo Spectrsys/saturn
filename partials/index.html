@@ -1,6 +1,14 @@
 <!--sidebar-->
 <aside id="sidebar" class="span2">
     <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
+    <ul class="unstyled" ng-show="eventsCache.length">
+        <li ng-repeat="source in eventsCache">
+            <label>
+                <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
+                {{source.title}}
+            </label>
+        </li>
+    </ul>
 </aside>
 <!--/sidebar-->
 
