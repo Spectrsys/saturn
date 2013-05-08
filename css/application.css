@@ -1,0 +1,214 @@
+body  {
+    padding-top: 60px;
+    font-size: 13px;
+}
+
+a {
+    outline: none;
+}
+
+/* forms */
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+    background: #FAFAFA;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    background: #fff;
+}
+
+textarea {
+    max-height: 200px;
+    resize: vertical;
+}
+
+input {
+    outline: none;
+}
+
+/* box groups */
+.boxed-group,
+.menu-container {
+    padding: 3px;
+    margin-bottom: 15px;
+    background: #EFEFEF;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.boxed-group-heading,
+.accordion-heading {
+    padding: 10px;
+    border: 1px solid #D8D8D8;
+    text-shadow: 0 1px 0 #fff;
+    font-size: 14px;
+    font-weight: bold;
+    background: #f9f9f9;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y5ZjlmOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmM2YzZjMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #f9f9f9 0%, #f3f3f3 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9f9f9), color-stop(100%,#f3f3f3));
+    background: -webkit-linear-gradient(top,  #f9f9f9 0%,#f3f3f3 100%);
+    background: -o-linear-gradient(top,  #f9f9f9 0%,#f3f3f3 100%);
+    background: -ms-linear-gradient(top,  #f9f9f9 0%,#f3f3f3 100%);
+    background: linear-gradient(to bottom,  #f9f9f9 0%,#f3f3f3 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f3f3f3',GradientType=0 );
+}
+
+.boxed-group-inner {
+    padding: 10px;
+    color: #666;
+    background: #fff;
+}
+
+/* accordions */
+.accordion {
+    background: #FAFAFB;
+}
+
+.accordion-heading .accordion-toggle {
+    padding: 0;
+    color: #222;
+}
+
+.accordion-heading .accordion-toggle:hover,
+.accordion-heading .accordion-toggle:focus,
+.accordion-heading .accordion-toggle:active {
+    text-decoration: none;
+    color: #4183C4;
+}
+
+#settings-menu {
+    width: 270px;
+}
+
+/* user navigation */
+#user-nav > ul > li {
+    padding: 10px 0 0 10px;
+    float: left;
+    list-style: none;
+    font-size: 1.1em;
+}
+
+#user-nav > ul > li > a {
+    text-decoration: none;
+    color: #333;
+}
+
+#user-nav > ul > li > a:hover,
+#user-nav > ul > li > a:focus,
+#user-nav > ul > li > a:active {
+    color: #4183c4;
+}
+
+#user-nav .btn-group {
+    margin-top: -5px;
+}
+
+/* calendar */
+.mini-calendar .fc-grid .fc-day-content {
+    display: none;
+}
+
+.mini-calendar .fc-grid .fc-day-number {
+    float: none;
+    text-align: center;
+}
+
+.mini-calendar .fc-content td {
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.mini-calendar .fc-content td:hover {
+    background: #efefef;
+}
+
+.mini-calendar .fc-content td div {
+    min-height: 0 !important;
+}
+
+.mini-calendar .fc-header-title h2 {
+    font-size: 1em;
+}
+
+.mini-calendar .fc-header-left {
+    display: none;
+}
+
+.mini-calendar .fc-header-center {
+    text-align: left;
+}
+
+/* overrides for bootstrap and jquery UI */
+label, input, button, select, textarea {
+    font-size: 13px;
+}
+
+label input[type="radio"],
+label input[type="checkbox"] {
+    margin: 0;
+}
+
+.ui-widget {
+    font-size: 1em;
+}
+
+.ui-datepicker{
+    z-index: 9999 !important;
+}
+
+.fc-event {
+    border: 1px solid #99CCFF;
+    color: #333;
+    background: #99CCFF;
+}
+
+/* color picker */
+div.colorPicker-picker {
+    display: -moz-inline-stack;
+    display: inline-block;
+    display: *inline;
+    zoom: 1;
+    height: 16px;
+    width: 16px;
+    padding: 0 !important;
+    border: 1px solid #ccc;
+    background: url("../img/arrow.gif") no-repeat top right;
+    cursor: pointer;
+    line-height: 16px;
+}
+
+div.colorPicker-palette {
+    width: 110px;
+    position: absolute;
+    border: 1px solid #598FEF;
+    background-color: #EFEFEF;
+    padding: 2px;
+    z-index: 9999;
+}
+div.colorPicker_hexWrap {width: 100%; float:left }
+div.colorPicker_hexWrap label { float: left; font-size: 95%; color: #2F2F2F; margin: 5px 2px; width: 25%}
+div.colorPicker_hexWrap input {margin: 5px 2px; padding: 0; font-size: 95%; border: 1px solid #000; width: 65%; }
+
+div.colorPicker-swatch {
+    height: 12px;
+    width: 12px;
+    border: 1px solid #000;
+    margin: 2px;
+    float: left;
+    cursor: pointer;
+    line-height: 12px;
+}

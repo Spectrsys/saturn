@@ -1,0 +1,168 @@
+<!--sidebar-->
+<aside id="sidebar" class="span2">
+    <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
+</aside>
+<!--/sidebar-->
+
+<!--content-->
+<div id="content" class="span8">
+    <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
+</div>
+<!--/content-->
+
+<!--sidebar 2-->
+<aside id="sidebar-2" class="span2">
+    <div id="event-settings" class="boxed-group">
+        <div class="boxed-group-heading">
+            {{action}} event
+        </div>
+        <div class="boxed-group-inner">
+            <form name="eventDetailsForm" ng-submit="save()" novalidate>
+                <ul class="nav">
+                    <li>
+                        <label for="event-title">Event</label>
+                        <input type="text" id="event-title" class="input-block-level" required ng-model="currentEvent.title" />
+                    </li>
+                    <li>
+                        <label for="event-location">Location</label>
+                        <input type="text" id="event-location" class="input-block-level" ng-model="currentEvent.location" />
+                    </li>
+                    <li>
+                        <label for="event-description">
+                            Description
+                            <i class="icon-question-sign" data-toggle="tooltip" data-placement="top" title="Describe the event in a few words"></i>
+                        </label>
+                        <textarea id="event-description" class="input-block-level" ng-model="currentEvent.description"></textarea>
+                    </li>
+                    <li class="row-fluid">
+                        <div class="span6">
+                            <label for="start-date">Start date</label>
+                            <input type="text" id="start-date" class="input-block-level" required ng-model="currentEvent.start" ui-date />
+                        </div>
+                        <div class="span6">
+                            <label for="end-date">End date</label>
+                            <input type="text" id="end-date" class="input-block-level" ng-model="currentEvent.end" ui-date />
+                        </div>
+                    </li>
+                    <li class="row-fluid" ng-hide="currentEvent.allDay">
+                        <div class="span6">
+                            <label for="start-time">Start time</label>
+                            <input type="text" id="start-time" class="input-block-level" ng-model="currentEvent.startTime" bs-timepicker/>
+                        </div>
+                        <div class="span6">
+                            <label for="end-time">End time</label>
+                            <input type="text" id="end-time" class="input-block-level" ng-model="currentEvent.endTime" bs-timepicker/>
+                        </div>
+                    </li>
+                    <li ng-show="currentEvent.recurring">
+                        <ul class="nav">
+                            <li>
+                                <label for="repeat-frequency">Repeats</label>
+                                <select id="repeat-frequency" class="input-block-level" ng-model="currentEvent.frequency">
+                                    <option value="0">Daily</option>
+                                    <option value="1">Weekly</option>
+                                    <option value="2">Montly</option>
+                                    <option value="3">Yearly</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label for="repeat-interval">Repeats every</label>
+                                <select id="repeat-interval" class="input-block-level" ng-model="currentEvent.interval">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                </select>
+                            </li>
+                            <li class="control-group">
+                                <label>Repeats on</label>
+                                <div class="btn-group row-fluid" data-toggle="buttons-checkbox">
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.sunday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Sunday">S</button>
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.monday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Monday">M</button>
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.tuesday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Tuesday">T</button>
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.wednesday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Wednesday">W</button>
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.thursday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Thursday">T</button>
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.friday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Friday">F</button>
+                                    <button type="button" class="btn" ng-model="currentEvent.repeatDays.saturday" btn-checkbox data-toggle="tooltip" data-placement="top" title="Saturday">S</button>
+                                </div>
+                            </li>
+                            <li>
+                                <label for="recurrence-end">Ends on</label>
+                                <input type="text" id="recurrence-end" class="input-block-level" ng-model="currentEvent.recurrenceEnd" ui-date/>
+                            </li>
+                        </ul>
+                    </li>
+                    <li ng-hide="currentEvent.allDay">
+                        <label for="timezone">Timezone</label>
+                        <select id="timezone" class="input-block-level" ng-model="currentEvent.timezone">
+                            <option value="">No timezone</option>
+                            <option value="Africa">Africa</option>
+                            <option value="America">America</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Antarctica">Antarctica</option>
+                            <option value="Atlantic">Atlantic</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Pacific">Pacific</option>
+                        </select>
+                    </li>
+                    <li class="control-group">
+                        <label>Recurrence</label>
+                        <div class="btn-group row-fluid" data-toggle="buttons-checkbox">
+                            <button type="button" class="btn span6" ng-model="currentEvent.allDay" btn-checkbox>All day event</button>
+                            <button type="button" class="btn span6" ng-model="currentEvent.recurring" btn-checkbox>Recurring</button>
+                        </div>
+                    </li>
+                    <li class="control-group">
+                        <label>Show me as</label>
+                        <div class="btn-group row-fluid" data-toggle="buttons-checkbox">
+                            <button type="button" class="btn span6" ng-model="currentEvent.availability" btn-radio="0">Available</button>
+                            <button type="button" class="btn span6" ng-model="currentEvent.availability" btn-radio="1">Busy</button>
+                        </div>
+                    </li>
+                    <li class="control-group">
+                        <label for="event-background">
+                            <input id="event-background" color-picker="currentEvent.color" ng-model="currentEvent.color" />
+                            Event background color
+                        </label>
+
+                        <label for="event-text-color">
+                            <input id="event-text-color" color-picker="currentEvent.textColor" ng-model="currentEvent.textColor" />
+                            Event text color
+                        </label>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-success" ng-disabled="eventDetailsForm.$invalid"><i class="icon-save"></i> Save</button>
+                <button type="button" class="btn btn-danger" ng-click="eventPlaceholder()"><i class="icon-undo"></i> Cancel</button>
+            </form>
+        </div>
+    </div>
+</aside>
+<!--/sidebar 2-->
