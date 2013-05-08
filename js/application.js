@@ -28,7 +28,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 
     //get events from a JSON file
     $scope.JSONEvents = {
-        url : "/saturn/data/events/1.json"
+        url : "/data/events/1.json"
     };
 
     $scope.events = [];
@@ -43,7 +43,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             m = date.getMonth(),
             y = date.getFullYear(),
             H = date.getHours(),
-            M  = date.getMinutes(); 
+            M  = date.getMinutes();
 
         switch (true) {
             case (M < 15):
@@ -160,6 +160,31 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
         eventClick: $scope.eventClick,
         eventDrop: $scope.eventDrop,
         eventResize: $scope.eventResize,
+        eventRender: function(event, element, view){
+            var position = element.position(),
+                content = '';
+
+            if(event.description) {
+                content += '<p>' + event.description + '</p>';
+            }
+
+            content += '<p><i class="icon-calendar"></i> ' + $filter('date')(event.start, 'dd/MM/yyyy') + ', ';
+            content +=  $filter('date')(event.start, 'shortTime');
+            if(event.end){
+                content += ' - ' + $filter('date')(event.end, 'dd/MM/yyyy') + ', ';
+                content += $filter('date')(event.start, 'shortTime');
+            }
+
+            content += '</p>';
+
+            element.popover({
+                'title': event.title,
+                'content': content,
+                'html': true,
+                'trigger': 'click',
+                'placement': 'top'
+            });
+        },
         select: $scope.select,
         unselect: $scope.unselect
     };

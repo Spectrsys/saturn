@@ -118,6 +118,16 @@ input {
 }
 
 /* calendar */
+.fc-event {
+    border: 1px solid #99CCFF;
+    color: #333;
+    background: #99CCFF;
+}
+
+.fc-header-title h2 {
+    font-size: 2em;
+}
+
 .mini-calendar .fc-grid .fc-day-content {
     display: none;
 }
@@ -170,10 +180,8 @@ label input[type="checkbox"] {
     z-index: 9999 !important;
 }
 
-.fc-event {
-    border: 1px solid #99CCFF;
-    color: #333;
-    background: #99CCFF;
+.popover {
+    max-width: 300px;
 }
 
 /* color picker */
