@@ -159,8 +159,11 @@
                         </label>
                     </li>
                 </ul>
-                <button type="submit" class="btn btn-success" ng-disabled="eventDetailsForm.$invalid"><i class="icon-save"></i> Save</button>
-                <button type="button" class="btn btn-danger" ng-click="eventPlaceholder()"><i class="icon-undo"></i> Cancel</button>
+                <div class="btn-group row-fluid">
+                    <button type="submit" class="btn btn-success span4" ng-disabled="eventDetailsForm.$invalid"><i class="icon-save"></i> Save</button>
+                    <button type="button" class="btn span4" ng-click="eventPlaceholder()"><i class="icon-undo"></i> Cancel</button>
+                    <button type="button" class="btn btn-danger span4" ng-click="remove()" ng-disabled="!currentEvent.id"><i class="icon-trash"></i> Delete</button>
+                </div>
             </form>
         </div>
     </div>

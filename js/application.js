@@ -111,6 +111,8 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 
     //when you click on an event
     $scope.eventClick = function(event, jsEvent, view){
+        window.console.log(event);
+
         if(event.editable) {
             $scope.$apply(function(){
                 $scope.currentEvent = event;
@@ -136,6 +138,11 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 
     //save new event
     $scope.save = function(){
+    }
+
+    //remove an event
+    $scope.remove = function(index){
+        alert(2);
     }
 
     //got to a new date
