@@ -43,7 +43,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             m = date.getMonth(),
             y = date.getFullYear(),
             H = date.getHours(),
-            M  = date.getMinutes();
+            M  = date.getMinutes(); 
 
         switch (true) {
             case (M < 15):
