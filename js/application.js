@@ -233,6 +233,16 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
                 'delay': 200
             });
         },
+        viewDisplay: function(view){
+            $scope.$apply(function(){
+                $scope.dateCache = $scope.calendar.fullCalendar('getDate');
+            });
+        },
+        loading: function(bool){
+            if(!bool) {
+                $scope.calendar.fullCalendar('gotoDate', $scope.dateCache);
+            }
+        },
         select: $scope.select,
         unselect: $scope.unselect
     };
