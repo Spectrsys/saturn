@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "title": "this is my awesome event",
+        "allDay": true,
+        "start": "2013-04-30T13:15:30Z"
+    },
+    {
+        "id": 2,
+        "title": "this is also an event",
+        "start": "2013-04-30T13:15:30Z",
+        "end": "2013-05-01T13:15:30Z"
+    },
+    {
+        "id": 3,
+        "title": "this is an event with a fancy color",
+        "start": "2013-04-30T13:15:30Z",
+        "end": "2013-05-01T13:15:30Z",
+        "color": "#00ffff",
+        "textColor": "#ff6600",
+        "description": "This is my awesome description",
+        "location": "Timisoara, Piata 700"
+    },
+    {
+        "id": 2,
+        "title": "this is a repeating event",
+        "start": "2013-05-02T13:15:30Z",
+        "end": "2013-05-03T13:15:30Z",
+        "color": "#00ff00",
+        "textColor": "#000000"
+    },
+    {
+        "id": 2,
+        "title": "so is this",
+        "start": "2013-05-05T13:15:30Z",
+        "end": "2013-05-06T13:15:30Z",
+        "editable": false,
+        "color": "#ff6600",
+        "textColor": "#ffffff"
+    }
+]

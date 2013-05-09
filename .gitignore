@@ -1,0 +1,26 @@
+*.pyc
+*.swp
+*.project
+*.pydevproject
+*.db3
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
+# Git generated files *
+######################
+.bak
+.orig
+
+# Project setup files
+######################
+build-local.properties
+build

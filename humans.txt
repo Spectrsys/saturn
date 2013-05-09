@@ -1,0 +1,14 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+
+/* TEAM */
+  slicer@work
+  Site: http://www.sliceratwork.com
+  Twitter: sliceratwork
+  Location: wherever I may roam...where I lay my <head> is home
+
+/* SITE */
+  Standards: HTML5, CSS3
+  Components: Modernizr, jQuery and loads of other cool stuff :)
+  Software: Aptana 3, Photoshop
