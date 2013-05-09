@@ -31,7 +31,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 
     //get events from a JSON file
     $scope.JSONEvents = {
-        'url' : '/data/events/1.json',
+        'url' : '/saturn/data/events/1.json',
         'color': '#ff0000',
         'textColor': '#fff',
         'editable': true,
@@ -41,7 +41,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     };
 
     $scope.JSONEvents2 = {
-        'url' : '/data/events/2.json',
+        'url' : '/saturn/data/events/2.json',
         'color': '#00ff00',
         'textColor': '#0000ff',
         'editable': false,
