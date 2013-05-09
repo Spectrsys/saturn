@@ -1,14 +1,64 @@
 <!--sidebar-->
 <aside id="sidebar" class="span2">
-    <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
-    <ul class="unstyled" ng-show="eventsCache.length">
-        <li ng-repeat="source in eventsCache">
-            <label>
-                <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
-                {{source.title}}
-            </label>
-        </li>
-    </ul>
+    <div class="boxed-group">
+        <div class="boxed-group-heading">
+            Mini calendar
+        </div>
+        <div class="boxed-group-content">
+            <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
+        </div>
+    </div>
+
+    <div class="boxed-group">
+        <div class="boxed-group-heading">
+            My calendars
+            <div class="btn-group pull-right">
+                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="icon-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Create new calendar</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="boxed-group-content">
+            <ul class="unstyled" ng-show="eventsCache.length">
+                <li ng-repeat="source in eventsCache">
+                    <label>
+                        <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
+                        {{source.title}}
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="boxed-group">
+        <div class="boxed-group-heading">
+            Other calendars
+            <div class="btn-group pull-right">
+                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="icon-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Add coworker's calendar</a></li>
+                    <li><a href="#">Add by URL</a></li>
+                    <li><a href="#">Import calendar</a></li>
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="boxed-group-content">
+            <ul class="unstyled" ng-show="eventsCache.length">
+                <li ng-repeat="source in eventsCache">
+                    <label>
+                        <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
+                        {{source.title}}
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
 </aside>
 <!--/sidebar-->
 
@@ -24,9 +74,9 @@
         <div class="boxed-group-heading">
             {{action}} event
         </div>
-        <div class="boxed-group-inner">
+        <div class="boxed-group-content">
             <form name="eventDetailsForm" ng-submit="save()" novalidate>
-                <ul class="nav">
+                <ul class="unstyled">
                     <li>
                         <label for="event-title">Event</label>
                         <input type="text" id="event-title" class="input-block-level" required ng-model="currentEvent.title" />

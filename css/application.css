@@ -1,6 +1,6 @@
 body  {
     padding-top: 60px;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 a {
@@ -18,6 +18,7 @@ input[type="url"],
 input[type="password"],
 textarea,
 select {
+    font-size: 13px;
     background: #FAFAFA;
 }
 
@@ -49,8 +50,7 @@ input {
     border-radius: 3px;
 }
 
-.boxed-group-heading,
-.accordion-heading {
+.boxed-group-heading {
     padding: 10px;
     border: 1px solid #D8D8D8;
     text-shadow: 0 1px 0 #fff;
@@ -67,27 +67,10 @@ input {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f3f3f3',GradientType=0 );
 }
 
-.boxed-group-inner {
+.boxed-group-content {
     padding: 10px;
     color: #666;
     background: #fff;
-}
-
-/* accordions */
-.accordion {
-    background: #FAFAFB;
-}
-
-.accordion-heading .accordion-toggle {
-    padding: 0;
-    color: #222;
-}
-
-.accordion-heading .accordion-toggle:hover,
-.accordion-heading .accordion-toggle:focus,
-.accordion-heading .accordion-toggle:active {
-    text-decoration: none;
-    color: #4183C4;
 }
 
 #settings-menu {
@@ -124,6 +107,7 @@ input {
 
 .fc-event {
     border: 1px solid #99CCFF;
+    font-size: 90%;
     color: #333;
     background: #99CCFF;
 }
