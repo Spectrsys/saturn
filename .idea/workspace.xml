@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/application.css" afterPath="$PROJECT_DIR$/css/application.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/index.html" afterPath="$PROJECT_DIR$/partials/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/partials/settings.html" afterPath="$PROJECT_DIR$/partials/settings.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/application.js" afterPath="$PROJECT_DIR$/js/application.js" />
     </list>
     <ignored path="fullcalendar.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -95,10 +92,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="94" selection-start="1634" selection-end="1634" vertical-scroll-proportion="-20.8">
+            <state line="156" column="16" selection-start="4599" selection-end="4599" vertical-scroll-proportion="0.34767443">
               <folding />
             </state>
           </provider>
@@ -127,10 +124,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="application.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/application.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="16" selection-start="47" selection-end="47" vertical-scroll-proportion="0.040141676">
+            <state line="2" column="16" selection-start="47" selection-end="47" vertical-scroll-proportion="-1.36">
               <folding>
                 <element signature="e#912#1575#2" expanded="true" />
               </folding>
@@ -186,10 +183,10 @@
         <option value="$PROJECT_DIR$/js/fullcalendar.min.js" />
         <option value="$PROJECT_DIR$/data/events/1.json" />
         <option value="$PROJECT_DIR$/data/events/2.json" />
-        <option value="$PROJECT_DIR$/js/application.js" />
         <option value="$PROJECT_DIR$/partials/settings.html" />
         <option value="$PROJECT_DIR$/partials/index.html" />
         <option value="$PROJECT_DIR$/css/application.css" />
+        <option value="$PROJECT_DIR$/js/application.js" />
       </list>
     </option>
   </component>
@@ -544,10 +541,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/application.js">
+    <entry file="file://$PROJECT_DIR$/partials/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="94" selection-start="1634" selection-end="1634" vertical-scroll-proportion="-20.8">
+        <state line="44" column="46" selection-start="1775" selection-end="1775" vertical-scroll-proportion="-14.666667">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/application.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="16" selection-start="47" selection-end="47" vertical-scroll-proportion="-1.36">
+          <folding>
+            <element signature="e#912#1575#2" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -558,19 +564,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/partials/index.html">
+    <entry file="file://$PROJECT_DIR$/js/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="46" selection-start="1775" selection-end="1775" vertical-scroll-proportion="-14.666667">
+        <state line="156" column="16" selection-start="4599" selection-end="4599" vertical-scroll-proportion="0.34767443">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/application.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="16" selection-start="47" selection-end="47" vertical-scroll-proportion="0.040141676">
-          <folding>
-            <element signature="e#912#1575#2" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

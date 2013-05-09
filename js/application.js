@@ -154,7 +154,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             $scope.$apply(function(){
                 $scope.action = 'Edit';
                 $scope.currentEvent = event;
-            });
+            }); 
         }
 
         if(event.url) {
