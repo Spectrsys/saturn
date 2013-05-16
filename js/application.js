@@ -11,6 +11,22 @@ function safeApply(scope, fn) {
         scope.$apply(fn);
 }
 
+function colspan(){
+    if($(window).width() > 1400) {
+        $('#sidebar, #sidebar-2').addClass('span2').removeClass('span3');
+        $('#content').addClass('span8').removeClass('span6');
+    } else {
+        $('#sidebar, #sidebar-2').addClass('span3').removeClass('span2');
+        $('#content').addClass('span6').removeClass('span8');
+    }
+}
+
+$(window).resize(function(){
+    colspan();
+});
+
+colspan();
+
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap']);
 
 saturnApp.config(['$routeProvider', function($routeProvider) {
@@ -23,10 +39,7 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
 saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     //get events from google calendar
     $scope.googleCalendarEvents = {
-        'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
-        'title': 'Google Calendar events',
-        'state': false,
-        'cache': true
+        'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'
     };
 
     //get events from a JSON file
@@ -234,9 +247,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             });
         },
         viewDisplay: function(view){
-            $scope.$apply(function(){
-                $scope.dateCache = $scope.calendar.fullCalendar('getDate');
-            });
+            $scope.dateCache = $scope.calendar.fullCalendar('getDate');
         },
         loading: function(bool){
             if(!bool) {

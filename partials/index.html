@@ -9,11 +9,11 @@
         </div>
     </div>
 
-    <div class="boxed-group">
+    <div class="boxed-group calendar-listing">
         <div class="boxed-group-heading">
             My calendars
-            <div class="btn-group pull-right">
-                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+            <div class="dropdown pull-right">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu">
@@ -25,6 +25,16 @@
         <div class="boxed-group-content">
             <ul class="unstyled" ng-show="eventsCache.length">
                 <li ng-repeat="source in eventsCache">
+                    <div class="dropdown pull-right">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="icon-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Create new calendar</a></li>
+                            <li><a href="#">Settings</a></li>
+                        </ul>
+                    </div>
+
                     <label>
                         <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
                         {{source.title}}
@@ -33,11 +43,11 @@
             </ul>
         </div>
     </div>
-    <div class="boxed-group">
+    <div class="boxed-group calendar-listing">
         <div class="boxed-group-heading">
             Other calendars
-            <div class="btn-group pull-right">
-                <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+            <div class="dropdown pull-right">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu">

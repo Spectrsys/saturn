@@ -51,7 +51,7 @@ input {
 }
 
 .boxed-group-heading {
-    padding: 10px;
+    padding: 6px 6px 6px 10px;
     border: 1px solid #D8D8D8;
     text-shadow: 0 1px 0 #fff;
     font-size: 14px;
@@ -65,6 +65,10 @@ input {
     background: -ms-linear-gradient(top,  #f9f9f9 0%,#f3f3f3 100%);
     background: linear-gradient(to bottom,  #f9f9f9 0%,#f3f3f3 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#f3f3f3',GradientType=0 );
+}
+
+.boxed-group-heading .btn-group {
+    margin-top: -2px;
 }
 
 .boxed-group-content {
@@ -181,6 +185,13 @@ label input[type="checkbox"] {
     max-width: 300px;
 }
 
+/* dropdown */
+a.dropdown-toggle {
+    text-decoration: none;
+    font-size: 85%;
+    color: #333;
+}
+
 /* color picker */
 div.colorPicker-picker {
     display: -moz-inline-stack;
@@ -216,4 +227,14 @@ div.colorPicker-swatch {
     float: left;
     cursor: pointer;
     line-height: 12px;
+}
+
+/* calendar listings */
+.calendar-listing li {
+    padding: 0 3px;
+    margin: 0 -3px;
+}
+
+.calendar-listing li:hover {
+    background: #eee;
 }
