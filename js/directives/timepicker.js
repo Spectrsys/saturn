@@ -1,4 +1,5 @@
 angular.module('ui.directives')
+
 	.directive('bsTimepicker', ['$timeout', function ($timeout) {
 		'use strict';
 

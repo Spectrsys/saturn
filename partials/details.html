@@ -1,0 +1,49 @@
+<div id="account-settings-1" class="boxed-group">
+    <div class="boxed-group-heading">
+        Add a new event
+    </div>
+    <div class="boxed-group-inner">
+        <form id="add-event-form" novalidate>
+            <ul class="nav">
+                <li>
+                    <label for="event-title">Event title</label>
+                    <input type="text" id="event-title" required ng-model="currentEvent.title" />
+                </li>
+                <li>
+                    <label for="start-date">Start date</label>
+                    <input type="text" id="start-date" ng-model="currentEvent.startDate" ui-date />
+                </li>
+                <li>
+                    <label for="start-time">Start time</label>
+                    <input type="text" id="start-time" ng-model="currentEvent.startTime" bs-timepicker/>
+                </li>
+                <li>
+                    <label for="end-date">End date</label>
+                    <input type="text" id="end-time" ng-model="currentEvent.endDate" ui-date />
+                </li>
+                <li>
+                    <label for="end-time">End time</label>
+                    <input type="text" id="end-date" ng-model="currentEvent.endTime" bs-timepicker/>
+                </li>
+                <li>
+                    <label>Recurrence</label>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn" ng-model="checkModel.left" btn-checkbox>All day event</button>
+                        <button type="button" class="btn" ng-model="checkModel.right" btn-checkbox>Recurring</button>
+                    </div>
+                </li>
+                <li>
+                    <label>Show me as</label>
+                    <div class="btn-group" data-toggle="buttons-checkbox">
+                        <button type="button" class="btn btn-primary" ng-model="radioModel" btn-radio="'Available'">Available</button>
+                        <button type="button" class="btn btn-primary" ng-model="radioModel" btn-radio="'Busy'">Busy</button>
+                    </div>
+                </li>
+            </ul>
+            <div class="form-actions">
+                <a href="#" class="btn btn-success"><i class="icon-save"></i> Save</a>
+                <a href="#/" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

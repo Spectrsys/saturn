@@ -1,7 +1,24 @@
 $('body').tooltip({
-    selector: "*[data-toggle=tooltip]"
+    selector: "a[data-toggle=tooltip]"
 });
 
+function colspan(){
+    if($(window).width() > 1400) {
+        $('#sidebar, #sidebar-2').addClass('span2').removeClass('span3');
+        $('#content').addClass('span8').removeClass('span6');
+    } else {
+        $('#sidebar, #sidebar-2').addClass('span3').removeClass('span2');
+        $('#content').addClass('span6').removeClass('span8');
+    }
+}
+
+$(window).resize(function(){
+    colspan();
+});
+
+colspan();
+
+/******************************************************************/
 //safe apply
 function safeApply(scope, fn) {
     var phase = scope.$root.$$phase;
@@ -18,15 +35,41 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         when('/', {templateUrl: 'partials/index.html', controller: 'EventController'}).
         when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsController'}).
         otherwise({redirectTo: '/'});
-    }]);
+    }
+]);
 
+
+var userConfig = {
+    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+    'apiKey': 'Onhyzb0B8l1VltUAjcslrLbk',
+    'scopes': 'https://www.googleapis.com/auth/calendar'
+};
+
+saturnApp.controller('UserController', function(){
+    $scope.handleClientLoad = function(){
+        alert(3);
+    };
+
+    $scope.checkAuth = function() {
+        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: true}, $scope.handleAuthResult);
+    };
+
+    $scope.handleAuthResult = function(authResult) {
+        if (authResult && !authResult.error) {
+            this.makeApiCall();
+        } else {
+            authorizeButton.style.visibility = '';
+            authorizeButton.onclick = this.handleAuthClick;
+        }
+    }
+});
+
+/******************************************************************/
+/* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     //get events from google calendar
     $scope.googleCalendarEvents = {
-        'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic',
-        'title': 'Google Calendar events',
-        'state': false,
-        'cache': true
+        'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'
     };
 
     //get events from a JSON file
@@ -65,57 +108,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             H = date.getHours(),
             M  = date.getMinutes();
 
-        switch (true) {
-            case (M < 15):
-                M = 15;
-
-                break;
-
-            case (M < 30):
-                M = 30;
-
-                break;
-
-            case (M < 45):
-                M = 45;
-
-                break;
-
-            case (M < 60):
-                M = 60;
-
-                break;
-        }
-
-        var startDate = start ? start : new Date(y, m, d, H, M),
-            endDate = end ? end : new Date(y, m, d, H + 1, M);
-
-        $scope.currentEvent = {
-            'title': 'New Event',
-            'location': '',
-            'description': '',
-            'start': startDate,
-            'end': endDate,
-            'startTime': $filter('date')(startDate, 'shortTime'),
-            'endTime': $filter('date')(endDate, 'shortTime'),
-            'timezone': '',
-            'allDay': false,
-            'recurring': false,
-            'recurrenceEnd': null,
-            'frequency': 0,
-            'interval': 0,
-            'repeatDays': {
-                'sunday': false,
-                'monday': false,
-                'tuesday': false,
-                'wednesday': false,
-                'thursday': false,
-                'friday': false,
-                'saturday': false
-            } ,
-            'availability': 1,
-            'color': '#99ccff',
-            'textColor': '#333'
         };
     }
 
@@ -128,7 +120,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
                 sources.splice(key,1)
                 canAdd = 1;
             }
-        })
+        });
         if(canAdd === 0){
             sources.push(source);
         }
@@ -191,38 +183,101 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
         }
     });
 
-    /*******************************************************/
-    //calendar configuration
-    $scope.extendedCalendar = {
-        header:{
-            left: 'month agendaWeek agendaDay',
-            center: 'title',
-            right: 'today prev,next'
-        },
-        editable:  true,
-        selectable: true,
-        slotMinutes: 15,
-        eventClick: $scope.eventClick,
-        eventDrop: $scope.eventDrop,
-        eventResize: $scope.eventResize,
-        eventRender: function(event, element, view){
-            var content = '';
 
-            content += '<div class="event-dates"><i class="icon-calendar"></i> ' + $filter('date')(event.start, 'dd/MM/yyyy') + ', ';
-            content +=  $filter('date')(event.start, 'shortTime');
-            if(event.end){
-                content += ' - ' + $filter('date')(event.end, 'dd/MM/yyyy') + ', ';
-                content += $filter('date')(event.start, 'shortTime');
-            }
-            content += '</div>';
+function EventController($scope, $rootScope, $location) {
+	var date = new Date(),
+		d = date.getDate(),
+		m = date.getMonth(),
+		y = date.getFullYear();
 
-            if(event.description) {
-                content += '<p class="event-description">' + event.description + '</p>';
-            }
+	//get events from google calendar
+	$scope.eventSource = {
+		url : "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
+		className : 'gcal-event', // an option!
+		currentTimezone : 'America/Chicago' // an option!
+	};
 
-            if(event.location) {
-                content += '<div class="event-location">' + event.location + '</div>';
-            }
+	$scope.events = [];
+
+	$scope.eventSources = [$scope.events, $scope.eventSource];
+
+	//add a new event
+	$scope.addEvent = function() {
+		$scope.events.push($scope.currentEvent);
+	}
+
+	//remove an event
+	$scope.remove = function(index) {
+		$scope.events.splice(index, 1);
+	}
+
+	//when you click on an event
+	$scope.eventClick = function(event, jsEvent, view){
+		$scope.$apply(function(){
+			$location.path('/edit-event/' + event._id);
+		});
+	};
+
+	$scope.addEventOnClick = function( date, allDay, jsEvent, view ){
+		$scope.$apply(function(){
+			$scope.alertMessage = ('Day Clicked ' + date);
+		});
+	};
+
+	$scope.addOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+		$scope.$apply(function(){
+			$scope.alertMessage = ('Event Droped to make dayDelta ' + dayDelta);
+		});
+	};
+
+	$scope.addOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
+		$scope.$apply(function(){
+			$scope.alertMessage = ('Event Resized to make dayDelta ' + minuteDelta);
+		});
+	};
+
+	//will be called after the user finishes his selection
+	$scope.select = function(startDate, endDate, allDay, jsEvent, view){
+        //update current event
+        $rootScope.currentEvent = {
+            'startDate': startDate,
+            'endDate': endDate,
+            'startTime': '',
+            'endTime': '',
+            'allDay': allDay
+        };
+
+		$scope.$apply(function(){
+			//redirect to add event view
+			$location.path('/add-event');
+		});
+	};
+
+	//will be called after the user unselects or before every new selection
+	$scope.unselect = function(view, jsEvent){
+
+	};
+
+	//calendar configuration
+	$scope.uiConfig = {
+		fullCalendar:{
+			header:{
+				left: 'month agendaWeek agendaDay',
+				center: 'title',
+				right: 'today prev,next'
+			},
+			editable:  true,
+			selectable: true,
+			slotMinutes: 15,
+			dayClick: $scope.addEventOnClick,
+			eventClick: $scope.eventClick,
+			eventDrop: $scope.addOnDrop,
+			eventResize: $scope.addOnResize,
+			select: $scope.select,
+			unselect: $scope.unselect
+		}
+	};
+}
 
             element.popover({
                 'title': event.title,
@@ -234,9 +289,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             });
         },
         viewDisplay: function(view){
-            $scope.$apply(function(){
-                $scope.dateCache = $scope.calendar.fullCalendar('getDate');
-            });
+            $scope.dateCache = $scope.calendar.fullCalendar('getDate');
         },
         loading: function(bool){
             if(!bool) {
@@ -247,38 +300,9 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
         unselect: $scope.unselect
     };
 
-    $scope.miniCalendar = {
-        header:{
-            left: '',
-            center: 'title',
-            right: 'today prev,next'
-        },
-        editable:  false,
-        selectable: false,
-        columnFormat: {
-            day: 'D'
-        },
-        eventRender: function(){
-            return false;
-        },
-        dayClick: function(date, allDay, jsEvent, view){
-            $scope.$apply(function(){
-                $scope.currentDate = date;
-            });
-        }
-    };
-});
+}
 
+/******************************************************************/
+/* Settings */
 saturnApp.controller('SettingsController', function($scope, $rootScope, $http, $location){
-    $scope.save = function(){
-        $.extend(true, $rootScope.settings, $scope.settings);
-
-        $http({
-            'method': 'POST',
-            'url': '',
-            'data': $scope.settings
-        }).success(function(data, status, headers, config){
-            $location.path('/');
-        });
-    };
 });
