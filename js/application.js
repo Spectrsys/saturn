@@ -2,15 +2,6 @@ $('body').tooltip({
     selector: "*[data-toggle=tooltip]"
 });
 
-//safe apply
-function safeApply(scope, fn) {
-    var phase = scope.$root.$$phase;
-    if(phase == '$apply' || phase == '$digest')
-        scope.$eval(fn);
-    else
-        scope.$apply(fn);
-}
-
 function colspan(){
     if($(window).width() > 1400) {
         $('#sidebar, #sidebar-2').addClass('span2').removeClass('span3');
@@ -27,6 +18,16 @@ $(window).resize(function(){
 
 colspan();
 
+/******************************************************************/
+//safe apply
+function safeApply(scope, fn) {
+    var phase = scope.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest')
+        scope.$eval(fn);
+    else
+        scope.$apply(fn);
+}
+
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap']);
 
 saturnApp.config(['$routeProvider', function($routeProvider) {
@@ -34,8 +35,37 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         when('/', {templateUrl: 'partials/index.html', controller: 'EventController'}).
         when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsController'}).
         otherwise({redirectTo: '/'});
-    }]);
+    }
+]);
 
+
+var userConfig = {
+    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+    'apiKey': 'Onhyzb0B8l1VltUAjcslrLbk',
+    'scopes': 'https://www.googleapis.com/auth/calendar'
+};
+
+saturnApp.controller('UserController', function(){
+    $scope.handleClientLoad = function(){
+        alert(3);
+    };
+
+    $scope.checkAuth = function() {
+        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: true}, $scope.handleAuthResult);
+    };
+
+    $scope.handleAuthResult = function(authResult) {
+        if (authResult && !authResult.error) {
+            this.makeApiCall();
+        } else {
+            authorizeButton.style.visibility = '';
+            authorizeButton.onclick = this.handleAuthClick;
+        }
+    }
+});
+
+/******************************************************************/
+/* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     //get events from google calendar
     $scope.googleCalendarEvents = {
@@ -141,7 +171,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
                 sources.splice(key,1)
                 canAdd = 1;
             }
-        })
+        });
         if(canAdd === 0){
             sources.push(source);
         }
@@ -280,16 +310,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     };
 });
 
+/******************************************************************/
+/* Settings */
 saturnApp.controller('SettingsController', function($scope, $rootScope, $http, $location){
-    $scope.save = function(){
-        $.extend(true, $rootScope.settings, $scope.settings);
-
-        $http({
-            'method': 'POST',
-            'url': '',
-            'data': $scope.settings
-        }).success(function(data, status, headers, config){
-            $location.path('/');
-        });
-    };
 });
