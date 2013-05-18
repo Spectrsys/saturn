@@ -28,6 +28,7 @@ function safeApply(scope, fn) {
         scope.$apply(fn);
 }
 
+//defin applicaton
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
 saturnApp.config(['$routeProvider', function($routeProvider) {
@@ -36,42 +37,20 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsController'}).
         otherwise({redirectTo: '/'});
     }
-]);
-
-
-var userConfig = {
-    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
-    'apiKey': 'Onhyzb0B8l1VltUAjcslrLbk',
-    'scopes': 'https://www.googleapis.com/auth/calendar'
-};
-
-saturnApp.controller('UserController', function(){
-    $scope.handleClientLoad = function(){
-        alert(3);
+]).run(function($rootScope){
+    $rootScope.config = {
+        'baseURL': 'https://www.googleapis.com/calendar/v3'
     };
-
-    $scope.checkAuth = function() {
-        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: true}, $scope.handleAuthResult);
-    };
-
-    $scope.handleAuthResult = function(authResult) {
-        if (authResult && !authResult.error) {
-            this.makeApiCall();
-        } else {
-            authorizeButton.style.visibility = '';
-            authorizeButton.onclick = this.handleAuthClick;
-        }
-    }
 });
 
 /******************************************************************/
 //ACL
-saturnApp.factory('ACL', function($resource){
+saturnApp.factory('ACL', function($resource, $rootScope){
     return $resource(
-        'https://www.googleapis.com/calendar/v3',
+        $rootScope.config.baseURL + '/calendars/:calendarId/acl/:ruleId',
         {
-            'user': 'me',
-            'calendarId': '@id'
+            'calendarId': '@calendarId',
+            'ruleId': '@ruleId'
         },
         {
             'insert': {
@@ -91,12 +70,12 @@ saturnApp.factory('ACL', function($resource){
 });
 
 //Calendar List
-saturnApp.factory('CalendarList', function($resource){
+saturnApp.factory('CalendarList', function($resource, $rootScope){
     return $resource(
-        'https://www.googleapis.com/calendar/v3/:calendarId',
+        $rootScope.config.baseURL + '/users/:user/calendarList/:calendarId',
         {
             'user': 'me',
-            'calendarId': '@id'
+            'calendarId': '@calendarId'
         },
         {
             'insert': {
@@ -115,13 +94,137 @@ saturnApp.factory('CalendarList', function($resource){
     );
 });
 
+//Calendars
+saturnApp.factory('Calendars', function($resource, $rootScope){
+    return $resource(
+        $rootScope.config.baseURL + '/calendars/:calendarId',
+        {
+            'calendarId': '@calendarId'
+        },
+        {
+            'clear': {
+                'method': 'POST',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/clear'
+            },
+            'insert': {
+                'method': 'POST'
+            },
+            'update': {
+                'method': 'PUT'
+            },
+            'patch': {
+                'method': 'patch'
+            }
+        }
+    );
+});
+
+//Colors
+saturnApp.factory('Colors', function($resource, $rootScope){
+    return $resource(
+        $rootScope.config.baseURL,
+        {
+            'get': {
+                'method': 'GET',
+                'url': $rootScope.config.baseURL + '/colors'
+            }
+        }
+    );
+});
+
+//Events
+saturnApp.factory('Events', function($resource, $rootScope){
+    return $resource(
+        $rootScope.config.baseURL,
+        {
+            'calendarId': '@calendarId',
+            'eventId': '@eventId'
+        },
+        {
+            'delete': {
+                'method': 'DELETE',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+            },
+            'get': {
+                'method': 'GET',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+            },
+            'import': {
+                'method': 'POST',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/import'
+            },
+            'insert': {
+                'method': 'POST',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events'
+            },
+            'instances': {
+                'method': 'GET',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId/instances'
+            },
+            'list': {
+                'method': 'GET',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events'
+            },
+            'move': {
+                'method': 'POST',
+                'URL': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId/move'
+            },
+            'quickAdd': {
+                'method': 'POST',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/quickAdd'
+            },
+            'update': {
+                'method': 'POST',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+            },
+            'patch': {
+                'method': 'PATCH',
+                'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+            }
+        }
+    );
+});
+
+//Colors
+saturnApp.factory('Freebusy', function($resource, $rootScope){
+    return $resource(
+        $rootScope.config.baseURL,
+        {
+            'query': {
+                'method': 'POST',
+                'url': $rootScope.config.baseURL + '/freeBusy'
+            }
+        }
+    );
+});
+
+//Settings
+saturnApp.factory('Settings', function($resource, $rootScope){
+    return $resource(
+        $rootScope.config.baseURL,
+        {
+            'userId' : '@userId',
+            'setting': '@setting'
+        },
+        {
+            'get': {
+                'method': 'GET',
+                'url': $rootScope.config.baseURL + '/users/:userId/settings/:setting'
+            },
+            'list': {
+                'method': 'GET',
+                'url': $rootScope.config.baseURL + '/users/:userId/settings'
+            }
+        }
+    );
+});
+
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter, CalendarList){
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, Calendars){
     $scope.test = function(){
-        CalendarList.get({
-            'user': 'slicer@sliceratwork',
-            'calendarId': 'ro.romanian#holiday@group.v.calendar.google.com'
+        Calendars.get({
+            'calendarId': 'test'
         });
     }
 
@@ -371,4 +474,31 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ca
 /******************************************************************/
 /* Settings */
 saturnApp.controller('SettingsController', function($scope, $rootScope, $http, $location){
+});
+
+/******************************************************************/
+/* Users */
+var userConfig = {
+    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+    'apiKey': 'Onhyzb0B8l1VltUAjcslrLbk',
+    'scopes': 'https://www.googleapis.com/auth/calendar'
+};
+
+saturnApp.controller('UserController', function(){
+    $scope.handleClientLoad = function(){
+        alert(3);
+    };
+
+    $scope.checkAuth = function() {
+        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: true}, $scope.handleAuthResult);
+    };
+
+    $scope.handleAuthResult = function(authResult) {
+        if (authResult && !authResult.error) {
+            this.makeApiCall();
+        } else {
+            authorizeButton.style.visibility = '';
+            authorizeButton.onclick = this.handleAuthClick;
+        }
+    }
 });

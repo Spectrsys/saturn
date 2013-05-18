@@ -11,7 +11,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368870021887" ignored="false" />
     <file path="/application.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368173089045" ignored="false" />
-    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368888726347" ignored="false" />
+    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368894913498" ignored="false" />
     <file path="/add-event.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367254898578" ignored="false" />
     <file path="/event-details.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1365497251589" ignored="false" />
     <file path="/Dummy.txt" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368661697436" ignored="false" />
@@ -82,7 +82,7 @@
       <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="47" selection-start="2122" selection-end="2122" vertical-scroll-proportion="0.21129943">
+            <state line="215" column="51" selection-start="6096" selection-end="6096" vertical-scroll-proportion="3.4587572">
               <folding />
             </state>
           </provider>
@@ -471,7 +471,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="47" selection-start="2122" selection-end="2122" vertical-scroll-proportion="0.21129943">
+        <state line="215" column="51" selection-start="6096" selection-end="6096" vertical-scroll-proportion="3.4587572">
           <folding />
         </state>
       </provider>
