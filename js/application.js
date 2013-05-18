@@ -138,7 +138,8 @@ saturnApp.factory('Events', function($resource, $rootScope){
         $rootScope.config.baseURL,
         {
             'calendarId': '@calendarId',
-            'eventId': '@eventId'
+            'eventId': '@eventId',
+            'key': 'AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM'
         },
         {
             'delete': {
@@ -181,6 +182,9 @@ saturnApp.factory('Events', function($resource, $rootScope){
                 'method': 'PATCH',
                 'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
             }
+        },
+        {
+            'X-JavaScript-User-Agent': 'X-JavaScript-User-Agent'
         }
     );
 });
@@ -221,11 +225,25 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter, Calendars){
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
+    $scope.checkAuth = function() {
+        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: false}, $scope.handleAuthResult);
+    };
+
+    $scope.handleAuthResult = function(authResult) {
+
+        if (authResult && !authResult.error) {
+            Events.list({
+                'calendarId': 'ht3jlfaac5lfd6263ulfh4tql8@group.calendar.google.com'
+            });
+        } else {
+            authorizeButton.style.visibility = '';
+            authorizeButton.onclick = this.handleAuthClick;
+        }
+    }
+
     $scope.test = function(){
-        Calendars.get({
-            'calendarId': 'test'
-        });
+
     }
 
     //get events from google calendar
@@ -352,8 +370,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ca
 
     //when you click on an event
     $scope.eventClick = function(event, jsEvent, view){
-        window.console.log(event);
-
         if(event.editable || event.source.editable) {
             $scope.$apply(function(){
                 $scope.action = 'Edit';
@@ -489,16 +505,5 @@ saturnApp.controller('UserController', function(){
         alert(3);
     };
 
-    $scope.checkAuth = function() {
-        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: true}, $scope.handleAuthResult);
-    };
 
-    $scope.handleAuthResult = function(authResult) {
-        if (authResult && !authResult.error) {
-            this.makeApiCall();
-        } else {
-            authorizeButton.style.visibility = '';
-            authorizeButton.onclick = this.handleAuthClick;
-        }
-    }
 });
