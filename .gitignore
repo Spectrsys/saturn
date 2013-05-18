@@ -24,3 +24,8 @@ Thumbs.db
 ######################
 build-local.properties
 build
+
+# IDE generated files
+######################
+.idea
+

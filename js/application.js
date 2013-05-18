@@ -28,7 +28,7 @@ function safeApply(scope, fn) {
         scope.$apply(fn);
 }
 
-var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap']);
+var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
 saturnApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
@@ -65,8 +65,66 @@ saturnApp.controller('UserController', function(){
 });
 
 /******************************************************************/
+//ACL
+saturnApp.factory('ACL', function($resource){
+    return $resource(
+        'https://www.googleapis.com/calendar/v3',
+        {
+            'user': 'me',
+            'calendarId': '@id'
+        },
+        {
+            'insert': {
+                'method': 'POST'
+            },
+            'list': {
+                'method': 'GET'
+            },
+            'update': {
+                'method': 'PUT'
+            },
+            'patch': {
+                'method': 'patch'
+            }
+        }
+    );
+});
+
+//Calendar List
+saturnApp.factory('CalendarList', function($resource){
+    return $resource(
+        'https://www.googleapis.com/calendar/v3/:calendarId',
+        {
+            'user': 'me',
+            'calendarId': '@id'
+        },
+        {
+            'insert': {
+                'method': 'POST'
+            },
+            'list': {
+                'method': 'GET'
+            },
+            'update': {
+                'method': 'PUT'
+            },
+            'patch': {
+                'method': 'patch'
+            }
+        }
+    );
+});
+
+/******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter){
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, CalendarList){
+    $scope.test = function(){
+        CalendarList.get({
+            'user': 'slicer@sliceratwork',
+            'calendarId': 'ro.romanian#holiday@group.v.calendar.google.com'
+        });
+    }
+
     //get events from google calendar
     $scope.googleCalendarEvents = {
         'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'
