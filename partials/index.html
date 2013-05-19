@@ -9,7 +9,9 @@
         </div>
     </div>
 
-    <div class="boxed-group calendar-listing">
+    <div class="boxed-group calendar-listing" ng-controller="CalendarController">
+
+        <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
         <div class="boxed-group-heading">
             My calendars
             <div class="dropdown pull-right">
@@ -31,7 +33,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="">Calendar settings</a>
+                                <a href="#/calendar/{{calendar.id}}/settings" ng-click="setCurrentCalendar()">Calendar settings</a>
                             </li>
                             <li>
                                 <a href="">Display only this calendar</a>
@@ -63,8 +65,9 @@
 
 <!--content-->
 <div id="content" class="span8">
-    <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
-    <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
+    <div ng-controller="EventController">
+        <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
+    </div>
 </div>
 <!--/content-->
 

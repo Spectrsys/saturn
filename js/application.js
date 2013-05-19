@@ -33,9 +33,9 @@ var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']
 
 saturnApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
-        when('/', {templateUrl: 'partials/index.html', controller: 'EventController'}).
-        when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsController'}).
-        when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html', controller: 'CalendarController'}).
+        when('/', {templateUrl: 'partials/index.html'}).
+        when('/settings', {templateUrl: 'partials/settings.html'}).
+        when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html'}).
         otherwise({redirectTo: '/'});
     }
 ]).run(function($rootScope){
@@ -225,31 +225,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter, CalendarList, Events ,$timeout){
-    $scope.test = function() {
-        console.log(this);
-    };
-
-    $scope.checkAuth = function(){
-        gapi.auth.authorize({
-            'client_id': userConfig.clientId,
-            'scope': userConfig.scopes,
-            'immediate': false
-        }, $scope.authCallback);
-    }
-
-    $scope.authCallback = function(response){
-        if(response && !response.error) {
-            $rootScope.dataCache.access_token = response.access_token;
-
-            $timeout(function(){
-                $rootScope.dataCache.CalendarList = CalendarList.list({
-                    'access_token': $rootScope.dataCache.access_token
-                });
-            }, 1000);
-        }
-    }
-
+saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     //get events from google calendar
     $scope.googleCalendarEvents = {
         'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'
@@ -471,8 +447,36 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ca
 });
 
 /******************************************************************/
+/* Calendars */
+saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Events ,$timeout){
+    $scope.setCurrentCalendar = function(){
+        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];
+    };
+
+    $scope.checkAuth = function(){
+        gapi.auth.authorize({
+            'client_id': userConfig.clientId,
+            'scope': userConfig.scopes,
+            'immediate': false
+        }, $scope.authCallback);
+    };
+
+    $scope.authCallback = function(response){
+        if(response && !response.error) {
+            $rootScope.dataCache.access_token = response.access_token;
+
+            $timeout(function(){
+                $rootScope.dataCache.CalendarList = CalendarList.list({
+                    'access_token': $rootScope.dataCache.access_token
+                });
+            }, 1000);
+        }
+    };
+});
+
+/******************************************************************/
 /* Settings */
-saturnApp.controller('SettingsController', function($scope, $rootScope, $http, $location){
+saturnApp.controller('SettingsController', function($scope, $rootScope){
 });
 
 var userConfig = {
