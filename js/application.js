@@ -440,6 +440,11 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
         }
     };
 
+    //test color picker
+    $scope.colorPickerTest = function(){
+        console.log(this.colorPicker);
+    };
+
     //set the current calendar so we can access it later
     $scope.setCurrentCalendar = function(){
         $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];

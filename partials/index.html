@@ -49,6 +49,9 @@
                             <li ng-show="{{calendar.accessRole == 'owner'}}">
                                 <a href="">Create an event on this calendar</a>
                             </li>
+                            <li ng-show="{{calendar.accessRole == 'owner'}}">
+                                <input type="text" class="color-preview" ng-change="colorPickerTest()" color-picker="calendar.backgroundColor" ng-model="calendar.backgroundColor" />
+                            </li>
                         </ul>
                     </div>
 
