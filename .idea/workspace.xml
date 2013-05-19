@@ -9,9 +9,9 @@
     </list>
     <ignored path="fullcalendar.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/index.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369004921404" ignored="false" />
+    <file path="/index.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369007127467" ignored="false" />
     <file path="/application.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368985191498" ignored="false" />
-    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369005507594" ignored="false" />
+    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369006687296" ignored="false" />
     <file path="/add-event.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367254898578" ignored="false" />
     <file path="/event-details.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1365497251589" ignored="false" />
     <file path="/Dummy.txt" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368661697436" ignored="false" />
@@ -65,7 +65,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="69" selection-start="160" selection-end="160" vertical-scroll-proportion="9.807693">
+            <state line="23" column="53" selection-start="892" selection-end="892" vertical-scroll-proportion="-9.153846">
               <folding>
                 <element signature="n#style#0;n#span#0;n#label#0;n#li#0;n#ul#0;n#div#1;n#div#2;n#aside#0;n#!!top" expanded="true" />
               </folding>
@@ -82,19 +82,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="application.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="280" column="18" selection-start="7650" selection-end="7650" vertical-scroll-proportion="-3.39887">
+            <state line="47" column="34" selection-start="1380" selection-end="1380" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="calendar-settings.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="calendar-settings.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/partials/calendar-settings.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="53" selection-start="2091" selection-end="2091" vertical-scroll-proportion="-20.923077">
+            <state line="17" column="134" selection-start="1007" selection-end="1007" vertical-scroll-proportion="0.33643773">
               <folding />
             </state>
           </provider>
@@ -186,10 +186,10 @@
         <option value="$PROJECT_DIR$/js/angular-resource.min.js" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/partials/settings.html" />
-        <option value="$PROJECT_DIR$/partials/calendar-settings.html" />
         <option value="$PROJECT_DIR$/css/application.css" />
-        <option value="$PROJECT_DIR$/partials/index.html" />
         <option value="$PROJECT_DIR$/js/application.js" />
+        <option value="$PROJECT_DIR$/partials/index.html" />
+        <option value="$PROJECT_DIR$/partials/calendar-settings.html" />
       </list>
     </option>
   </component>
@@ -488,13 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/partials/calendar-settings.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="53" selection-start="2091" selection-end="2091" vertical-scroll-proportion="-20.923077">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/angular-ui.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="11730" selection-start="11918" selection-end="11921" vertical-scroll-proportion="0.0">
@@ -509,18 +502,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="34" selection-start="1380" selection-end="1380" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/partials/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="69" selection-start="160" selection-end="160" vertical-scroll-proportion="9.807693">
+        <state line="23" column="53" selection-start="892" selection-end="892" vertical-scroll-proportion="-9.153846">
           <folding>
             <element signature="n#style#0;n#span#0;n#label#0;n#li#0;n#ul#0;n#div#1;n#div#2;n#aside#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/application.js">
+    <entry file="file://$PROJECT_DIR$/partials/calendar-settings.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="280" column="18" selection-start="7650" selection-end="7650" vertical-scroll-proportion="-3.39887">
+        <state line="17" column="134" selection-start="1007" selection-end="1007" vertical-scroll-proportion="0.33643773">
           <folding />
         </state>
       </provider>
