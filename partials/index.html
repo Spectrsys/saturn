@@ -23,47 +23,36 @@
             </div>
         </div>
         <div class="boxed-group-content">
-            <ul class="unstyled" ng-show="eventsCache.length">
-                <li ng-repeat="source in eventsCache">
+            <ul class="unstyled" ng-show="dataCache.CalendarList.items.length">
+                <li ng-repeat="calendar in dataCache.CalendarList.items">
                     <div class="dropdown pull-right">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="icon-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Create new calendar</a></li>
-                            <li><a href="#">Settings</a></li>
+                            <li>
+                                <a href="">Calendar settings</a>
+                            </li>
+                            <li>
+                                <a href="">Display only this calendar</a>
+                            </li>
+                            <li>
+                                <a href="">Hide this calendar from the list</a>
+                            </li>
+                            <li ng-show="{{calendar.accessRole == 'owner'}}">
+                                <a href="">Share this calendar</a>
+                            </li>
+                            <li ng-show="{{calendar.accessRole == 'owner'}}">
+                                <a href="">Create an event on this calendar</a>
+                            </li>
                         </ul>
                     </div>
 
                     <label>
-                        <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
-                        {{source.title}}
-                    </label>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="boxed-group calendar-listing">
-        <div class="boxed-group-heading">
-            Other calendars
-            <div class="dropdown pull-right">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="icon-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Add coworker's calendar</a></li>
-                    <li><a href="#">Add by URL</a></li>
-                    <li><a href="#">Import calendar</a></li>
-                    <li><a href="#">Settings</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="boxed-group-content">
-            <ul class="unstyled" ng-show="eventsCache.length">
-                <li ng-repeat="source in eventsCache">
-                    <label>
-                        <input type="checkbox" ng-model="source.state" ng-change="addRemoveEventSource(eventSources, source)" />
-                        {{source.title}}
+                        <span ng-class="{'color-preview': true, 'color-preview-inactive': true}" style="background: {{calendar.backgroundColor}}">
+                            <input type="checkbox" value="{{calendar.id}}" ng-change="test()" ng-model="dataCache.calendars[calendar.id]" />
+                        </span>
+                        {{calendar.summary}}
                     </label>
                 </li>
             </ul>
@@ -74,7 +63,7 @@
 
 <!--content-->
 <div id="content" class="span8">
-    <a ng-click="checkAuth()">test</a>
+    <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
     <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
 </div>
 <!--/content-->

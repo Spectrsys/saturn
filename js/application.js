@@ -35,12 +35,15 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/', {templateUrl: 'partials/index.html', controller: 'EventController'}).
         when('/settings', {templateUrl: 'partials/settings.html', controller: 'SettingsController'}).
+        when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html', controller: 'CalendarController'}).
         otherwise({redirectTo: '/'});
     }
 ]).run(function($rootScope){
     $rootScope.config = {
         'baseURL': 'https://www.googleapis.com/calendar/v3'
     };
+
+    $rootScope.dataCache = {};
 });
 
 /******************************************************************/
@@ -139,7 +142,7 @@ saturnApp.factory('Events', function($resource, $rootScope){
         {
             'calendarId': '@calendarId',
             'eventId': '@eventId',
-            'key': 'AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM'
+            'access_token': '@access_token'
         },
         {
             'delete': {
@@ -182,9 +185,6 @@ saturnApp.factory('Events', function($resource, $rootScope){
                 'method': 'PATCH',
                 'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
             }
-        },
-        {
-            'X-JavaScript-User-Agent': 'X-JavaScript-User-Agent'
         }
     );
 });
@@ -225,25 +225,29 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
-    $scope.checkAuth = function() {
-        gapi.auth.authorize({client_id: userConfig.clientId, scope: userConfig.scopes, immediate: false}, $scope.handleAuthResult);
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, CalendarList, Events ,$timeout){
+    $scope.test = function() {
+        console.log(this);
     };
 
-    $scope.handleAuthResult = function(authResult) {
-
-        if (authResult && !authResult.error) {
-            Events.list({
-                'calendarId': 'ht3jlfaac5lfd6263ulfh4tql8@group.calendar.google.com'
-            });
-        } else {
-            authorizeButton.style.visibility = '';
-            authorizeButton.onclick = this.handleAuthClick;
-        }
+    $scope.checkAuth = function(){
+        gapi.auth.authorize({
+            'client_id': userConfig.clientId,
+            'scope': userConfig.scopes,
+            'immediate': false
+        }, $scope.authCallback);
     }
 
-    $scope.test = function(){
+    $scope.authCallback = function(response){
+        if(response && !response.error) {
+            $rootScope.dataCache.access_token = response.access_token;
 
+            $timeout(function(){
+                $rootScope.dataCache.CalendarList = CalendarList.list({
+                    'access_token': $rootScope.dataCache.access_token
+                });
+            }, 1000);
+        }
     }
 
     //get events from google calendar
@@ -251,29 +255,8 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'
     };
 
-    //get events from a JSON file
-    $scope.JSONEvents = {
-        'url' : '/data/events/1.json',
-        'color': '#ff0000',
-        'textColor': '#fff',
-        'editable': true,
-        'title': 'Events from JSON file',
-        'state': true,
-        'cache': true
-    };
-
-    $scope.JSONEvents2 = {
-        'url' : '/data/events/2.json',
-        'color': '#00ff00',
-        'textColor': '#0000ff',
-        'editable': false,
-        'title': 'Events from JSON file number 2',
-        'state': false,
-        'cache': true
-    };
-
-    $scope.eventsCache = [$scope.JSONEvents, $scope.JSONEvents2, $scope.googleCalendarEvents];
-    $scope.eventSources = $.grep([$scope.JSONEvents, $scope.JSONEvents2, $scope.googleCalendarEvents], function(arrayElement, index){
+    $scope.eventsCache = [$scope.googleCalendarEvents];
+    $scope.eventSources = $.grep([$scope.googleCalendarEvents], function(arrayElement, index){
         return arrayElement.state === true;
     });
 
@@ -492,18 +475,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 saturnApp.controller('SettingsController', function($scope, $rootScope, $http, $location){
 });
 
-/******************************************************************/
-/* Users */
 var userConfig = {
     'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
-    'apiKey': 'Onhyzb0B8l1VltUAjcslrLbk',
     'scopes': 'https://www.googleapis.com/auth/calendar'
 };
-
-saturnApp.controller('UserController', function(){
-    $scope.handleClientLoad = function(){
-        alert(3);
-    };
-
-
-});

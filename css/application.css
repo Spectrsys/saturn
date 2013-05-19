@@ -193,6 +193,29 @@ a.dropdown-toggle {
 }
 
 /* color picker */
+.color-preview {
+    display: -moz-inline-stack;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 11px;
+    height: 11px;
+    overflow: hidden;
+    margin-right: 3px;
+    vertical-align: middle;
+}
+
+.color-preview-inactive {
+    width: 10px;
+    height: 10px;
+    border: 1px solid #999;
+    background: #fff !important;
+}
+
+.color-preview input {
+    visibility: hidden;
+}
+
 div.colorPicker-picker {
     display: -moz-inline-stack;
     display: inline-block;
@@ -230,6 +253,14 @@ div.colorPicker-swatch {
 }
 
 /* calendar listings */
+.calendar-listing li .dropdown {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    -khtml-opacity: 0;
+    -moz-opacity: 0;
+}
+
 .calendar-listing li {
     padding: 0 3px;
     margin: 0 -3px;
@@ -237,4 +268,12 @@ div.colorPicker-swatch {
 
 .calendar-listing li:hover {
     background: #eee;
+}
+
+.calendar-listing li:hover .dropdown {
+    opacity: 100;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    -khtml-opacity: 100;
+    -moz-opacity: 100;
 }
