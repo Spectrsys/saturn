@@ -1,5 +1,9 @@
 <!--sidebar-->
 <aside id="sidebar" class="span2">
+    <div ng-controller="UserController">
+        <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
+    </div>
+
     <div class="boxed-group">
         <div class="boxed-group-heading">
             Mini calendar
@@ -10,8 +14,6 @@
     </div>
 
     <div class="boxed-group calendar-listing" ng-controller="CalendarController">
-
-        <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
         <div class="boxed-group-heading">
             My calendars
             <div class="dropdown pull-right">
@@ -51,8 +53,8 @@
                     </div>
 
                     <label>
-                        <span ng-class="{'color-preview': true, 'color-preview-inactive': true}" style="background: {{calendar.backgroundColor}}">
-                            <input type="checkbox" value="{{calendar.id}}" ng-change="test()" ng-model="dataCache.calendars[calendar.id]" />
+                        <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.backgroundColor}}">
+                            <input type="checkbox" value="{{calendar.id}}" ng-change="updateEventSources()" ng-model="calendar.selected" />
                         </span>
                         {{calendar.summary}}
                     </label>

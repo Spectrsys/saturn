@@ -1,3 +1,5 @@
+"use strict";
+
 $('body').tooltip({
     selector: "*[data-toggle=tooltip]"
 });
@@ -19,32 +21,39 @@ $(window).resize(function(){
 colspan();
 
 /******************************************************************/
-//safe apply
+//helper functions
 function safeApply(scope, fn) {
     var phase = scope.$root.$$phase;
-    if(phase == '$apply' || phase == '$digest')
+    if(phase === '$apply' || phase === '$digest')
         scope.$eval(fn);
     else
         scope.$apply(fn);
 }
 
-//defin applicaton
+//update entity
+function updateEntity(source, destination) {
+    if(typeof source === typeof  destination) {
+        angular.copy(source, destination);
+    }
+}
+
+//define applicaton
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
 saturnApp.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.
-        when('/', {templateUrl: 'partials/index.html'}).
-        when('/settings', {templateUrl: 'partials/settings.html'}).
-        when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html'}).
-        otherwise({redirectTo: '/'});
+        $routeProvider.
+            when('/', {templateUrl: 'partials/index.html'}).
+            when('/settings', {templateUrl: 'partials/settings.html'}).
+            when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html'}).
+            otherwise({redirectTo: '/'});
     }
-]).run(function($rootScope){
-    $rootScope.config = {
-        'baseURL': 'https://www.googleapis.com/calendar/v3'
-    };
+    ]).run(function($rootScope){
+        $rootScope.config = {
+            'baseURL': 'https://www.googleapis.com/calendar/v3'
+        };
 
-    $rootScope.dataCache = {};
-});
+        $rootScope.dataCache = {};
+    });
 
 /******************************************************************/
 //ACL
@@ -116,7 +125,7 @@ saturnApp.factory('Calendars', function($resource, $rootScope){
                 'method': 'PUT'
             },
             'patch': {
-                'method': 'patch'
+                'method': 'PATCH'
             }
         }
     );
@@ -226,15 +235,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 /******************************************************************/
 /* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter){
-    //get events from google calendar
-    $scope.googleCalendarEvents = {
-        'url' : 'http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic'
-    };
-
-    $scope.eventsCache = [$scope.googleCalendarEvents];
-    $scope.eventSources = $.grep([$scope.googleCalendarEvents], function(arrayElement, index){
-        return arrayElement.state === true;
-    });
+    $rootScope.eventSources = [];
 
     $scope.resetEventDetails = function(start, end){
         $scope.action = 'Add';
@@ -298,29 +299,12 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
             'color': '#99ccff',
             'textColor': '#333'
         };
-    }
+    };
 
     $scope.resetEventDetails();
 
-    $scope.addRemoveEventSource = function(sources,source) {
-        var canAdd = 0;
-        angular.forEach(sources,function(value, key){
-            if(sources[key] === source) {
-                sources.splice(key,1)
-                canAdd = 1;
-            }
-        });
-        if(canAdd === 0){
-            sources.push(source);
-        }
-    };
-
-    $scope.removeEventSource = function(sources,index) {
-        sources.splice(index,1);
-    };
-
     /*******************************************************/
-    //called after the user has selected something in the calendar
+        //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
         $scope.$apply(function(){
             $scope.resetEventDetails(startDate, endDate, allDay, jsEvent, view);
@@ -346,32 +330,31 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
     //after you drag and drop an event
     $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
 
-    }
+    };
 
     //after you resize an event
     $scope.eventResize = function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
 
-    }
+    };
 
     //save new event
     $scope.save = function(){
-    }
+    };
 
     //remove an event
     $scope.remove = function(index){
-        alert(2);
-    }
+    };
 
     //got to a new date
     $scope.$watch('currentDate', function() {
-        if($scope.currentDate != undefined){
+        if($scope.currentDate !== undefined){
             //go to the specified date
             $scope.calendar.fullCalendar('gotoDate', $scope.currentDate);
         }
     });
 
     /*******************************************************/
-    //calendar configuration
+        //calendar configuration
     $scope.extendedCalendar = {
         header:{
             left: 'month agendaWeek agendaDay',
@@ -448,11 +431,54 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 
 /******************************************************************/
 /* Calendars */
-saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Events ,$timeout){
-    $scope.setCurrentCalendar = function(){
-        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];
+saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
+    var activeCalendars = [];
+
+
+
+    $scope.updateEventSources = function(){
+        if(this.calendar.selected) {
+        }
     };
 
+    //set the current calendar so we can access it later
+    $scope.setCurrentCalendar = function(){
+        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];
+        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.CalendarList.items[this.$index]);
+    };
+
+    //save current calendar info
+    $scope.saveCalendar = function(){
+        updateEntity($rootScope.dataCache.currentCalendarClone, $rootScope.dataCache.currentCalendar);
+
+        Calendars.update({
+            'calendarId': $rootScope.dataCache.currentCalendarClone.id,
+            'description': $rootScope.dataCache.currentCalendarClone.description,
+            'location': $rootScope.dataCache.currentCalendarClone.location,
+            'access_token': $rootScope.dataCache.access_token
+        });
+    };
+
+    //clear current calendar info
+    $scope.resetCalendar = function(){
+        updateEntity($rootScope.dataCache.currentCalendar, $rootScope.dataCache.currentCalendarClone);
+
+        Calendars.update({
+            'calendarId': $rootScope.dataCache.currentCalendar.id,
+            'description': $rootScope.dataCache.currentCalendar.description,
+            'location': $rootScope.dataCache.currentCalendar.location,
+            'access_token': $rootScope.dataCache.access_token
+        });
+    };
+});
+
+/******************************************************************/
+/* Settings */
+saturnApp.controller('SettingsController', function($scope, $rootScope){
+});
+
+//User
+saturnApp.controller('UserController', function($scope, $rootScope, $timeout, CalendarList){
     $scope.checkAuth = function(){
         gapi.auth.authorize({
             'client_id': userConfig.clientId,
@@ -472,11 +498,6 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
             }, 1000);
         }
     };
-});
-
-/******************************************************************/
-/* Settings */
-saturnApp.controller('SettingsController', function($scope, $rootScope){
 });
 
 var userConfig = {

@@ -7,7 +7,7 @@
             <ol class="unstyled">
                 <li>
                     <label for="calendar-name">Calendar name</label>
-                    <input type="text" id="calendar-name" name="calendar-name" class="input-xxlarge" required ng-model="dataCache.currentCalendar.summary" />
+                    <input type="text" id="calendar-name" name="calendar-name" class="input-xxlarge" required ng-model="dataCache.currentCalendarClone.summary" />
                 </li>
                 <li>
                     <label for="calendar-owner">Calendar owner</label>
@@ -19,7 +19,7 @@
                 </li>
                 <li>
                     <label for="calendar-description">Description</label>
-                    <textarea id="calendar-description" name="calendar-description" class="input-xxlarge" ng-model="dataCache.currentCalendar.description"></textarea>
+                    <textarea id="calendar-description" name="calendar-description" class="input-xxlarge" ng-model="dataCache.currentCalendarClone.description"></textarea>
                 </li>
                 <li>
                     <label for="calendar-location">Location</label>
@@ -29,8 +29,8 @@
                     </label>
                 </li>
             </ol>
-            <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
-            <a ng-href="#/" class="btn"><i class="icon-undo"></i> Cancel</a>
+            <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
+            <a ng-href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
         </div>
     </div>
 </form>
