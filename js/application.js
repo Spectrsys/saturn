@@ -434,8 +434,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
     var activeCalendars = [];
 
-
-
     $scope.updateEventSources = function(){
         if(this.calendar.selected) {
         }
@@ -478,26 +476,26 @@ saturnApp.controller('SettingsController', function($scope, $rootScope){
 });
 
 //User
-saturnApp.controller('UserController', function($scope, $rootScope, $timeout, CalendarList){
+saturnApp.controller('UserController', function($scope, $rootScope, CalendarList){
     $scope.checkAuth = function(){
         gapi.auth.authorize({
             'client_id': userConfig.clientId,
             'scope': userConfig.scopes,
             'immediate': false
-        }, $scope.authCallback);
+        }, authCallback);
     };
 
-    $scope.authCallback = function(response){
+    function authCallback(response){
         if(response && !response.error) {
-            $rootScope.dataCache.access_token = response.access_token;
+            safeApply($rootScope, function(){
+                $rootScope.dataCache.access_token = response.access_token;
 
-            $timeout(function(){
                 $rootScope.dataCache.CalendarList = CalendarList.list({
                     'access_token': $rootScope.dataCache.access_token
                 });
-            }, 1000);
+            });
         }
-    };
+    }
 });
 
 var userConfig = {
