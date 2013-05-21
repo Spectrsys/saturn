@@ -1,7 +1,9 @@
 <!--sidebar-->
 <aside id="sidebar" class="span2">
-    <div ng-controller="UserController">
+    <div ng-controller="UserController" ng-hide="user.loggedIn">
         <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
+        <br />
+        <br />
     </div>
 
     <div class="boxed-group">

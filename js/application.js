@@ -35,6 +35,11 @@ function updateEntity(source, destination) {
     }
 }
 
+var userConfig = {
+    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+    'scopes': 'https://www.googleapis.com/auth/calendar'
+};
+
 //define applicaton
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
@@ -51,7 +56,13 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
             'baseURL': 'https://www.googleapis.com/calendar/v3'
         };
 
-        $rootScope.dataCache = {};
+        $rootScope.dataCache = {
+            'activeCalendars': []
+        };
+
+        $rootScope.user = {
+            'loggedIn': false
+        };
     });
 
 /******************************************************************/
@@ -239,7 +250,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.eventSources = [$scope.events];
 
     function listEvents(){
-        angular.forEach($rootScope.activeCalendars, function(value, key){
+        angular.forEach($rootScope.dataCache.activeCalendars, function(value, key){
             var promise = Events.list({
                 'calendarId': value,
                 'access_token': $rootScope.dataCache.access_token
@@ -456,12 +467,10 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 /******************************************************************/
 /* Calendars */
 saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
-    $rootScope.activeCalendars = [];
-
     function initActiveCalendars(){
         angular.forEach($rootScope.dataCache.CalendarList.items,function(value, key){
-            if($rootScope.dataCache.CalendarList.items[key].selected === true && $rootScope.activeCalendars.indexOf($rootScope.dataCache.CalendarList.items[key].id) === -1) {
-                $rootScope.activeCalendars.push($rootScope.dataCache.CalendarList.items[key].id);
+            if($rootScope.dataCache.CalendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.CalendarList.items[key].id) === -1) {
+                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.CalendarList.items[key].id);
             }
         });
     }
@@ -474,10 +483,10 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
         var calendarID = this.calendar.id,
             selected = this.calendar.selected;
 
-        if(selected && $rootScope.activeCalendars.indexOf(calendarID) === -1){
-            $rootScope.activeCalendars.push(calendarID);
+        if(selected && $rootScope.dataCache.activeCalendars.indexOf(calendarID) === -1){
+            $rootScope.dataCache.activeCalendars.push(calendarID);
         } else {
-            $rootScope.activeCalendars.splice(calendarID, 1);
+            $rootScope.dataCache.activeCalendars.splice(calendarID, 1);
         }
 
         $rootScope.$broadcast('calendar:CalendarListUpdated');
@@ -536,6 +545,8 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
 
     function authCallback(response){
         if(response && !response.error) {
+            $rootScope.user.loggedIn = true;
+
             safeApply($rootScope, function(){
                 $rootScope.dataCache.access_token = response.access_token;
 
@@ -551,8 +562,3 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
         }
     }
 });
-
-var userConfig = {
-    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
-    'scopes': 'https://www.googleapis.com/auth/calendar'
-};
