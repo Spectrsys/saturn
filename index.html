@@ -49,8 +49,9 @@
                     </a>
 
                     <!--user navigation-->
-                    <nav id="user-nav" class="pull-right nav-">
-                        <ul>
+                    <nav id="user-nav" class="pull-right" ng-controller="UserController">
+                        <a ng-click="checkAuth()" ng-hide="user.loggedIn" class="btn">Sign in with Google</a>
+                        <ul ng-show="user.loggedIn">
                             <li>
                                 <div class="btn-group">
                                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -73,7 +74,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/user/logout">
+                                <a href="" ng-click="logout()">
                                     <i class="icon-signout" data-toggle="tooltip" data-placement="bottom" title="Sign out"></i>
                                 </a>
                             </li>
