@@ -71,6 +71,7 @@
 <!--content-->
 <div id="content" class="span8">
     <div ng-controller="EventController">
+        <a ng-click="addEvent()" class="btn">add</a>
         <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
     </div>
 </div>

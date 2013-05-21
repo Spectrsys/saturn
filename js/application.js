@@ -233,7 +233,52 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter){
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+
+    // For DEMO only  This can be created however you please.
+    // *************
+    $scope.eventSources = [$scope.events];
+
+    $scope.events  = [
+
+        {
+            title: 'Lunch',
+            start: new Date(y, m, d, 12, 0),
+            end: new Date(y, m, d, 14, 0),
+            allDay: false},
+        {
+            title: 'Birthday Party',
+            start: new Date(y, m, d + 1, 19, 0),
+            end: new Date(y, m, d + 1, 22, 30),
+            allDay: false},
+        {
+            title: 'Click for Google',
+            start: new Date(y, m, 28),
+            end: new Date(y, m, 29),
+            url: 'http://google.com/'}];
+
+
+    $rootScope.$on('calendar:CalendarListLoaded', function(){
+        angular.forEach($rootScope.activeCalendars, function(value, key){
+            var promise = Events.list({
+                'calendarId': value,
+                'access_token': $rootScope.dataCache.access_token
+            });
+
+            promise.$then(function(){
+                safeApply($scope, function(){
+                    $scope.events.push({
+                            title: 'All Day Event',
+                            start: new Date(y, m, 1)});
+                });
+            });
+        });
+    });
+
     $scope.resetEventDetails = function(start, end){
         $scope.action = 'Add';
 
@@ -452,6 +497,8 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
         } else {
             $rootScope.activeCalendars.splice(calendarID, 1);
         }
+
+        $rootScope.$broadcast('calendar:ActiveCalendarsUpdated');
     };
 
     //test color picker
