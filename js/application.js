@@ -526,6 +526,8 @@ saturnApp.controller('SettingsController', function($scope, $rootScope){
 
 //User
 saturnApp.controller('UserController', function($scope, $rootScope, CalendarList){
+    $scope.loggedIn = false;
+
     $scope.checkAuth = function(){
         gapi.auth.authorize({
             'client_id': userConfig.clientId,
@@ -536,6 +538,8 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
 
     function authCallback(response){
         if(response && !response.error) {
+            $scope.loggedIn = true;
+
             safeApply($rootScope, function(){
                 $rootScope.dataCache.access_token = response.access_token;
 
