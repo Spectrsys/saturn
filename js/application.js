@@ -63,7 +63,16 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         $rootScope.user = {
             'loggedIn': false
         };
+
+        $rootScope.logout = function(){
+            $rootScope.user.loggedIn = false;
+        }
     });
+
+/******************************************************************/
+saturnApp.filter('encodeURIComponent', function() {
+    return window.encodeURIComponent;
+});
 
 /******************************************************************/
 //ACL

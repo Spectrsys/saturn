@@ -1,11 +1,5 @@
 <!--sidebar-->
 <aside id="sidebar" class="span2">
-    <div ng-controller="UserController" ng-hide="user.loggedIn">
-        <a ng-click="checkAuth()" class="btn">Sign in with Google</a>
-        <br />
-        <br />
-    </div>
-
     <div class="boxed-group">
         <div class="boxed-group-heading">
             Mini calendar
@@ -37,7 +31,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#/calendar/{{calendar.id}}/settings" ng-click="setCurrentCalendar()">Calendar settings</a>
+                                <a href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCurrentCalendar()">Calendar settings</a>
                             </li>
                             <li>
                                 <a href="">Display only this calendar</a>
