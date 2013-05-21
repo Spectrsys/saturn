@@ -35,6 +35,11 @@ function updateEntity(source, destination) {
     }
 }
 
+var userConfig = {
+    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+    'scopes': 'https://www.googleapis.com/auth/calendar'
+};
+
 //define applicaton
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
@@ -52,6 +57,10 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         };
 
         $rootScope.dataCache = {};
+
+        $rootScope.user = {
+            'loggedIn': false
+        };
     });
 
 /******************************************************************/
@@ -526,8 +535,6 @@ saturnApp.controller('SettingsController', function($scope, $rootScope){
 
 //User
 saturnApp.controller('UserController', function($scope, $rootScope, CalendarList){
-    $scope.loggedIn = false;
-
     $scope.checkAuth = function(){
         gapi.auth.authorize({
             'client_id': userConfig.clientId,
@@ -538,7 +545,7 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
 
     function authCallback(response){
         if(response && !response.error) {
-            $scope.loggedIn = true;
+            $rootScope.user.loggedIn = true;
 
             safeApply($rootScope, function(){
                 $rootScope.dataCache.access_token = response.access_token;
@@ -555,8 +562,3 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
         }
     }
 });
-
-var userConfig = {
-    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
-    'scopes': 'https://www.googleapis.com/auth/calendar'
-};
