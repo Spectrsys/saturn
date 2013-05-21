@@ -234,35 +234,11 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 /******************************************************************/
 /* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+    $scope.events  = [];
 
-    // For DEMO only  This can be created however you please.
-    // *************
     $scope.eventSources = [$scope.events];
 
-    $scope.events  = [
-
-        {
-            title: 'Lunch',
-            start: new Date(y, m, d, 12, 0),
-            end: new Date(y, m, d, 14, 0),
-            allDay: false},
-        {
-            title: 'Birthday Party',
-            start: new Date(y, m, d + 1, 19, 0),
-            end: new Date(y, m, d + 1, 22, 30),
-            allDay: false},
-        {
-            title: 'Click for Google',
-            start: new Date(y, m, 28),
-            end: new Date(y, m, 29),
-            url: 'http://google.com/'}];
-
-
-    $rootScope.$on('calendar:CalendarListLoaded', function(){
+    function listEvents(){
         angular.forEach($rootScope.activeCalendars, function(value, key){
             var promise = Events.list({
                 'calendarId': value,
@@ -270,13 +246,19 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
             });
 
             promise.$then(function(){
-                safeApply($scope, function(){
-                    $scope.events.push({
-                            title: 'All Day Event',
-                            start: new Date(y, m, 1)});
+                angular.forEach(promise.items, function(value, key) {
+                    $scope.events.push(promise.items[key]);
                 });
             });
         });
+    }
+
+    $rootScope.$on('calendar:CalendarListLoaded', function(){
+        listEvents();
+    });
+
+    $rootScope.$on('calendar:CalendarListUpdated', function(){
+        listEvents();
     });
 
     $scope.resetEventDetails = function(start, end){
@@ -498,7 +480,7 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
             $rootScope.activeCalendars.splice(calendarID, 1);
         }
 
-        $rootScope.$broadcast('calendar:ActiveCalendarsUpdated');
+        $rootScope.$broadcast('calendar:CalendarListUpdated');
     };
 
     //test color picker

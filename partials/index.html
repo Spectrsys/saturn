@@ -57,7 +57,7 @@
 
                     <label>
                         <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.backgroundColor}}">
-                            <input type="checkbox" value="{{calendar.id}}" ng-change="updateEventSources()" ng-model="calendar.selected" />
+                            <input type="checkbox" value="{{calendar.id}}" ng-change="updateActiveCalendars()" ng-model="calendar.selected" />
                         </span>
                         {{calendar.summary}}
                     </label>
@@ -71,7 +71,6 @@
 <!--content-->
 <div id="content" class="span8">
     <div ng-controller="EventController">
-        <a ng-click="addEvent()" class="btn">add</a>
         <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
     </div>
 </div>
