@@ -1,185 +1,187 @@
-<!--sidebar-->
-<aside id="sidebar" class="span2">
-    <div class="accordion affix" id="settings-menu">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings-menu" href="#panel">
-                    John Doe
-                </a>
+<div ng-controller="SettingsController">
+    <!--sidebar-->
+    <aside id="sidebar" class="span2">
+        <div class="accordion affix" id="settings-menu">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings-menu" href="#panel">
+                        John Doe
+                    </a>
+                </div>
+                <div id="panel" class="accordion-body collapse in">
+                    <ul class="nav nav-list">
+                        <li>
+                            <a href="#profile">Profile</a>
+                        </li>
+                        <li>
+                            <a href="#account-settings">Account Settings</a>
+                        </li>
+                        <li>
+                            <a href="#emails">Emails</a>
+                        </li>
+                        <li>
+                            <a href="#organizations">Organizations</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div id="panel" class="accordion-body collapse in">
-                <ul class="nav nav-list">
-                    <li>
-                        <a href="#profile">Profile</a>
-                    </li>
-                    <li>
-                        <a href="#account-settings">Account Settings</a>
-                    </li>
-                    <li>
-                        <a href="#emails">Emails</a>
-                    </li>
-                    <li>
-                        <a href="#organizations">Organizations</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!--<div class="accordion-group">-->
+            <!--<div class="accordion-group">-->
             <!--<div class="accordion-heading">-->
-                <!--<a class="accordion-toggle" data-toggle="collapse" data-parent="#settings-menu" href="#panel">-->
-                    <!-- spectrsys -->
-                <!--</a>-->
+            <!--<a class="accordion-toggle" data-toggle="collapse" data-parent="#settings-menu" href="#panel">-->
+            <!-- spectrsys -->
+            <!--</a>-->
             <!--</div>-->
             <!--<div id="panel" class="accordion-body collapse">-->
-                <!--<ul class="nav nav-list">-->
-                    <!--<li>-->
-                        <!--<a href="#profile">Profile</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="#account-settings">Account Settings</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="#owners">Owners</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="#members">Members</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
+            <!--<ul class="nav nav-list">-->
+            <!--<li>-->
+            <!--<a href="#profile">Profile</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#account-settings">Account Settings</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#owners">Owners</a>-->
+            <!--</li>-->
+            <!--<li>-->
+            <!--<a href="#members">Members</a>-->
+            <!--</li>-->
+            <!--</ul>-->
             <!--</div>-->
-        <!--</div>-->
+            <!--</div>-->
+        </div>
+    </aside>
+    <!--/sidebar-->
+
+    <!--content-->
+    <div id="content" class="span10">
+        <!--profile-->
+        <form name="profileSettingsForm">
+            <div id="profile" class="boxed-group">
+                <div class="boxed-group-heading">
+                    Public Profile
+                </div>
+                <div class="boxed-group-content">
+                    <ol class="unstyled">
+                        <li>
+                            <label for="user-name">Name</label>
+                            <input type="text" id="user-name" name="user-name" class="input-xxlarge" required ng-model="settings.name" />
+                        </li>
+                        <li>
+                            <label for="user-email">Email</label>
+                            <input type="email" id="user-email" name="user-email" class="input-xxlarge" required ng-model="settings.email" />
+                        </li>
+                        <li>
+                            <label for="user-url">URL</label>
+                            <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="settings.url" />
+                        </li>
+                        <li>
+                            <label for="user-company">Company</label>
+                            <input type="text" id="user-company" name="user-company" class="input-xxlarge" ng-model="settings.company" />
+                        </li>
+                        <li>
+                            <label for="user-location">Location</label>
+                            <input type="text" id="user-location" name="user-location" class="input-xxlarge" ng-model="settings.location" />
+                        </li>
+                        <li>
+                            <label for="user-gravatar">Gravatar email</label>
+                            <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="settings.gravatar" />
+                        </li>
+                    </ol>
+                    <button type="submit" class="btn btn-success" ng-disabled="profileSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
+                    <button type="reset" class="btn"><i class="icon-undo"></i> Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!--/profile-->
+
+        <!--account settings-->
+        <form name="accountSettingsForm">
+            <div id="account-settings" class="boxed-group">
+                <div class="boxed-group-heading">
+                    Change password
+                </div>
+                <div class="boxed-group-content">
+                    <ol class="unstyled">
+                        <li>
+                            <label for="old-password">Old password</label>
+                            <input type="password" id="old-password" name="old-password" class="input-xxlarge" required ng-model="settings.oldPassword" />
+                        </li>
+                        <li>
+                            <label for="new-password">New password</label>
+                            <input type="password" id="new-password" name="new-password" class="input-xxlarge" required  ng-model="settings.newPassword" />
+                        </li>
+                        <li>
+                            <label for="confirm-password">Confirm password</label>
+                            <input type="password" id="confirm-password" name="confirm-password" class="input-xxlarge" required  ng-model="settings.confirmPassword" />
+                        </li>
+                    </ol>
+                    <button type="submit" class="btn btn-success" ng-disabled="accountSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
+                    <button type="reset" class="btn"><i class="icon-undo"></i> Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!--/account settings-->
+
+        <!--general settings-->
+        <form name="generalSettingsForm">
+            <div id="general-settings" class="boxed-group">
+                <div class="boxed-group-heading">
+                    General settings
+                </div>
+                <div class="boxed-group-content">
+                    <ol class="unstyled">
+                        <li>
+                            <label for="language">Language</label>
+                            <select id="language" class="input-xxlarge" ng-model="settings.language">
+                                <option value="xx">Choose a language...</option><option value="in">Bahasa Indonesia</option><option value="ca">Català</option><option value="cs">Čeština</option><option value="da">Dansk</option><option value="de">Deutsch</option><option value="en_GB">English (UK)‎</option><option value="en">English (US)‎</option><option value="es">Español</option><option value="es_419">Español (Latinoamérica)‎</option><option value="tl">Filipino</option><option value="fr">Français</option><option value="hr">Hrvatski</option><option value="it">Italiano</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="hu">Magyar</option><option value="nl">Nederlands</option><option value="no">Norsk (bokmål)‎</option><option value="pl">Polski</option><option value="pt_BR">Português (Brasil)‎</option><option value="pt_PT">Português (Portugal)‎</option><option value="ro">Română</option><option value="sk">Slovenčina</option><option value="sl">slovenščina</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="tr">Türkçe</option><option value="vi">Tiếng Việt</option><option value="el">Ελληνικά</option><option value="ru">Русский</option><option value="sr">Српски</option><option value="uk">Українська</option><option value="bg">Български</option><option value="iw">עברית</option><option value="ar">العربية</option><option value="fa">فارسی</option><option value="hi">हिन्दी</option><option value="th">ภาษาไทย</option><option value="zh_TW">中文（繁體）‎</option><option value="zh_CN">中文（简体）‎</option><option value="ja">日本語</option><option value="ko">한국어</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="country">Country</label>
+                            <select id="country" class="input-xxlarge" ng-model="settings.country">
+                                <option value="AF">Afghanistan (‫افغانستان‬‎)</option><option value="AX">Åland Islands (Åland)</option><option value="AL">Albania (Shqipëria)</option><option value="DZ">Algeria (‫الجزائر‬‎)</option><option value="AS">American Samoa</option><option value="AD">Andorra</option><option value="AO">Angola</option><option value="AI">Anguilla</option><option value="AQ">Antarctica</option><option value="AG">Antigua and Barbuda</option><option value="AR">Argentina</option><option value="AM">Armenia (Հայաստանի Հանրապետություն)</option><option value="AW">Aruba</option><option value="AC">Ascension Island</option><option value="AU">Australia</option><option value="AT">Austria (Österreich)</option><option value="AZ">Azerbaijan (Azərbaycan)</option><option value="BS">Bahamas</option><option value="BH">Bahrain (‫البحرين‬‎)</option><option value="BD">Bangladesh (বাংলাদেশ)</option><option value="BB">Barbados</option><option value="BY">Belarus (Беларусь)</option><option value="BE">Belgium (België)</option><option value="BZ">Belize</option><option value="BJ">Benin (Bénin)</option><option value="BM">Bermuda</option><option value="BT">Bhutan (འབྲུག)</option><option value="BO">Bolivia</option><option value="BA">Bosnia and Herzegovina (Bosna i Hercegovina)</option><option value="BW">Botswana</option><option value="BV">Bouvet Island</option><option value="BR">Brazil (Brasil)</option><option value="IO">British Indian Ocean Territory</option><option value="VG">British Virgin Islands</option><option value="BN">Brunei</option><option value="BG">Bulgaria (България)</option><option value="BF">Burkina Faso</option><option value="BI">Burundi (Uburundi)</option><option value="KH">Cambodia (កម្ពុជា)</option><option value="CM">Cameroon (Cameroun)</option><option value="CA">Canada</option><option value="IC">Canary Islands (Islas Canarias)</option><option value="CV">Cape Verde (Kabu Verdi)</option><option value="BQ">Caribbean Netherlands</option><option value="KY">Cayman Islands</option><option value="CF">Central African Republic (République centrafricaine)</option><option value="EA">Ceuta and Melilla (Ceuta y Melilla)</option><option value="TD">Chad (Tchad)</option><option value="CL">Chile</option><option value="CN">China (中国)</option><option value="CX">Christmas Island</option><option value="CP">Clipperton Island (Île Clipperton)</option><option value="CC">Cocos [Keeling] Islands</option><option value="CO">Colombia</option><option value="KM">Comoros (‫جزر القمر‬‎)</option><option value="CD">Congo [DRC] (Jamhuri ya Kidemokrasia ya Kongo)</option><option value="CG">Congo [Republic] (Congo-Brazzaville)</option><option value="CK">Cook Islands</option><option value="CR">Costa Rica</option><option value="CI">Côte d’Ivoire</option><option value="HR">Croatia (Hrvatska)</option><option value="CU">Cuba</option><option value="CW">Curaçao</option><option value="CY">Cyprus (Κύπρος)</option><option value="CZ">Czech Republic (Česká republika)</option><option value="DK">Denmark (Danmark)</option><option value="DG">Diego Garcia</option><option value="DJ">Djibouti</option><option value="DM">Dominica</option><option value="DO">Dominican Republic (República Dominicana)</option><option value="EC">Ecuador</option><option value="EG">Egypt (‫مصر‬‎)</option><option value="SV">El Salvador</option><option value="GQ">Equatorial Guinea (Guinea Ecuatorial)</option><option value="ER">Eritrea</option><option value="EE">Estonia (Eesti)</option><option value="ET">Ethiopia</option><option value="FK">Falkland Islands [Islas Malvinas]</option><option value="FO">Faroe Islands (Føroyar)</option><option value="FJ">Fiji</option><option value="FI">Finland (Suomi)</option><option value="FR">France</option><option value="GF">French Guiana (Guyane française)</option><option value="PF">French Polynesia (Polynésie française)</option><option value="TF">French Southern Territories (Terres australes françaises)</option><option value="GA">Gabon</option><option value="GM">Gambia</option><option value="GE">Georgia (საქართველო)</option><option value="DE">Germany (Deutschland)</option><option value="GH">Ghana (Gaana)</option><option value="GI">Gibraltar</option><option value="GR">Greece (Ελλάδα)</option><option value="GL">Greenland</option><option value="GD">Grenada</option><option value="GP">Guadeloupe</option><option value="GU">Guam</option><option value="GT">Guatemala</option><option value="GG">Guernsey</option><option value="GN">Guinea (Guinée)</option><option value="GW">Guinea-Bissau (Guiné Bissau)</option><option value="GY">Guyana</option><option value="HT">Haiti</option><option value="HM">Heard Island and McDonald Islands</option><option value="HN">Honduras</option><option value="HK">Hong Kong (香港)</option><option value="HU">Hungary (Magyarország)</option><option value="IS">Iceland (Ísland)</option><option value="IN">India (भारत)</option><option value="ID">Indonesia</option><option value="IR">Iran (‫ایران‬‎)</option><option value="IQ">Iraq (‫العراق‬‎)</option><option value="IE">Ireland</option><option value="IM">Isle of Man</option><option value="IL">Israel (‫ישראל‬‎)</option><option value="IT">Italy (Italia)</option><option value="JM">Jamaica</option><option value="JP">Japan (日本)</option><option value="JE">Jersey</option><option value="JO">Jordan (‫الأردن‬‎)</option><option value="KZ">Kazakhstan (Казахстан)</option><option value="KE">Kenya</option><option value="KI">Kiribati</option><option value="KW">Kuwait (‫الكويت‬‎)</option><option value="KG">Kyrgyzstan</option><option value="LA">Laos (ສ.ປ.ປ ລາວ)</option><option value="LV">Latvia (Latvija)</option><option value="LB">Lebanon (‫لبنان‬‎)</option><option value="LS">Lesotho</option><option value="LR">Liberia</option><option value="LY">Libya (‫ليبيا‬‎)</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania (Lietuva)</option><option value="LU">Luxembourg</option><option value="MO">Macau (澳門)</option><option value="MK">Macedonia [FYROM] (Македонија)</option><option value="MG">Madagascar (Madagasikara)</option><option value="MW">Malawi</option><option value="MY">Malaysia</option><option value="MV">Maldives</option><option value="ML">Mali</option><option value="MT">Malta</option><option value="MH">Marshall Islands</option><option value="MQ">Martinique</option><option value="MR">Mauritania (‫موريتانيا‬‎)</option><option value="MU">Mauritius (Moris)</option><option value="YT">Mayotte</option><option value="MX">Mexico (México)</option><option value="FM">Micronesia</option><option value="MD">Moldova (Republica Moldova)</option><option value="MC">Monaco</option><option value="MN">Mongolia</option><option value="ME">Montenegro (Crna Gora)</option><option value="MS">Montserrat</option><option value="MA">Morocco (‫المغرب‬‎)</option><option value="MZ">Mozambique (Moçambique)</option><option value="MM">Myanmar [Burma] (မြန်မာ)</option><option value="NA">Namibia</option><option value="NR">Nauru</option><option value="NP">Nepal (नेपाल)</option><option value="NL">Netherlands (Nederland)</option><option value="NC">New Caledonia (Nouvelle-Calédonie)</option><option value="NZ">New Zealand</option><option value="NI">Nicaragua</option><option value="NE">Niger (Nijar)</option><option value="NG">Nigeria</option><option value="NU">Niue</option><option value="NF">Norfolk Island</option><option value="MP">Northern Mariana Islands</option><option value="KP">North Korea (조선 민주주의 인민 공화국)</option><option value="NO">Norway (Norge)</option><option value="OM">Oman (‫عُمان‬‎)</option><option value="PK">Pakistan (‫پاکستان‬‎)</option><option value="PW">Palau</option><option value="PS">Palestinian Territories (‫فلسطين‬‎)</option><option value="PA">Panama (Panamá)</option><option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option><option value="PE">Peru (Perú)</option><option value="PH">Philippines</option><option value="PN">Pitcairn Islands</option><option value="PL">Poland (Polska)</option><option value="PT">Portugal</option><option value="PR">Puerto Rico</option><option value="QA">Qatar (‫قطر‬‎)</option><option value="RE">Réunion</option><option value="RO">Romania (România)</option><option value="RU">Russia (Россия)</option><option value="RW">Rwanda</option><option value="BL">Saint Barthélemy (Saint-Barthélémy)</option><option value="SH">Saint Helena</option><option value="KN">Saint Kitts and Nevis</option><option value="LC">Saint Lucia</option><option value="MF">Saint Martin (Saint-Martin [partie française])</option><option value="PM">Saint Pierre and Miquelon (Saint-Pierre-et-Miquelon)</option><option value="VC">Saint Vincent and the Grenadines</option><option value="WS">Samoa</option><option value="SM">San Marino</option><option value="ST">São Tomé and Príncipe (São Tomé e Príncipe)</option><option value="SA">Saudi Arabia (‫المملكة العربية السعودية‬‎)</option><option value="SN">Senegal (Sénégal)</option><option value="RS">Serbia (Србија)</option><option value="SC">Seychelles</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option><option value="SX">Sint Maarten</option><option value="SK">Slovakia (Slovensko)</option><option value="SI">Slovenia (Slovenija)</option><option value="SB">Solomon Islands</option><option value="SO">Somalia (Soomaaliya)</option><option value="ZA">South Africa</option><option value="GS">South Georgia and the South Sandwich Islands</option><option value="KR">South Korea (대한민국)</option><option value="SS">South Sudan (‫جنوب السودان‬‎)</option><option value="ES">Spain (España)</option><option value="LK">Sri Lanka (ශ්‍රී ලංකාව)</option><option value="SD">Sudan (‫السودان‬‎)</option><option value="SR">Suriname</option><option value="SJ">Svalbard and Jan Mayen (Svalbard og Jan Mayen)</option><option value="SZ">Swaziland</option><option value="SE">Sweden (Sverige)</option><option value="CH">Switzerland (Schweiz)</option><option value="SY">Syria (‫سوريا‬‎)</option><option value="TW">Taiwan (台灣)</option><option value="TJ">Tajikistan</option><option value="TZ">Tanzania</option><option value="TH">Thailand (ไทย)</option><option value="TL">Timor-Leste</option><option value="TG">Togo</option><option value="TK">Tokelau</option><option value="TO">Tonga</option><option value="TT">Trinidad and Tobago</option><option value="TA">Tristan da Cunha</option><option value="TN">Tunisia (‫تونس‬‎)</option><option value="TR">Turkey (Türkiye)</option><option value="TM">Turkmenistan</option><option value="TC">Turks and Caicos Islands</option><option value="TV">Tuvalu</option><option value="UM">U.S. Outlying Islands</option><option value="VI">U.S. Virgin Islands</option><option value="UG">Uganda</option><option value="UA">Ukraine (Україна)</option><option value="AE">United Arab Emirates (‫الإمارات العربية المتحدة‬‎)</option><option value="GB">United Kingdom</option><option value="US">United States</option><option value="UY">Uruguay</option><option value="UZ">Uzbekistan (Ўзбекистон)</option><option value="VU">Vanuatu</option><option value="VA">Vatican City (Città del Vaticano)</option><option value="VE">Venezuela</option><option value="VN">Vietnam (Việt Nam)</option><option value="WF">Wallis and Futuna</option><option value="EH">Western Sahara (‫الصحراء الغربية‬‎)</option><option value="YE">Yemen (‫اليمن‬‎)</option><option value="ZM">Zambia</option><option value="ZW">Zimbabwe</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="date-format">Date format</label>
+                            <select id="date-format" class="input-xxlarge" ng-model="settings.dateFormat">
+                                <option value="MDY">12/31/2013</option>
+                                <option value="DMY">31/12/2013</option>
+                                <option value="YMD">2013-12-31</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label form="time-format">Time format</label>
+                            <select id="time-format" class="input-xxlarge" ng-model="settings.timeFormat">
+                                <option value="false">1:00pm</option>
+                                <option value="true">13:00</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="meeting-length">Default meeting length</label>
+                            <select id="meeting-length" class="input-xxlarge" ng-model="settings.meetingLength">
+                                <option value="15">15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">60 minutes</option>
+                                <option value="90">90 minutes</option>
+                                <option value="120">120 minutes</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label for="week-start">Week starts on</label>
+                            <select id="week-start" class="input-xxlarge" ng-model="settings.weekStart">
+                                <option value="0">Sunday</option>
+                                <option value="1">Monday</option>
+                                <option value="6">Saturday</option>
+                            </select>
+                        </li>
+                    </ol>
+                    <button type="submit" class="btn btn-success" ng-disabled="generalSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
+                    <button type="reset" class="btn"><i class="icon-undo"></i> Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!--/general settings-->
     </div>
-</aside>
-<!--/sidebar-->
-
-<!--content-->
-<div id="content" class="span10">
-    <!--profile-->
-    <form name="profileSettingsForm" novalidate ng-submit="save()">
-        <div id="profile" class="boxed-group">
-            <div class="boxed-group-heading">
-                Public Profile
-            </div>
-            <div class="boxed-group-inner">
-                <ol class="unstyled">
-                    <li>
-                        <label for="user-name">Name</label>
-                        <input type="text" id="user-name" name="user-name" class="input-xxlarge" required ng-model="settings.name" />
-                    </li>
-                    <li>
-                        <label for="user-email">Email</label>
-                        <input type="email" id="user-email" name="user-email" class="input-xxlarge" required ng-model="settings.email" />
-                    </li>
-                    <li>
-                        <label for="user-url">URL</label>
-                        <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="settings.url" />
-                    </li>
-                    <li>
-                        <label for="user-company">Company</label>
-                        <input type="text" id="user-company" name="user-company" class="input-xxlarge" ng-model="settings.company" />
-                    </li>
-                    <li>
-                        <label for="user-location">Location</label>
-                        <input type="text" id="user-location" name="user-location" class="input-xxlarge" ng-model="settings.location" />
-                    </li>
-                    <li>
-                        <label for="user-gravatar">Gravatar email</label>
-                        <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="settings.gravatar" />
-                    </li>
-                </ol>
-                <button type="submit" class="btn btn-success" ng-disabled="profileSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
-                <button type="reset" class="btn btn-danger"><i class="icon-undo"></i> Cancel</button>
-            </div>
-        </div>
-    </form>
-    <!--/profile-->
-
-    <!--account settings-->
-    <form name="accountSettingsForm" novalidate ng-submit="save()">
-        <div id="account-settings" class="boxed-group">
-            <div class="boxed-group-heading">
-                Change password
-            </div>
-            <div class="boxed-group-inner">
-                <ol class="unstyled">
-                    <li>
-                        <label for="old-password">Old password</label>
-                        <input type="password" id="old-password" name="old-password" class="input-xxlarge" required ng-model="settings.oldPassword" />
-                    </li>
-                    <li>
-                        <label for="new-password">New password</label>
-                        <input type="password" id="new-password" name="new-password" class="input-xxlarge" required  ng-model="settings.newPassword" />
-                    </li>
-                    <li>
-                        <label for="confirm-password">Confirm password</label>
-                        <input type="password" id="confirm-password" name="confirm-password" class="input-xxlarge" required  ng-model="settings.confirmPassword" />
-                    </li>
-                </ol>
-                <button type="submit" class="btn btn-success" ng-disabled="accountSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
-                <button type="reset" class="btn btn-danger"><i class="icon-undo"></i> Cancel</button>
-            </div>
-        </div>
-    </form>
-    <!--/account settings-->
-
-    <!--general settings-->
-    <form name="generalSettingsForm" novalidate ng-submit="save()">
-        <div id="general-settings" class="boxed-group">
-            <div class="boxed-group-heading">
-                General settings
-            </div>
-            <div class="boxed-group-inner">
-                <ol class="unstyled">
-                    <li>
-                        <label for="language">Language</label>
-                        <select id="language" class="input-xxlarge" ng-model="settings.language">
-                            <option value="xx">Choose a language...</option><option value="in">Bahasa Indonesia</option><option value="ca">Català</option><option value="cs">Čeština</option><option value="da">Dansk</option><option value="de">Deutsch</option><option value="en_GB">English (UK)‎</option><option value="en">English (US)‎</option><option value="es">Español</option><option value="es_419">Español (Latinoamérica)‎</option><option value="tl">Filipino</option><option value="fr">Français</option><option value="hr">Hrvatski</option><option value="it">Italiano</option><option value="lv">Latviešu</option><option value="lt">Lietuvių</option><option value="hu">Magyar</option><option value="nl">Nederlands</option><option value="no">Norsk (bokmål)‎</option><option value="pl">Polski</option><option value="pt_BR">Português (Brasil)‎</option><option value="pt_PT">Português (Portugal)‎</option><option value="ro">Română</option><option value="sk">Slovenčina</option><option value="sl">slovenščina</option><option value="fi">Suomi</option><option value="sv">Svenska</option><option value="tr">Türkçe</option><option value="vi">Tiếng Việt</option><option value="el">Ελληνικά</option><option value="ru">Русский</option><option value="sr">Српски</option><option value="uk">Українська</option><option value="bg">Български</option><option value="iw">עברית</option><option value="ar">العربية</option><option value="fa">فارسی</option><option value="hi">हिन्दी</option><option value="th">ภาษาไทย</option><option value="zh_TW">中文（繁體）‎</option><option value="zh_CN">中文（简体）‎</option><option value="ja">日本語</option><option value="ko">한국어</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="country">Country</label>
-                        <select id="country" class="input-xxlarge" ng-model="settings.country">
-                            <option value="AF">Afghanistan (‫افغانستان‬‎)</option><option value="AX">Åland Islands (Åland)</option><option value="AL">Albania (Shqipëria)</option><option value="DZ">Algeria (‫الجزائر‬‎)</option><option value="AS">American Samoa</option><option value="AD">Andorra</option><option value="AO">Angola</option><option value="AI">Anguilla</option><option value="AQ">Antarctica</option><option value="AG">Antigua and Barbuda</option><option value="AR">Argentina</option><option value="AM">Armenia (Հայաստանի Հանրապետություն)</option><option value="AW">Aruba</option><option value="AC">Ascension Island</option><option value="AU">Australia</option><option value="AT">Austria (Österreich)</option><option value="AZ">Azerbaijan (Azərbaycan)</option><option value="BS">Bahamas</option><option value="BH">Bahrain (‫البحرين‬‎)</option><option value="BD">Bangladesh (বাংলাদেশ)</option><option value="BB">Barbados</option><option value="BY">Belarus (Беларусь)</option><option value="BE">Belgium (België)</option><option value="BZ">Belize</option><option value="BJ">Benin (Bénin)</option><option value="BM">Bermuda</option><option value="BT">Bhutan (འབྲུག)</option><option value="BO">Bolivia</option><option value="BA">Bosnia and Herzegovina (Bosna i Hercegovina)</option><option value="BW">Botswana</option><option value="BV">Bouvet Island</option><option value="BR">Brazil (Brasil)</option><option value="IO">British Indian Ocean Territory</option><option value="VG">British Virgin Islands</option><option value="BN">Brunei</option><option value="BG">Bulgaria (България)</option><option value="BF">Burkina Faso</option><option value="BI">Burundi (Uburundi)</option><option value="KH">Cambodia (កម្ពុជា)</option><option value="CM">Cameroon (Cameroun)</option><option value="CA">Canada</option><option value="IC">Canary Islands (Islas Canarias)</option><option value="CV">Cape Verde (Kabu Verdi)</option><option value="BQ">Caribbean Netherlands</option><option value="KY">Cayman Islands</option><option value="CF">Central African Republic (République centrafricaine)</option><option value="EA">Ceuta and Melilla (Ceuta y Melilla)</option><option value="TD">Chad (Tchad)</option><option value="CL">Chile</option><option value="CN">China (中国)</option><option value="CX">Christmas Island</option><option value="CP">Clipperton Island (Île Clipperton)</option><option value="CC">Cocos [Keeling] Islands</option><option value="CO">Colombia</option><option value="KM">Comoros (‫جزر القمر‬‎)</option><option value="CD">Congo [DRC] (Jamhuri ya Kidemokrasia ya Kongo)</option><option value="CG">Congo [Republic] (Congo-Brazzaville)</option><option value="CK">Cook Islands</option><option value="CR">Costa Rica</option><option value="CI">Côte d’Ivoire</option><option value="HR">Croatia (Hrvatska)</option><option value="CU">Cuba</option><option value="CW">Curaçao</option><option value="CY">Cyprus (Κύπρος)</option><option value="CZ">Czech Republic (Česká republika)</option><option value="DK">Denmark (Danmark)</option><option value="DG">Diego Garcia</option><option value="DJ">Djibouti</option><option value="DM">Dominica</option><option value="DO">Dominican Republic (República Dominicana)</option><option value="EC">Ecuador</option><option value="EG">Egypt (‫مصر‬‎)</option><option value="SV">El Salvador</option><option value="GQ">Equatorial Guinea (Guinea Ecuatorial)</option><option value="ER">Eritrea</option><option value="EE">Estonia (Eesti)</option><option value="ET">Ethiopia</option><option value="FK">Falkland Islands [Islas Malvinas]</option><option value="FO">Faroe Islands (Føroyar)</option><option value="FJ">Fiji</option><option value="FI">Finland (Suomi)</option><option value="FR">France</option><option value="GF">French Guiana (Guyane française)</option><option value="PF">French Polynesia (Polynésie française)</option><option value="TF">French Southern Territories (Terres australes françaises)</option><option value="GA">Gabon</option><option value="GM">Gambia</option><option value="GE">Georgia (საქართველო)</option><option value="DE">Germany (Deutschland)</option><option value="GH">Ghana (Gaana)</option><option value="GI">Gibraltar</option><option value="GR">Greece (Ελλάδα)</option><option value="GL">Greenland</option><option value="GD">Grenada</option><option value="GP">Guadeloupe</option><option value="GU">Guam</option><option value="GT">Guatemala</option><option value="GG">Guernsey</option><option value="GN">Guinea (Guinée)</option><option value="GW">Guinea-Bissau (Guiné Bissau)</option><option value="GY">Guyana</option><option value="HT">Haiti</option><option value="HM">Heard Island and McDonald Islands</option><option value="HN">Honduras</option><option value="HK">Hong Kong (香港)</option><option value="HU">Hungary (Magyarország)</option><option value="IS">Iceland (Ísland)</option><option value="IN">India (भारत)</option><option value="ID">Indonesia</option><option value="IR">Iran (‫ایران‬‎)</option><option value="IQ">Iraq (‫العراق‬‎)</option><option value="IE">Ireland</option><option value="IM">Isle of Man</option><option value="IL">Israel (‫ישראל‬‎)</option><option value="IT">Italy (Italia)</option><option value="JM">Jamaica</option><option value="JP">Japan (日本)</option><option value="JE">Jersey</option><option value="JO">Jordan (‫الأردن‬‎)</option><option value="KZ">Kazakhstan (Казахстан)</option><option value="KE">Kenya</option><option value="KI">Kiribati</option><option value="KW">Kuwait (‫الكويت‬‎)</option><option value="KG">Kyrgyzstan</option><option value="LA">Laos (ສ.ປ.ປ ລາວ)</option><option value="LV">Latvia (Latvija)</option><option value="LB">Lebanon (‫لبنان‬‎)</option><option value="LS">Lesotho</option><option value="LR">Liberia</option><option value="LY">Libya (‫ليبيا‬‎)</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania (Lietuva)</option><option value="LU">Luxembourg</option><option value="MO">Macau (澳門)</option><option value="MK">Macedonia [FYROM] (Македонија)</option><option value="MG">Madagascar (Madagasikara)</option><option value="MW">Malawi</option><option value="MY">Malaysia</option><option value="MV">Maldives</option><option value="ML">Mali</option><option value="MT">Malta</option><option value="MH">Marshall Islands</option><option value="MQ">Martinique</option><option value="MR">Mauritania (‫موريتانيا‬‎)</option><option value="MU">Mauritius (Moris)</option><option value="YT">Mayotte</option><option value="MX">Mexico (México)</option><option value="FM">Micronesia</option><option value="MD">Moldova (Republica Moldova)</option><option value="MC">Monaco</option><option value="MN">Mongolia</option><option value="ME">Montenegro (Crna Gora)</option><option value="MS">Montserrat</option><option value="MA">Morocco (‫المغرب‬‎)</option><option value="MZ">Mozambique (Moçambique)</option><option value="MM">Myanmar [Burma] (မြန်မာ)</option><option value="NA">Namibia</option><option value="NR">Nauru</option><option value="NP">Nepal (नेपाल)</option><option value="NL">Netherlands (Nederland)</option><option value="NC">New Caledonia (Nouvelle-Calédonie)</option><option value="NZ">New Zealand</option><option value="NI">Nicaragua</option><option value="NE">Niger (Nijar)</option><option value="NG">Nigeria</option><option value="NU">Niue</option><option value="NF">Norfolk Island</option><option value="MP">Northern Mariana Islands</option><option value="KP">North Korea (조선 민주주의 인민 공화국)</option><option value="NO">Norway (Norge)</option><option value="OM">Oman (‫عُمان‬‎)</option><option value="PK">Pakistan (‫پاکستان‬‎)</option><option value="PW">Palau</option><option value="PS">Palestinian Territories (‫فلسطين‬‎)</option><option value="PA">Panama (Panamá)</option><option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option><option value="PE">Peru (Perú)</option><option value="PH">Philippines</option><option value="PN">Pitcairn Islands</option><option value="PL">Poland (Polska)</option><option value="PT">Portugal</option><option value="PR">Puerto Rico</option><option value="QA">Qatar (‫قطر‬‎)</option><option value="RE">Réunion</option><option value="RO">Romania (România)</option><option value="RU">Russia (Россия)</option><option value="RW">Rwanda</option><option value="BL">Saint Barthélemy (Saint-Barthélémy)</option><option value="SH">Saint Helena</option><option value="KN">Saint Kitts and Nevis</option><option value="LC">Saint Lucia</option><option value="MF">Saint Martin (Saint-Martin [partie française])</option><option value="PM">Saint Pierre and Miquelon (Saint-Pierre-et-Miquelon)</option><option value="VC">Saint Vincent and the Grenadines</option><option value="WS">Samoa</option><option value="SM">San Marino</option><option value="ST">São Tomé and Príncipe (São Tomé e Príncipe)</option><option value="SA">Saudi Arabia (‫المملكة العربية السعودية‬‎)</option><option value="SN">Senegal (Sénégal)</option><option value="RS">Serbia (Србија)</option><option value="SC">Seychelles</option><option value="SL">Sierra Leone</option><option value="SG">Singapore</option><option value="SX">Sint Maarten</option><option value="SK">Slovakia (Slovensko)</option><option value="SI">Slovenia (Slovenija)</option><option value="SB">Solomon Islands</option><option value="SO">Somalia (Soomaaliya)</option><option value="ZA">South Africa</option><option value="GS">South Georgia and the South Sandwich Islands</option><option value="KR">South Korea (대한민국)</option><option value="SS">South Sudan (‫جنوب السودان‬‎)</option><option value="ES">Spain (España)</option><option value="LK">Sri Lanka (ශ්‍රී ලංකාව)</option><option value="SD">Sudan (‫السودان‬‎)</option><option value="SR">Suriname</option><option value="SJ">Svalbard and Jan Mayen (Svalbard og Jan Mayen)</option><option value="SZ">Swaziland</option><option value="SE">Sweden (Sverige)</option><option value="CH">Switzerland (Schweiz)</option><option value="SY">Syria (‫سوريا‬‎)</option><option value="TW">Taiwan (台灣)</option><option value="TJ">Tajikistan</option><option value="TZ">Tanzania</option><option value="TH">Thailand (ไทย)</option><option value="TL">Timor-Leste</option><option value="TG">Togo</option><option value="TK">Tokelau</option><option value="TO">Tonga</option><option value="TT">Trinidad and Tobago</option><option value="TA">Tristan da Cunha</option><option value="TN">Tunisia (‫تونس‬‎)</option><option value="TR">Turkey (Türkiye)</option><option value="TM">Turkmenistan</option><option value="TC">Turks and Caicos Islands</option><option value="TV">Tuvalu</option><option value="UM">U.S. Outlying Islands</option><option value="VI">U.S. Virgin Islands</option><option value="UG">Uganda</option><option value="UA">Ukraine (Україна)</option><option value="AE">United Arab Emirates (‫الإمارات العربية المتحدة‬‎)</option><option value="GB">United Kingdom</option><option value="US">United States</option><option value="UY">Uruguay</option><option value="UZ">Uzbekistan (Ўзбекистон)</option><option value="VU">Vanuatu</option><option value="VA">Vatican City (Città del Vaticano)</option><option value="VE">Venezuela</option><option value="VN">Vietnam (Việt Nam)</option><option value="WF">Wallis and Futuna</option><option value="EH">Western Sahara (‫الصحراء الغربية‬‎)</option><option value="YE">Yemen (‫اليمن‬‎)</option><option value="ZM">Zambia</option><option value="ZW">Zimbabwe</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="date-format">Date format</label>
-                        <select id="date-format" class="input-xxlarge" ng-model="settings.dateFormat">
-                            <option value="MDY">12/31/2013</option>
-                            <option value="DMY">31/12/2013</option>
-                            <option value="YMD">2013-12-31</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label form="time-format">Time format</label>
-                        <select id="time-format" class="input-xxlarge" ng-model="settings.timeFormat">
-                            <option value="false">1:00pm</option>
-                            <option value="true">13:00</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="meeting-length">Default meeting length</label>
-                        <select id="meeting-length" class="input-xxlarge" ng-model="settings.meetingLength">
-                            <option value="15">15 minutes</option>
-                            <option value="30">30 minutes</option>
-                            <option value="60">60 minutes</option>
-                            <option value="90">90 minutes</option>
-                            <option value="120">120 minutes</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="week-start">Week starts on</label>
-                        <select id="week-start" class="input-xxlarge" ng-model="settings.weekStart">
-                            <option value="0">Sunday</option>
-                            <option value="1">Monday</option>
-                            <option value="6">Saturday</option>
-                        </select>
-                    </li>
-                </ol>
-                <button type="submit" class="btn btn-success" ng-disabled="generalSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
-                <button type="reset" class="btn btn-danger"><i class="icon-undo"></i> Cancel</button>
-            </div>
-        </div>
-    </form>
-    <!--/general settings-->
+    <!--/content-->
 </div>
-<!--/content-->
