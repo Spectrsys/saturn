@@ -1,7 +1,45 @@
 "use strict";
 
+/******************************************************************/
+//helper functions
+function safeApply(scope, fn) {
+    var phase = scope.$root.$$phase;
+    if(phase === '$apply' || phase === '$digest')
+        scope.$eval(fn);
+    else
+        scope.$apply(fn);
+}
+
+if (!Array.prototype.filter)
+{
+    Array.prototype.filter = function(fun /*, thisp*/)
+    {
+        var len = this.length;
+        if (typeof fun != "function")
+            throw new TypeError();
+
+        var res = new Array();
+        var thisp = arguments[1];
+        for (var i = 0; i < len; i++)
+        {
+            if (i in this)
+            {
+                var val = this[i]; // in case fun mutates this
+                if (fun.call(thisp, val, i, this))
+                    res.push(val);
+            }
+        }
+
+        return res;
+    };
+}
+
 $('body').tooltip({
     selector: "*[data-toggle=tooltip]"
+});
+
+$(document).on('click', '.dropdown-menu', function(event){
+    console.log(2);
 });
 
 function colspan(){
@@ -20,15 +58,6 @@ $(window).resize(function(){
 
 colspan();
 
-/******************************************************************/
-//helper functions
-function safeApply(scope, fn) {
-    var phase = scope.$root.$$phase;
-    if(phase === '$apply' || phase === '$digest')
-        scope.$eval(fn);
-    else
-        scope.$apply(fn);
-}
 
 //update entity
 function updateEntity(source, destination) {
@@ -433,10 +462,14 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter){
 /******************************************************************/
 /* Calendars */
 saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
-    var activeCalendars = [];
+    $scope.$watch('dataCache.CalendarList', function(value){
+        if($rootScope.dataCache.CalendarList) {
+        }
+    });
 
     $scope.updateEventSources = function(){
         if(this.calendar.selected) {
+            console.log(this.calendar);
         }
     };
 
@@ -447,8 +480,8 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
 
     //set the current calendar so we can access it later
     $scope.setCurrentCalendar = function(){
-        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];
-        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.CalendarList.items[this.$index]);
+        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList[this.$index];
+        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.CalendarList[this.$index]);
     };
 
     //save current calendar info
@@ -496,8 +529,12 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
             safeApply($rootScope, function(){
                 $rootScope.dataCache.access_token = response.access_token;
 
-                $rootScope.dataCache.CalendarList = CalendarList.list({
+                var promise = CalendarList.list({
                     'access_token': $rootScope.dataCache.access_token
+                });
+
+                promise.$then(function(){
+                    $rootScope.dataCache.CalendarList = promise.items;
                 });
             });
         }
