@@ -70,6 +70,11 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
     });
 
 /******************************************************************/
+saturnApp.filter('encodeURIComponent', function() {
+    return window.encodeURIComponent;
+});
+
+/******************************************************************/
 //ACL
 saturnApp.factory('ACL', function($resource, $rootScope){
     return $resource(
