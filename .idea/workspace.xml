@@ -11,7 +11,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369007463620" ignored="false" />
     <file path="/application.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368985191498" ignored="false" />
-    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369110466109" ignored="false" />
+    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369111485407" ignored="false" />
     <file path="/add-event.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367254898578" ignored="false" />
     <file path="/event-details.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1365497251589" ignored="false" />
     <file path="/Dummy.txt" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368661697436" ignored="false" />
@@ -62,10 +62,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="65" selection-start="1192" selection-end="1214" vertical-scroll-proportion="0.35371703">
+            <state line="34" column="28" selection-start="1455" selection-end="1455" vertical-scroll-proportion="-7.117647">
               <folding />
             </state>
           </provider>
@@ -80,10 +80,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="465" column="44" selection-start="13154" selection-end="13187" vertical-scroll-proportion="-11.44">
+            <state line="11" column="1" selection-start="0" selection-end="304" vertical-scroll-proportion="0.21744186">
               <folding />
             </state>
           </provider>
@@ -188,8 +188,8 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/js/angular-resource.min.js" />
         <option value="$PROJECT_DIR$/js/angular.min.js" />
-        <option value="$PROJECT_DIR$/js/application.js" />
         <option value="$PROJECT_DIR$/partials/index.html" />
+        <option value="$PROJECT_DIR$/js/application.js" />
       </list>
     </option>
   </component>
@@ -475,13 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/angular-ui.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="11730" selection-start="11918" selection-end="11921" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="99" column="38" selection-start="5544" selection-end="5544" vertical-scroll-proportion="-16.192308">
@@ -507,16 +500,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/application.js">
+    <entry file="file://$PROJECT_DIR$/js/angular-ui.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="465" column="44" selection-start="13154" selection-end="13187" vertical-scroll-proportion="-11.44">
+        <state line="6" column="11730" selection-start="11918" selection-end="11921" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/partials/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="65" selection-start="1192" selection-end="1214" vertical-scroll-proportion="0.35371703">
+        <state line="34" column="28" selection-start="1455" selection-end="1455" vertical-scroll-proportion="-7.117647">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="1" selection-start="0" selection-end="304" vertical-scroll-proportion="0.21744186">
           <folding />
         </state>
       </provider>
