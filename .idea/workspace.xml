@@ -11,7 +11,7 @@
     <ignored path=".idea/workspace.xml" />
     <file path="/index.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369007463620" ignored="false" />
     <file path="/application.css" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368985191498" ignored="false" />
-    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369111485407" ignored="false" />
+    <file path="/application.js" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1369116096060" ignored="false" />
     <file path="/add-event.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1367254898578" ignored="false" />
     <file path="/event-details.html" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1365497251589" ignored="false" />
     <file path="/Dummy.txt" changelist="e30fe3aa-a025-4837-a14d-1eaa7f10c1d5" time="1368661697436" ignored="false" />
@@ -65,7 +65,7 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/partials/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="28" selection-start="1455" selection-end="1455" vertical-scroll-proportion="-7.117647">
+            <state line="34" column="28" selection-start="1455" selection-end="1455" vertical-scroll-proportion="52.980392">
               <folding />
             </state>
           </provider>
@@ -83,7 +83,7 @@
       <file leaf-file-name="application.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="1" selection-start="0" selection-end="304" vertical-scroll-proportion="0.21744186">
+            <state line="518" column="20" selection-start="15729" selection-end="15782" vertical-scroll-proportion="2.9965117">
               <folding />
             </state>
           </provider>
@@ -92,10 +92,8 @@
       <file leaf-file-name="angular.min.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/angular.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="173" column="0" selection-start="96697" selection-end="96697" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state line="178" column="0" selection-start="96049" selection-end="96049" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -121,10 +119,8 @@
       <file leaf-file-name="angular-resource.min.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/angular-resource.min.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="3265" selection-end="3265" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state line="11" column="0" selection-start="2805" selection-end="2805" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -484,19 +480,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/angular-resource.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="3265" selection-end="3265" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state line="11" column="0" selection-start="2805" selection-end="2805" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/angular.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="173" column="0" selection-start="96697" selection-end="96697" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state line="178" column="0" selection-start="96049" selection-end="96049" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
@@ -509,14 +501,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/partials/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="28" selection-start="1455" selection-end="1455" vertical-scroll-proportion="-7.117647">
+        <state line="34" column="28" selection-start="1455" selection-end="1455" vertical-scroll-proportion="52.980392">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="1" selection-start="0" selection-end="304" vertical-scroll-proportion="0.21744186">
+        <state line="518" column="20" selection-start="15729" selection-end="15782" vertical-scroll-proportion="2.9965117">
           <folding />
         </state>
       </provider>
