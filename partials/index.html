@@ -1,17 +1,16 @@
 <!--sidebar-->
 <aside id="sidebar" class="span2">
-    <div class="boxed-group">
-        <div class="boxed-group-heading">
-            Mini calendar
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">Mini calendar</div>
         </div>
-        <div class="boxed-group-content">
+        <div class="widget-content">
             <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
         </div>
     </div>
 
-    <div class="boxed-group calendar-listing" ng-controller="CalendarController">
-        <div class="boxed-group-heading">
-            My calendars
+    <div class="widget calendar-listing" ng-controller="CalendarController">
+        <div class="widget-heading">
             <div class="dropdown pull-right">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-caret-down"></i>
@@ -21,8 +20,9 @@
                     <li><a href="#">Settings</a></li>
                 </ul>
             </div>
+            <div class="widget-title">My calendars</div>
         </div>
-        <div class="boxed-group-content">
+        <div class="widget-content">
             <ul class="unstyled" ng-show="dataCache.CalendarList.items.length">
                 <li ng-repeat="calendar in dataCache.CalendarList.items">
                     <div class="dropdown pull-right">
@@ -74,11 +74,11 @@
 
 <!--sidebar 2-->
 <aside id="sidebar-2" class="span2">
-    <div id="event-settings" class="boxed-group">
-        <div class="boxed-group-heading">
-            {{action}} event
+    <div id="event-settings" class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">{{action}} event</div>
         </div>
-        <div class="boxed-group-content">
+        <div class="widget-content">
             <form name="eventDetailsForm" ng-submit="save()" novalidate>
                 <ul class="unstyled">
                     <li>
