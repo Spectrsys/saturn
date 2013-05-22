@@ -122,6 +122,19 @@ input {
     cursor: pointer;
 }
 
+.mini-calendar .fc-content .fc-first,
+.mini-calendar .fc-content .fc-first th{
+    border-left: 0;
+}
+
+.mini-calendar .fc-content tr.fc-first th {
+    border-top: 0;
+}
+
+.mini-calendar .fc-content .fc-last {
+    border-right: 0;
+}
+
 .mini-calendar .fc-content td:hover {
     background: #efefef;
 }
