@@ -1,22 +1,8 @@
-$('body').tooltip({
-    selector: "*[data-toggle=tooltip]"
-});
-
-function colspan(){
-    if($(window).width() > 1400) {
-        $('#sidebar, #sidebar-2').addClass('span2').removeClass('span3');
-        $('#content').addClass('span8').removeClass('span6');
-    } else {
-        $('#sidebar, #sidebar-2').addClass('span3').removeClass('span2');
-        $('#content').addClass('span6').removeClass('span8');
-    }
-}
-
-$(window).resize(function(){
-    colspan();
-});
-
-colspan();
+(function($){
+    $('body').tooltip({
+        selector: "*[data-toggle=tooltip]"
+    });
+})(jQuery);
 
 /******************************************************************/
 //helper functions
