@@ -43,7 +43,11 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         };
 
         $rootScope.dataCache = {
-            'activeCalendars': []
+            'activeCalendars': [],
+            'calendarList': {
+                'personal': [],
+                'subscribed': []
+            }
         };
 
         $rootScope.user = {
@@ -336,9 +340,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     /*******************************************************/
         //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
-        $scope.$apply(function(){
-            $scope.resetEventDetails(startDate, endDate, allDay, jsEvent, view);
-        });
+        console.log(startDate, endDate, allDay, jsEvent, view);
     };
 
     //when you click on an event
@@ -463,9 +465,9 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 /* Calendars */
 saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
     function initActiveCalendars(){
-        angular.forEach($rootScope.dataCache.CalendarList.items,function(value, key){
-            if($rootScope.dataCache.CalendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.CalendarList.items[key].id) === -1) {
-                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.CalendarList.items[key].id);
+        angular.forEach($rootScope.dataCache.calendarList.items,function(value, key){
+            if($rootScope.dataCache.calendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.calendarList.items[key].id) === -1) {
+                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.calendarList.items[key].id);
             }
         });
     }
@@ -494,8 +496,8 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
 
     //set the current calendar so we can access it later
     $scope.setCurrentCalendar = function(){
-        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];
-        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.CalendarList.items[this.$index]);
+        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.calendarList.items[this.$index];
+        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.calendarList.items[this.$index]);
     };
 
     //save current calendar info
@@ -550,10 +552,25 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
                 });
 
                 promise.$then(function(){
-                    $rootScope.dataCache.CalendarList = promise;
+                    sortCalendars(promise.items);
                     $rootScope.$broadcast('calendar:CalendarListLoaded');
                 });
             });
         }
+    }
+
+    //sort calendars by access role
+    function sortCalendars(calendars){
+        angular.forEach(calendars, function(value, key){
+            //personal calendars
+            if(calendars[key].accessRole === 'owner'){
+                $rootScope.dataCache.calendarList.personal.push(calendars[key]);
+            }
+
+            //subscribed calendars
+            if(calendars[key].accessRole === 'reader'){
+                $rootScope.dataCache.calendarList.subscribed.push(calendars[key]);
+            }
+        });
     }
 });

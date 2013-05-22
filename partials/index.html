@@ -22,7 +22,8 @@
         </div>
     </div>
 
-    <div class="widget calendar-listing" ng-controller="CalendarController">
+    <!--personal calendar-->
+    <div class="widget">
         <div class="widget-heading">
             <div class="dropdown pull-right">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -36,8 +37,8 @@
             <div class="widget-title">My calendars</div>
         </div>
         <div class="widget-content">
-            <ul class="unstyled" ng-show="dataCache.CalendarList.items.length">
-                <li ng-repeat="calendar in dataCache.CalendarList.items">
+            <ul class="unstyled calendar-list" ng-show="dataCache.calendarList.personal.length">
+                <li ng-repeat="calendar in dataCache.calendarList.personal">
                     <div class="dropdown pull-right">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="icon-caret-down"></i>
@@ -52,13 +53,13 @@
                             <li>
                                 <a href="">Hide this calendar from the list</a>
                             </li>
-                            <li ng-show="{{calendar.accessRole == 'owner'}}">
+                            <li>
                                 <a href="">Share this calendar</a>
                             </li>
-                            <li ng-show="{{calendar.accessRole == 'owner'}}">
+                            <li>
                                 <a href="">Create an event on this calendar</a>
                             </li>
-                            <li ng-show="{{calendar.accessRole == 'owner'}}">
+                            <li>
                                 <input type="text" class="color-preview" ng-change="colorPickerTest()" color-picker="calendar.backgroundColor" ng-model="calendar.backgroundColor" />
                             </li>
                         </ul>
@@ -74,6 +75,58 @@
             </ul>
         </div>
     </div>
+    <!--/personal calendars-->
+
+    <!--subscribed calendars-->
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="dropdown pull-right">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="icon-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+            <div class="widget-title">Other calendars</div>
+        </div>
+        <div class="widget-content">
+            <ul class="unstyled calendar-list" ng-show="dataCache.calendarList.subscribed.length">
+                <li ng-repeat="calendar in dataCache.calendarList.subscribed">
+                    <div class="dropdown pull-right">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="icon-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCurrentCalendar()">Calendar settings</a>
+                            </li>
+                            <li>
+                                <a href="">Display only this calendar</a>
+                            </li>
+                            <li>
+                                <a href="">Hide this calendar from the list</a>
+                            </li>
+                            <li>
+                                <a href="">Share this calendar</a>
+                            </li>
+                            <li>
+                                <input type="text" class="color-preview" ng-change="colorPickerTest()" color-picker="calendar.backgroundColor" ng-model="calendar.backgroundColor" />
+                            </li>
+                        </ul>
+                    </div>
+
+                    <label>
+                        <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.backgroundColor}}">
+                            <input type="checkbox" value="{{calendar.id}}" ng-change="updateActiveCalendars()" ng-model="calendar.selected" />
+                        </span>
+                        {{calendar.summary}}
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--/subscribed calendars-->
 </aside>
 <!--/sidebar-->
 

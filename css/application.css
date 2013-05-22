@@ -254,7 +254,7 @@ div.colorPicker-swatch {
 }
 
 /* calendar listings */
-.calendar-listing li .dropdown {
+.calendar-list li .dropdown {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     filter: alpha(opacity=0);
@@ -262,16 +262,16 @@ div.colorPicker-swatch {
     -moz-opacity: 0;
 }
 
-.calendar-listing li {
+.calendar-list li {
     padding: 0 3px;
     margin: 0 -3px;
 }
 
-.calendar-listing li:hover {
+.calendar-list li:hover {
     background: #eee;
 }
 
-.calendar-listing li:hover .dropdown {
+.calendar-list li:hover .dropdown {
     opacity: 100;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
