@@ -45,7 +45,12 @@ input {
 }
 
 .widget-heading {
+    margin-bottom: 10px;
     border-bottom: 1px solid #C7C7C7;
+}
+
+.widget-heading[ng-click] {
+    cursor: pointer;
 }
 
 .widget-title {
@@ -60,7 +65,6 @@ input {
 }
 
 .widget-content {
-    padding: 10px;
     color: #666;
     background: #fff;
 }

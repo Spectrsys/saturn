@@ -39,7 +39,10 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
     }
     ]).run(function($rootScope){
         $rootScope.config = {
-            'baseURL': 'https://www.googleapis.com/calendar/v3'
+            'baseURL': 'https://www.googleapis.com/calendar/v3',
+            'collapsed': {
+                'minicalendar': false
+            }
         };
 
         $rootScope.dataCache = {

@@ -14,17 +14,17 @@
     </div>
 
     <div class="widget">
-        <div class="widget-heading">
+        <div class="widget-heading" ng-click="config.collapsed.minicalendar = !config.collapsed.minicalendar">
             <div class="widget-title">Mini calendar</div>
         </div>
-        <div class="widget-content">
+        <div class="widget-content" collapse="config.collapsed.minicalendar">
             <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
         </div>
     </div>
 
     <!--personal calendar-->
     <div class="widget">
-        <div class="widget-heading">
+        <div class="widget-heading" ng-click="config.collapsed.personal = !config.collapsed.personal">
             <div class="dropdown pull-right">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-caret-down"></i>
@@ -36,7 +36,7 @@
             </div>
             <div class="widget-title">My calendars</div>
         </div>
-        <div class="widget-content">
+        <div class="widget-content" collapse="config.collapsed.personal">
             <ul class="unstyled calendar-list" ng-show="dataCache.calendarList.personal.length">
                 <li ng-repeat="calendar in dataCache.calendarList.personal">
                     <div class="dropdown pull-right">
@@ -79,7 +79,7 @@
 
     <!--subscribed calendars-->
     <div class="widget">
-        <div class="widget-heading">
+        <div class="widget-heading" ng-click="config.collapsed.subscribed = !config.collapsed.subscribed">
             <div class="dropdown pull-right">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="icon-caret-down"></i>
@@ -90,7 +90,7 @@
             </div>
             <div class="widget-title">Other calendars</div>
         </div>
-        <div class="widget-content">
+        <div class="widget-content" collapse="config.collapsed.subscribed">
             <ul class="unstyled calendar-list" ng-show="dataCache.calendarList.subscribed.length">
                 <li ng-repeat="calendar in dataCache.calendarList.subscribed">
                     <div class="dropdown pull-right">
