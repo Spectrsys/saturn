@@ -251,9 +251,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.eventSources = [$scope.events];
 
     function listEvents(){
-        //notify everyone that we're loading some data
-        $rootScope.$broadcast('loading:Started');
-
         //loop over the calendar categories
         angular.forEach($rootScope.dataCache.calendarList, function(value, key){
             //loop over calendars in a category
@@ -265,6 +262,49 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
                 });
 
                 events.$then(function(){
+                    var date = new Date();
+                    var d = date.getDate();
+                    var m = date.getMonth();
+                    var y = date.getFullYear();
+
+                    $scope.events.push({
+                        title: 'Click for Google ' + $scope.events.length,
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        url: 'http://google.com/'
+                    });
+                    $scope.events.dirty = true;
+
+                    $scope.events.push({
+                        "kind": "calendar#event",
+                        "etag": "\"78Bu1G8fWt0vPGZK2Ckfad3ZtNE/MTM2ODEyNzM1NTg1MTAwMA\"",
+                        "id": "0s42rkjn8al44fbjbkelik7npg",
+                        "status": "confirmed",
+                        "htmlLink": "https://www.google.com/calendar/event?eid=MHM0MnJram44YWw0NGZiamJrZWxpazducGcgc2xpY2VyYXR3b3JrLmNvbV9yaTUyY2RoNGs1OHNkamY1bXA1MmVvY3QyMEBn",
+                        "created": "2013-05-09T19:22:35.000Z",
+                        "updated": "2013-05-09T19:22:35.851Z",
+                        "summary": "test event",
+                        "creator": {
+                            "email": "slicer@sliceratwork.com",
+                            "displayName": "Andrei Stefan"
+                        },
+                        "organizer": {
+                            "email": "sliceratwork.com_ri52cdh4k58sdjf5mp52eoct20@group.calendar.google.com",
+                            "displayName": "test calendar",
+                            "self": true
+                        },
+                        "start": {
+                            "dateTime": "2013-05-09T22:30:00+03:00"
+                        },
+                        "end": {
+                            "dateTime": "2013-05-09T23:30:00+03:00"
+                        },
+                        "iCalUID": "0s42rkjn8al44fbjbkelik7npg@google.com",
+                        "sequence": 0,
+                        "reminders": {
+                            "useDefault": true
+                        }});
+
                     //notify everyone that data loading is complete
                     $rootScope.$broadcast('loading:Finished');
                 });
@@ -551,6 +591,9 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
 
     function authCallback(response){
         if(response && !response.error) {
+            //notify everyone that we're loading some data
+            $rootScope.$broadcast('loading:Started');
+
             $rootScope.user.loggedIn = true;
 
             safeApply($rootScope, function(){
@@ -561,15 +604,16 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
                 });
 
                 promise.$then(function(){
-                    sortCalendars(promise.items);
-                    $rootScope.$broadcast('calendar:CalendarListLoaded');
+                    sortCalendars(promise.items, function(){
+                        $rootScope.$broadcast('calendar:CalendarListLoaded');
+                    });
                 });
             });
         }
     }
 
     //sort calendars by access role
-    function sortCalendars(calendars){
+    function sortCalendars(calendars, callback){
         angular.forEach(calendars, function(value, key){
             //personal calendars
             if(calendars[key].accessRole === 'owner'){
@@ -581,5 +625,9 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
                 $rootScope.dataCache.calendarList.subscribed.push(calendars[key]);
             }
         });
+
+        if(callback && typeof callback === 'function'){
+            callback();
+        }
     }
 });

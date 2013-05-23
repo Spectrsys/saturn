@@ -1,4 +1,4 @@
-angular.module('ui.directives').directive('loadingIndicator', function($timeout) {
+angular.module('ui.directives').directive('loadingIndicator', function() {
     var states = ['', '.', '..', '...'],
         statesTimer,
         i = 0;
