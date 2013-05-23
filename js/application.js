@@ -407,6 +407,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         },
         editable:  true,
         selectable: true,
+        defaultView: 'agendaWeek',
         slotMinutes: 15,
         eventClick: $scope.eventClick,
         eventDrop: $scope.eventDrop,
