@@ -1,22 +1,8 @@
-$('body').tooltip({
-    selector: "*[data-toggle=tooltip]"
-});
-
-function colspan(){
-    if($(window).width() > 1400) {
-        $('#sidebar, #sidebar-2').addClass('span2').removeClass('span3');
-        $('#content').addClass('span8').removeClass('span6');
-    } else {
-        $('#sidebar, #sidebar-2').addClass('span3').removeClass('span2');
-        $('#content').addClass('span6').removeClass('span8');
-    }
-}
-
-$(window).resize(function(){
-    colspan();
-});
-
-colspan();
+(function($){
+    $('body').tooltip({
+        selector: "*[data-toggle=tooltip]"
+    });
+})(jQuery);
 
 /******************************************************************/
 //helper functions
@@ -53,11 +39,17 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
     }
     ]).run(function($rootScope){
         $rootScope.config = {
-            'baseURL': 'https://www.googleapis.com/calendar/v3'
+            'baseURL': 'https://www.googleapis.com/calendar/v3',
+            'collapsed': {
+            }
         };
 
         $rootScope.dataCache = {
-            'activeCalendars': []
+            'activeCalendars': [],
+            'calendarList': {
+                'personal': [],
+                'subscribed': []
+            }
         };
 
         $rootScope.user = {
@@ -259,15 +251,62 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.eventSources = [$scope.events];
 
     function listEvents(){
-        angular.forEach($rootScope.dataCache.activeCalendars, function(value, key){
-            var promise = Events.list({
-                'calendarId': value,
-                'access_token': $rootScope.dataCache.access_token
-            });
+        //loop over the calendar categories
+        angular.forEach($rootScope.dataCache.calendarList, function(value, key){
+            //loop over calendars in a category
+            angular.forEach(value, function(calendar, key){
+                //get events from each calendar
+                var events = Events.list({
+                    'calendarId': calendar.id,
+                    'access_token': $rootScope.dataCache.access_token
+                });
 
-            promise.$then(function(){
-                angular.forEach(promise.items, function(value, key) {
-                    $scope.events.push(promise.items[key]);
+                events.$then(function(){
+                    var date = new Date();
+                    var d = date.getDate();
+                    var m = date.getMonth();
+                    var y = date.getFullYear();
+
+                    $scope.events.push({
+                        title: 'Click for Google ' + $scope.events.length,
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        url: 'http://google.com/'
+                    });
+                    $scope.events.dirty = true;
+
+                    $scope.events.push({
+                        "kind": "calendar#event",
+                        "etag": "\"78Bu1G8fWt0vPGZK2Ckfad3ZtNE/MTM2ODEyNzM1NTg1MTAwMA\"",
+                        "id": "0s42rkjn8al44fbjbkelik7npg",
+                        "status": "confirmed",
+                        "htmlLink": "https://www.google.com/calendar/event?eid=MHM0MnJram44YWw0NGZiamJrZWxpazducGcgc2xpY2VyYXR3b3JrLmNvbV9yaTUyY2RoNGs1OHNkamY1bXA1MmVvY3QyMEBn",
+                        "created": "2013-05-09T19:22:35.000Z",
+                        "updated": "2013-05-09T19:22:35.851Z",
+                        "summary": "test event",
+                        "creator": {
+                            "email": "slicer@sliceratwork.com",
+                            "displayName": "Andrei Stefan"
+                        },
+                        "organizer": {
+                            "email": "sliceratwork.com_ri52cdh4k58sdjf5mp52eoct20@group.calendar.google.com",
+                            "displayName": "test calendar",
+                            "self": true
+                        },
+                        "start": {
+                            "dateTime": "2013-05-09T22:30:00+03:00"
+                        },
+                        "end": {
+                            "dateTime": "2013-05-09T23:30:00+03:00"
+                        },
+                        "iCalUID": "0s42rkjn8al44fbjbkelik7npg@google.com",
+                        "sequence": 0,
+                        "reminders": {
+                            "useDefault": true
+                        }});
+
+                    //notify everyone that data loading is complete
+                    $rootScope.$broadcast('loading:Finished');
                 });
             });
         });
@@ -350,9 +389,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     /*******************************************************/
         //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
-        $scope.$apply(function(){
-            $scope.resetEventDetails(startDate, endDate, allDay, jsEvent, view);
-        });
+        console.log(startDate, endDate, allDay, jsEvent, view);
     };
 
     //when you click on an event
@@ -477,9 +514,9 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 /* Calendars */
 saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
     function initActiveCalendars(){
-        angular.forEach($rootScope.dataCache.CalendarList.items,function(value, key){
-            if($rootScope.dataCache.CalendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.CalendarList.items[key].id) === -1) {
-                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.CalendarList.items[key].id);
+        angular.forEach($rootScope.dataCache.calendarList.items,function(value, key){
+            if($rootScope.dataCache.calendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.calendarList.items[key].id) === -1) {
+                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.calendarList.items[key].id);
             }
         });
     }
@@ -508,8 +545,8 @@ saturnApp.controller('CalendarController', function($scope, $rootScope, Calendar
 
     //set the current calendar so we can access it later
     $scope.setCurrentCalendar = function(){
-        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.CalendarList.items[this.$index];
-        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.CalendarList.items[this.$index]);
+        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.calendarList.items[this.$index];
+        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.calendarList.items[this.$index]);
     };
 
     //save current calendar info
@@ -554,6 +591,9 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
 
     function authCallback(response){
         if(response && !response.error) {
+            //notify everyone that we're loading some data
+            $rootScope.$broadcast('loading:Started');
+
             $rootScope.user.loggedIn = true;
 
             safeApply($rootScope, function(){
@@ -564,10 +604,30 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
                 });
 
                 promise.$then(function(){
-                    $rootScope.dataCache.CalendarList = promise;
-                    $rootScope.$broadcast('calendar:CalendarListLoaded');
+                    sortCalendars(promise.items, function(){
+                        $rootScope.$broadcast('calendar:CalendarListLoaded');
+                    });
                 });
             });
+        }
+    }
+
+    //sort calendars by access role
+    function sortCalendars(calendars, callback){
+        angular.forEach(calendars, function(value, key){
+            //personal calendars
+            if(calendars[key].accessRole === 'owner'){
+                $rootScope.dataCache.calendarList.personal.push(calendars[key]);
+            }
+
+            //subscribed calendars
+            if(calendars[key].accessRole === 'reader'){
+                $rootScope.dataCache.calendarList.subscribed.push(calendars[key]);
+            }
+        });
+
+        if(callback && typeof callback === 'function'){
+            callback();
         }
     }
 });
