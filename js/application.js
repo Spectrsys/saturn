@@ -249,35 +249,47 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.events  = [];
     $scope.eventSources = $scope.events;
 
-    function listEvents(){
-        //loop over the calendar categories
-        angular.forEach($rootScope.dataCache.calendarList, function(value, key){
-            //loop over calendars in a category
-            angular.forEach(value, function(calendar, key){
-                //get events from each calendar
-                var events = Events.list({
-                    'calendarId': calendar.id,
-                    'access_token': $rootScope.dataCache.access_token
-                });
+    var events = null,
+        i = 0;
 
-                events.$then(function(){
-                    $scope.events.push({
-                        'events': events.items,
-                        'color': calendar.backgroundColor,
-                        'textColor': calendar.foregroundColor
-                    });
+    function displayEvents(sources){
+        $rootScope.$broadcast('loading:Started');
 
-                    events = null;
-
-                    //notify everyone that data loading is complete
-                    $rootScope.$broadcast('loading:Finished');
-                });
+        if(i < sources.length){
+            events = Events.list({
+                'calendarId': sources[i].id,
+                'access_token': $rootScope.dataCache.access_token
             });
+
+            events.$then(function(){
+                $scope.events.push({
+                    'events': events.items,
+                    'color': sources[i].backgroundColor,
+                    'textColor': sources[i].foregroundColor
+                });
+
+                i++;
+
+                if(i === sources.length){
+                    $rootScope.$broadcast('loading:Finished');
+
+                    i = 0;
+                    return;
+                }
+
+                displayEvents(sources);
+            });
+        }
+    }
+
+    function listEvents(sources){
+        angular.forEach(sources, function(value, key){
+            displayEvents(value);
         });
     }
 
     $rootScope.$on('calendar:CalendarListLoaded', function(){
-        listEvents();
+        listEvents($rootScope.dataCache.calendarList);
     });
 
     $rootScope.$on('calendar:CalendarListUpdated', function(){
