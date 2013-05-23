@@ -41,7 +41,6 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         $rootScope.config = {
             'baseURL': 'https://www.googleapis.com/calendar/v3',
             'collapsed': {
-                'minicalendar': false
             }
         };
 
@@ -252,18 +251,8 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.eventSources = [$scope.events];
 
     function listEvents(){
-        angular.forEach($rootScope.dataCache.activeCalendars, function(value, key){
-            var promise = Events.list({
-                'calendarId': value,
-                'access_token': $rootScope.dataCache.access_token
-            });
-
-            promise.$then(function(){
-                angular.forEach(promise.items, function(value, key) {
-                    $scope.events.push(promise.items[key]);
-                });
-            });
-        });
+        for(calendar in $rootScope.dataCache.calendarList ){
+        }
     }
 
     $rootScope.$on('calendar:CalendarListLoaded', function(){
