@@ -14,13 +14,6 @@ function safeApply(scope, fn) {
         scope.$apply(fn);
 }
 
-//update entity
-function updateEntity(source, destination) {
-    if(typeof source === typeof  destination) {
-        angular.copy(source, destination);
-    }
-}
-
 var userConfig = {
     'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
     'scopes': 'https://www.googleapis.com/auth/calendar'
@@ -300,46 +293,8 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         listEvents();
     });
 
-    $scope.resetEventDetails = function(start, end){
-        $scope.action = 'Add';
-
-        var date = new Date(),
-            d = date.getDate(),
-            m = date.getMonth(),
-            y = date.getFullYear(),
-            H = date.getHours(),
-            M  = date.getMinutes();
-
-        switch (true) {
-            case (M < 15):
-                M = 15;
-
-                break;
-
-            case (M < 30):
-                M = 30;
-
-                break;
-
-            case (M < 45):
-                M = 45;
-
-                break;
-
-            case (M < 60):
-                M = 60;
-
-                break;
-        }
-
-        var startDate = start ? start : new Date(y, m, d, H, M),
-            endDate = end ? end : new Date(y, m, d, H + 1, M);
-    };
-
-    $scope.resetEventDetails();
-
     /*******************************************************/
-        //called after the user has selected something in the calendar
+    //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
     };
 
@@ -455,70 +410,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
                 $scope.currentDate = date;
             });
         }
-    };
-});
-
-/******************************************************************/
-/* Calendars */
-saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
-    function initActiveCalendars(){
-        angular.forEach($rootScope.dataCache.calendarList.items,function(value, key){
-            if($rootScope.dataCache.calendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.calendarList.items[key].id) === -1) {
-                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.calendarList.items[key].id);
-            }
-        });
-    }
-
-    $rootScope.$on('calendar:CalendarListLoaded', function(){
-        initActiveCalendars();
-    });
-
-    $scope.updateActiveCalendars = function(){
-        var calendarID = this.calendar.id,
-            selected = this.calendar.selected;
-
-        if(selected && $rootScope.dataCache.activeCalendars.indexOf(calendarID) === -1){
-            $rootScope.dataCache.activeCalendars.push(calendarID);
-        } else {
-            $rootScope.dataCache.activeCalendars.splice(calendarID, 1);
-        }
-
-        $rootScope.$broadcast('calendar:CalendarListUpdated');
-    };
-
-    //test color picker
-    $scope.colorPickerTest = function(){
-        console.log(this.colorPicker);
-    };
-
-    //set the current calendar so we can access it later
-    $scope.setCurrentCalendar = function(){
-        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.calendarList.items[this.$index];
-        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.calendarList.items[this.$index]);
-    };
-
-    //save current calendar info
-    $scope.saveCalendar = function(){
-        updateEntity($rootScope.dataCache.currentCalendarClone, $rootScope.dataCache.currentCalendar);
-
-        Calendars.update({
-            'calendarId': $rootScope.dataCache.currentCalendarClone.id,
-            'description': $rootScope.dataCache.currentCalendarClone.description,
-            'location': $rootScope.dataCache.currentCalendarClone.location,
-            'access_token': $rootScope.dataCache.access_token
-        });
-    };
-
-    //clear current calendar info
-    $scope.resetCalendar = function(){
-        updateEntity($rootScope.dataCache.currentCalendar, $rootScope.dataCache.currentCalendarClone);
-
-        Calendars.update({
-            'calendarId': $rootScope.dataCache.currentCalendar.id,
-            'description': $rootScope.dataCache.currentCalendar.description,
-            'location': $rootScope.dataCache.currentCalendar.location,
-            'access_token': $rootScope.dataCache.access_token
-        });
     };
 });
 
