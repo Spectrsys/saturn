@@ -7,8 +7,8 @@
                     <button class="btn btn-success" data-toggle="dropdown"> Create New </button>
                     <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Calendar</a></li>
-                        <li><a href="#">Event</a></li>
+                        <li><a href="">Calendar</a></li>
+                        <li><a href="" ng-click="modals.eventDetails = true">Event</a></li>
                     </ul>
                 </div>
             </div>
@@ -85,4 +85,63 @@
         <div ui-calendar="extendedCalendar" class="calendar" ng-model="eventSources"></div>
     </div>
     <!--/content-->
+
+    <div modal="modals.eventDetails">
+        <form id="eventDetailsForm" name="eventDetailsForm">
+            <div class="modal-header">
+                <h4>Event details</h4>
+            </div>
+            <div class="modal-body">
+                <ol class="unstyled">
+                    <li>
+                        <input type="text" class="input-block-level" />
+                    </li>
+                    <li>
+                        <label for="event-location">Location</label>
+                        <input type="text" id="event-location" class="input-block-level" />
+                    </li>
+                    <li>
+                        <label for="event-description">Description</label>
+                        <textarea id="event-description" class="input-block-level"></textarea>
+                    </li>
+                    <li>
+                        <div class="input-prepend">
+                            <span class="add-on" title="Start date" data-toggle="tooltip">
+                                <i class="icon-calendar"></i>
+                            </span>
+                            <input type="text" id="event-start-date" class="input-small" ui-date />
+                        </div>
+                        <div class="input-prepend">
+                            <span class="add-on" title="Start time" data-toggle="tooltip">
+                                <i class="icon-time"></i>
+                            </span>
+                            <input type="text" id="event-start-time" class="input-small" bs-timepicker />
+                        </div>
+                        <div class="input-append">
+                            <input type="text" id="event-end-time" class="input-small" ng-model="currentEvent.endTime" bs-timepicker />
+                            <span class="add-on" title="End time" data-toggle="tooltip">
+                                <i class="icon-time"></i>
+                            </span>
+                        </div>
+                        <div class="input-append">
+                            <input type="text" id="event-end-date" class="input-small" ui-date />
+                            <span class="add-on" title="End date" data-toggle="tooltip">
+                                <i class="icon-calendar"></i>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <label for="event-calendar">Calendar</label>
+                        <select id="event-calendar">
+                            <option ng-repeat="calendar in dataCache.calendarList[0].calendars" value="{{calendar.id}}">{{calendar.summary}}</option>
+                        </select>
+                    </li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success"><i class="icon-save"></i> Save</button>
+                <button type="reset" class="btn" ng-click="modals.eventDetails = false">Cancel</button>
+            </div>
+        </form>
+    </div>
 </div>

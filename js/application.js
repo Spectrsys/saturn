@@ -45,7 +45,6 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         };
 
         $rootScope.dataCache = {
-            'activeCalendars': [],
             'calendarList': [
                 {
                     'title': 'My calendars',
@@ -254,6 +253,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
     $scope.events = [];
     $scope.eventSources = $scope.events;
+    $scope.modals = {};
 
     var eventsCache = [],
         events = null,
@@ -264,39 +264,43 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         $rootScope.$broadcast('loading:Started');
 
         if(i < sources.length){
-            events = Events.list({
-                'calendarId': sources[i].id,
-                'access_token': $rootScope.dataCache.access_token
-            });
-
-            events.$then(function(){
-                eventsCache.push({
-                    'events': events.items,
-                    'color': sources[i].backgroundColor,
-                    'textColor': sources[i].foregroundColor
+            if(sources[i].selected){
+                events = Events.list({
+                    'calendarId': sources[i].id,
+                    'access_token': $rootScope.dataCache.access_token
                 });
 
-                $scope.events.push({
-                    'events': events.items,
-                    'color': sources[i].backgroundColor,
-                    'textColor': sources[i].foregroundColor
-                });
+                events.$then(function(){
+                    eventsCache[sources[i].id] = {
+                        'id': sources[i].id,
+                        'events': events.items,
+                        'color': sources[i].backgroundColor,
+                        'textColor': sources[i].foregroundColor
+                    };
 
-                i++;
+                    $scope.events.push({
+                        'id': sources[i].id,
+                        'events': events.items,
+                        'color': sources[i].backgroundColor,
+                        'textColor': sources[i].foregroundColor
+                    });
 
-                if(i === sources.length){
-                    $rootScope.$broadcast('loading:Finished');
+                    i++;
 
-                    if(callback && typeof callback === 'function'){
-                        callback();
+                    if(i === sources.length){
+                        $rootScope.$broadcast('loading:Finished');
+
+                        if(callback && typeof callback === 'function'){
+                            callback();
+                        }
+
+                        i = 0;
+                        return;
                     }
 
-                    i = 0;
-                    return;
-                }
-
-                displayEvents(sources, callback);
-            });
+                    displayEvents(sources, callback);
+                });
+            }
         }
     }
 
@@ -316,6 +320,26 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $rootScope.$on('calendar:CalendarListUpdated', function(){
         listEvents();
     });
+
+    $scope.updateActiveCalendars = function(){
+        var id = this.calendar.id,
+            selected = this.calendar.selected;
+
+        if(selected === true){
+            angular.forEach($scope.events, function(value, key){
+                console.log(id, eventsCache[value.id]);
+                if(id === value.id){
+                    $scope.events.push(eventsCache[value.id]);
+                }
+            });
+        } else {
+            angular.forEach($scope.events, function(value, key){
+                if(id === value.id){
+                    $scope.events.splice(key, 1);
+                }
+            });
+        }
+    };
 
     $scope.resetEventDetails = function(start, end){
         $scope.action = 'Add';
@@ -356,8 +380,11 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.resetEventDetails();
 
     /*******************************************************/
-        //called after the user has selected something in the calendar
+    //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
+        safeApply($scope, function(){
+            $scope.modals.eventDetails = true;
+        });
     };
 
     //when you click on an event
@@ -472,70 +499,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
                 $scope.currentDate = date;
             });
         }
-    };
-});
-
-/******************************************************************/
-/* Calendars */
-saturnApp.controller('CalendarController', function($scope, $rootScope, CalendarList, Calendars){
-    function initActiveCalendars(){
-        angular.forEach($rootScope.dataCache.calendarList.items,function(value, key){
-            if($rootScope.dataCache.calendarList.items[key].selected === true && $rootScope.dataCache.activeCalendars.indexOf($rootScope.dataCache.calendarList.items[key].id) === -1) {
-                $rootScope.dataCache.activeCalendars.push($rootScope.dataCache.calendarList.items[key].id);
-            }
-        });
-    }
-
-    $rootScope.$on('calendar:CalendarListLoaded', function(){
-        initActiveCalendars();
-    });
-
-    $scope.updateActiveCalendars = function(){
-        var calendarID = this.calendar.id,
-            selected = this.calendar.selected;
-
-        if(selected && $rootScope.dataCache.activeCalendars.indexOf(calendarID) === -1){
-            $rootScope.dataCache.activeCalendars.push(calendarID);
-        } else {
-            $rootScope.dataCache.activeCalendars.splice(calendarID, 1);
-        }
-
-        $rootScope.$broadcast('calendar:CalendarListUpdated');
-    };
-
-    //test color picker
-    $scope.colorPickerTest = function(){
-        console.log(this.colorPicker);
-    };
-
-    //set the current calendar so we can access it later
-    $scope.setCurrentCalendar = function(){
-        $rootScope.dataCache.currentCalendar = $rootScope.dataCache.calendarList.items[this.$index];
-        $rootScope.dataCache.currentCalendarClone = angular.copy($rootScope.dataCache.calendarList.items[this.$index]);
-    };
-
-    //save current calendar info
-    $scope.saveCalendar = function(){
-        updateEntity($rootScope.dataCache.currentCalendarClone, $rootScope.dataCache.currentCalendar);
-
-        Calendars.update({
-            'calendarId': $rootScope.dataCache.currentCalendarClone.id,
-            'description': $rootScope.dataCache.currentCalendarClone.description,
-            'location': $rootScope.dataCache.currentCalendarClone.location,
-            'access_token': $rootScope.dataCache.access_token
-        });
-    };
-
-    //clear current calendar info
-    $scope.resetCalendar = function(){
-        updateEntity($rootScope.dataCache.currentCalendar, $rootScope.dataCache.currentCalendarClone);
-
-        Calendars.update({
-            'calendarId': $rootScope.dataCache.currentCalendar.id,
-            'description': $rootScope.dataCache.currentCalendar.description,
-            'location': $rootScope.dataCache.currentCalendar.location,
-            'access_token': $rootScope.dataCache.access_token
-        });
     };
 });
 
