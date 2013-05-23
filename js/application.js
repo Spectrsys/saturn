@@ -39,17 +39,21 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
     }
     ]).run(function($rootScope){
         $rootScope.config = {
-            'baseURL': 'https://www.googleapis.com/calendar/v3',
-            'collapsed': {
-            }
+            'baseURL': 'https://www.googleapis.com/calendar/v3'
         };
 
         $rootScope.dataCache = {
             'activeCalendars': [],
-            'calendarList': {
-                'personal': [],
-                'subscribed': []
-            }
+            'calendarList': [
+                {
+                    'title': 'My calendars',
+                    'calendars': []
+                },
+                {
+                    'title': 'Other calendars',
+                    'calendars': []
+                }
+            ]
         };
 
         $rootScope.user = {
@@ -284,7 +288,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 
     function listEvents(sources){
         angular.forEach(sources, function(value, key){
-            displayEvents(value);
+            displayEvents(sources[key].calendars);
         });
     }
 
@@ -561,12 +565,12 @@ saturnApp.controller('UserController', function($scope, $rootScope, CalendarList
         angular.forEach(calendars, function(value, key){
             //personal calendars
             if(calendars[key].accessRole === 'owner'){
-                $rootScope.dataCache.calendarList.personal.push(calendars[key]);
+                $rootScope.dataCache.calendarList[0].calendars.push(calendars[key]);
             }
 
             //subscribed calendars
             if(calendars[key].accessRole === 'reader'){
-                $rootScope.dataCache.calendarList.subscribed.push(calendars[key]);
+                $rootScope.dataCache.calendarList[1].calendars.push(calendars[key]);
             }
         });
 
