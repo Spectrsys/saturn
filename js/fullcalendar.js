@@ -1,5 +1,5 @@
 /*!
- * FullCalendar v1.6.1
+ * FullCalendar v1.6.1-spectrsys-snapshot
  * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
  */
@@ -113,7 +113,7 @@ var rtlDefaults = {
 
 ;;
 
-var fc = $.fullCalendar = { version: "1.6.1" };
+var fc = $.fullCalendar = { version: "1.6.1-spectrsys-snapshot" };
 var fcViews = fc.views = {};
 
 
@@ -1381,10 +1381,15 @@ function setYMD(date, y, m, d) {
 /* Date Parsing
 -----------------------------------------------------------------------------*/
 
-
 function parseDate(s, ignoreTimezone) { // ignoreTimezone defaults to true
-	if (typeof s == 'object') { // already a Date object
+	if (s instanceof Date)  { // already a Date object
 		return s;
+	}
+	if (typeof s == 'object') { // object but not a date
+		if (s.date) 
+			return parseDate(s.date, ignoreTimezone);
+		if (s.dateTime)
+			return parseDate(s.dateTime, ignoreTimezone);
 	}
 	if (typeof s == 'number') { // a UNIX timestamp
 		return new Date(s * 1000);
@@ -5376,3 +5381,4 @@ function HorizontalPositionCache(getElement) {
 ;;
 
 })(jQuery);
+
