@@ -1391,16 +1391,16 @@ function parseDate(s, ignoreTimezone) { // ignoreTimezone defaults to true
 	if (s instanceof Date)  { // already a Date object
 		return s;
 	}
-	if (typeof s == 'object') { // object but not a date
+	if (typeof s === 'object' && s !== null) { // object but not a date
 		if (s.date) 
 			return parseDate(s.date, ignoreTimezone);
 		if (s.dateTime)
 			return parseDate(s.dateTime, ignoreTimezone);
 	}
-	if (typeof s == 'number') { // a UNIX timestamp
+	if (typeof s === 'number') { // a UNIX timestamp
 		return new Date(s * 1000);
 	}
-	if (typeof s == 'string') {
+	if (typeof s === 'string') {
 		if (s.match(/^\d+(\.\d+)?$/)) { // a UNIX timestamp
 			return new Date(parseFloat(s) * 1000);
 		}
@@ -1896,7 +1896,7 @@ function smartProperty(obj, name) { // get a camel-cased/namespaced property of 
 
 
 function htmlEscape(s) {
-	if (typeof s == 'string')
+	if (typeof s == 'string' && s !== '')
 		return s.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
@@ -1904,7 +1904,7 @@ function htmlEscape(s) {
 			.replace(/"/g, '&quot;')
 			.replace(/\n/g, '<br />');
 
-	return;
+	return '';
 }
 
 
