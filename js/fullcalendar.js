@@ -5390,4 +5390,3 @@ function HorizontalPositionCache(getElement) {
 ;;
 
 })(jQuery);
-//@ sourceMappingURL=fullcalendar.js.map
