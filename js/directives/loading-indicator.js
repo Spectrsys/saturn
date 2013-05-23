@@ -8,8 +8,9 @@ angular.module('ui.directives').directive('loadingIndicator', function($timeout)
         link: function(scope, element, attrs) {
             element.hide();
 
+            //loading star
             scope.$on('loading:Started', function(){
-                element.show();
+                element.show().removeClass('alert-error');
 
                 if(statesTimer){
                     clearInterval(statesTimer);
@@ -26,6 +27,7 @@ angular.module('ui.directives').directive('loadingIndicator', function($timeout)
                 }, 1000);
             });
 
+            //loading finished
             scope.$on('loading:Finished', function(){
                 element.hide();
 
@@ -34,6 +36,32 @@ angular.module('ui.directives').directive('loadingIndicator', function($timeout)
                 }
 
                 element.text('Loading');
+            });
+
+            //loading error
+            scope.$on('loading:Error', function(){
+                element.show();
+
+                if(statesTimer){
+                    clearInterval(statesTimer);
+                }
+
+                element.addClass('alert-error');
+
+                element.text('Error loading data');
+            });
+
+            //timeout
+            scope.$on('loading:Timeout', function(){
+                element.show();
+
+                if(statesTimer){
+                    clearInterval(statesTimer);
+                }
+
+                element.addClass('alert-error');
+
+                element.text('Connection timed out');
             });
         }
     }
