@@ -247,8 +247,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 /* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
     $scope.events  = [];
-
-    $scope.eventSources = [$scope.events];
+    $scope.eventSources = $scope.events;
 
     function listEvents(){
         //loop over the calendar categories
@@ -262,9 +261,11 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
                 });
 
                 events.$then(function(){
-                    events = events.items;
-
-                    $scope.events.push.apply($scope.events, events);
+                    $scope.events.push({
+                        'events': events.items,
+                        'color': calendar.backgroundColor,
+                        'textColor': calendar.foregroundColor
+                    });
 
                     events = null;
 
@@ -317,34 +318,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 
         var startDate = start ? start : new Date(y, m, d, H, M),
             endDate = end ? end : new Date(y, m, d, H + 1, M);
-
-        $scope.currentEvent = {
-            'title': 'New Event',
-            'location': '',
-            'description': '',
-            'start': startDate,
-            'end': endDate,
-            'startTime': $filter('date')(startDate, 'shortTime'),
-            'endTime': $filter('date')(endDate, 'shortTime'),
-            'timezone': '',
-            'allDay': false,
-            'recurring': false,
-            'recurrenceEnd': null,
-            'frequency': 0,
-            'interval': 0,
-            'repeatDays': {
-                'sunday': false,
-                'monday': false,
-                'tuesday': false,
-                'wednesday': false,
-                'thursday': false,
-                'friday': false,
-                'saturday': false
-            } ,
-            'availability': 1,
-            'color': '#99ccff',
-            'textColor': '#333'
-        };
     };
 
     $scope.resetEventDetails();
@@ -352,16 +325,11 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     /*******************************************************/
         //called after the user has selected something in the calendar
     $scope.select = function(startDate, endDate, allDay, jsEvent, view){
-        console.log(startDate, endDate, allDay, jsEvent, view);
     };
 
     //when you click on an event
     $scope.eventClick = function(event, jsEvent, view){
         if(event.editable || event.source.editable) {
-            $scope.$apply(function(){
-                $scope.action = 'Edit';
-                $scope.currentEvent = event;
-            });
         }
 
         if(event.url) {
