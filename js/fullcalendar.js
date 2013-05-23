@@ -1204,6 +1204,12 @@ function EventManager(options, _sources) {
 		}else{
 			event.className = [];
 		}
+		
+		// set proper event title from event summary if defined
+		if(event.title === undefined){
+            event.title = event.summary ? event.summary : 'New event';
+    }
+
 		// TODO: if there is no start date, return false to indicate an invalid event
 	}
 	
@@ -1890,12 +1896,15 @@ function smartProperty(obj, name) { // get a camel-cased/namespaced property of 
 
 
 function htmlEscape(s) {
-	return s.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/'/g, '&#039;')
-		.replace(/"/g, '&quot;')
-		.replace(/\n/g, '<br />');
+	if (typeof s == 'string') {
+		return s.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/'/g, '&#039;')
+			.replace(/"/g, '&quot;')
+			.replace(/\n/g, '<br />');
+
+	return;
 }
 
 
@@ -5381,4 +5390,4 @@ function HorizontalPositionCache(getElement) {
 ;;
 
 })(jQuery);
-
+//@ sourceMappingURL=fullcalendar.js.map
