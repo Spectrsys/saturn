@@ -251,8 +251,25 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.eventSources = [$scope.events];
 
     function listEvents(){
-        for(calendar in $rootScope.dataCache.calendarList ){
-        }
+        //notify everyone that we're loading some data
+        $rootScope.$broadcast('loading:Started');
+
+        //loop over the calendar categories
+        angular.forEach($rootScope.dataCache.calendarList, function(value, key){
+            //loop over calendars in a category
+            angular.forEach(value, function(calendar, key){
+                //get events from each calendar
+                var events = Events.list({
+                    'calendarId': calendar.id,
+                    'access_token': $rootScope.dataCache.access_token
+                });
+
+                events.$then(function(){
+                    //notify everyone that data loading is complete
+                    $rootScope.$broadcast('loading:Finished');
+                });
+            });
+        });
     }
 
     $rootScope.$on('calendar:CalendarListLoaded', function(){
