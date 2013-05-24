@@ -86,7 +86,7 @@
     </div>
     <!--/content-->
 
-    <div modal="modals.eventDetails">
+    <div modal="modals.eventDetails" options="">
         <form id="eventDetailsForm" name="eventDetailsForm">
             <div class="modal-header">
                 <a href="" class="pull-right" ng-click="modals.eventDetails = false">
@@ -112,24 +112,26 @@
                             <span class="add-on" title="Start date" data-toggle="tooltip">
                                 <i class="icon-calendar"></i>
                             </span>
-                            <input type="text" id="event-start-date" class="input-small" ui-date />
+                            <input type="text" id="event-start-date" ui-date />
                         </div>
-                        <div class="input-prepend" ng-hide="currentEvent.allDay">
+                        <div class="input-append bst-right" ng-hide="currentEvent.allDay">
+                            <input type="text" id="event-start-time" class="input-small" ng-model="currentEvent.startTime" disabled bs-timepicker />
                             <span class="add-on" title="Start time" data-toggle="tooltip">
                                 <i class="icon-time"></i>
                             </span>
-                            <input type="text" id="event-start-time" class="input-small" ng-model="currentEvent.startTime" disabled bs-timepicker />
                         </div>
-                        <div class="input-append" ng-hide="currentEvent.allDay">
+                    </li>
+                    <li>
+                        <div class="input-prepend">
+                            <span class="add-on" title="End date" data-toggle="tooltip">
+                                <i class="icon-calendar"></i>
+                            </span>
+                            <input type="text" id="event-end-date" ui-date />
+                        </div>
+                        <div class="input-append bst-right" ng-hide="currentEvent.allDay">
                             <input type="text" id="event-end-time" class="input-small" ng-model="currentEvent.endTime" bs-timepicker />
                             <span class="add-on" title="End time" data-toggle="tooltip">
                                 <i class="icon-time"></i>
-                            </span>
-                        </div>
-                        <div class="input-append">
-                            <input type="text" id="event-end-date" class="input-small" ui-date />
-                            <span class="add-on" title="End date" data-toggle="tooltip">
-                                <i class="icon-calendar"></i>
                             </span>
                         </div>
                     </li>
