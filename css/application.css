@@ -143,8 +143,10 @@ input {
     border-right: 0;
 }
 
-.mini-calendar .fc-content td:hover {
-    background: #efefef;
+.mini-calendar .fc-content td:hover,
+.mini-calendar .fc-content td.on {
+    color: #333;
+    background: #8BD5F9;
 }
 
 .mini-calendar .fc-content td div {

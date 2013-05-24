@@ -14,6 +14,12 @@ function safeApply(scope, fn) {
         scope.$apply(fn);
 }
 
+//calendar
+$(document).on('click', 'div.mini-calendar tbody td', function(){
+    $('div.mini-calendar tbody td').removeClass('on');
+    $(this).addClass('on');
+});
+
 //update entity
 function updateEntity(source, destination) {
     if(typeof source === typeof  destination) {
