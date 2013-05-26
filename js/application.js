@@ -60,7 +60,8 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
                     'title': 'Subscribed calendars',
                     'calendars': []
                 }
-            ]
+            ],
+            'eventTokens': []
         };
 
         $rootScope.user = {
@@ -261,8 +262,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $scope.eventSources = $scope.events;
     $scope.modals = {};
 
-    var eventsCache = [],
-        events = null,
+    var events = null,
         i = 0,
         j = 0;
 
@@ -287,13 +287,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         });
 
         events.$then(function(){
-            eventsCache[sources[i].id] = {
-                'id': sources[i].id,
-                'events': events.items,
-                'color': sources[i].backgroundColor,
-                'textColor': sources[i].foregroundColor
-            };
-
             $scope.events.push({
                 'id': sources[i].id,
                 'events': events.items,
@@ -322,26 +315,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     $rootScope.$on('calendar:CalendarListUpdated', function(){
         listEvents();
     });
-
-    $scope.updateActiveCalendars = function(){
-        var id = this.calendar.id,
-            selected = this.calendar.selected;
-
-        if(selected === true){
-            angular.forEach($scope.events, function(value, key){
-                console.log(id, eventsCache[value.id]);
-                if(id === value.id){
-                    $scope.events.push(eventsCache[value.id]);
-                }
-            });
-        } else {
-            angular.forEach($scope.events, function(value, key){
-                if(id === value.id){
-                    $scope.events.splice(key, 1);
-                }
-            });
-        }
-    };
 
     $scope.resetEventDetails = function(start, end){
         $scope.action = 'Add';
@@ -475,7 +448,10 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         },
         loading: function(bool){
             if(!bool) {
+                $rootScope.$broadcast('loading:Started');
                 $scope.calendar.fullCalendar('gotoDate', $scope.dateCache);
+            } else {
+                $rootScope.$broadcast('loading:Finished');
             }
         },
         select: $scope.select,
