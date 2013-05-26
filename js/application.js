@@ -267,55 +267,51 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         j = 0;
 
     function displayEvents(sources, callback){
+        if(i === sources.length){
+            i = 0;
+
+            $rootScope.$broadcast('loading:Finished');
+
+            if(callback && typeof callback === 'function'){
+                callback();
+            }
+
+            return '';
+        }
+
         $rootScope.$broadcast('loading:Started');
 
-        if(i < sources.length){
-            if(sources[i].selected){
-                events = Events.list({
-                    'calendarId': sources[i].id,
-                    'access_token': $rootScope.dataCache.access_token
-                });
+        events = Events.list({
+            'calendarId': sources[i].id,
+            'access_token': $rootScope.dataCache.access_token
+        });
 
-                events.$then(function(){
-                    eventsCache[sources[i].id] = {
-                        'id': sources[i].id,
-                        'events': events.items,
-                        'color': sources[i].backgroundColor,
-                        'textColor': sources[i].foregroundColor
-                    };
+        events.$then(function(){
+            eventsCache[sources[i].id] = {
+                'id': sources[i].id,
+                'events': events.items,
+                'color': sources[i].backgroundColor,
+                'textColor': sources[i].foregroundColor
+            };
 
-                    $scope.events.push({
-                        'id': sources[i].id,
-                        'events': events.items,
-                        'color': sources[i].backgroundColor,
-                        'textColor': sources[i].foregroundColor
-                    });
+            $scope.events.push({
+                'id': sources[i].id,
+                'events': events.items,
+                'color': sources[i].backgroundColor,
+                'textColor': sources[i].foregroundColor
+            });
 
-                    i++;
-
-                    if(i === sources.length){
-                        $rootScope.$broadcast('loading:Finished');
-
-                        if(callback && typeof callback === 'function'){
-                            callback();
-                        }
-
-                        i = 0;
-                        return;
-                    }
-
-                    displayEvents(sources, callback);
-                });
-            }
-        }
+            i++;
+            displayEvents(sources, callback);
+        });
     }
 
     function listEvents(sources){
         if(j < sources.length){
             displayEvents(sources[j].calendars, function(){
+                j++;
                 listEvents(sources);
             });
-            j++;
         }
     }
 

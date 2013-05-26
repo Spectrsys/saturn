@@ -64,7 +64,7 @@
 }
 .bootstrap-timepicker-widget.pull-right.dropdown-menu:after{
     left: auto;
-    right: 10;
+    right: 10px;
 }
 .bootstrap-timepicker-widget a.btn,
 .bootstrap-timepicker-widget input {
