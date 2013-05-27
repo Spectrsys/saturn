@@ -28,6 +28,19 @@
                         <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
                     </label>
                 </li>
+                <li>
+                    <label for="calendar-background">
+                        <input type="text" class="color-preview" id="calendar-background" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.backgroundColor" ng-model="dataCache.tempCalendar.backgroundColor" />
+                        Background color
+                    </label>
+
+                </li>
+                <li>
+                    <label for="calendar-foreground">
+                        <input type="text" class="color-preview" id="calendar-foreground" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.foregroundColor" ng-model="dataCache.tempCalendar.foregroundColor" />
+                        Text color
+                    </label>
+                </li>
             </ol>
             <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
             <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
