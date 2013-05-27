@@ -259,7 +259,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter, $location, Events){
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, $location, Events, Calendars){
     $scope.events = [];
     $scope.eventSources = $scope.events;
     $scope.modals = {};
@@ -507,6 +507,15 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
     $scope.saveCalendar = function(){
         //clone temp calendar into current calendar
         updateEntity($rootScope.dataCache.tempCalendar, $rootScope.dataCache.currentCalendar);
+
+        //save calendar data to server
+        Calendars.update({
+            'calendarId': $rootScope.dataCache.currentCalendar.id,
+            'description': $rootScope.dataCache.currentCalendar.description,
+            'location': $rootScope.dataCache.currentCalendar.location,
+            'summary': $rootScope.dataCache.currentCalendar.summary,
+            'timeZone': $rootScope.dataCache.currentCalendar.timeZone
+        });
 
         //redirect to home page
         $location.path('/');
