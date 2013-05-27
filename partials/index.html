@@ -25,7 +25,7 @@
 
         <!--calendar listing-->
         <div class="widget" ng-repeat="list in dataCache.calendarList">
-            <div class="widget-heading" ng-click="config.collapsed.list.id = !config.collapsed.list.id">
+            <div class="widget-heading">
                 <div class="dropdown pull-right">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="icon-caret-down"></i>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="widget-title">{{list.title}}</div>
             </div>
-            <div class="widget-content" collapse="config.collapsed.list.id">
+            <div class="widget-content">
                 <ul class="unstyled calendar-list" ng-show="list.calendars.length">
                     <li ng-repeat="calendar in list.calendars">
                         <div class="dropdown pull-right">
