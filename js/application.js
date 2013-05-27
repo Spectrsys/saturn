@@ -319,6 +319,11 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
         dayClick: function(date, allDay, jsEvent, view){
         }
     };
+
+    //after the user has logged in load calendars
+    $rootScope.$on('login', function(){
+
+    });
 });
 
 /******************************************************************/
