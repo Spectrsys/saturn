@@ -264,48 +264,56 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 
     var events = null,
         i = 0,
-        j = 0;
+        j = 0,
+        pageTokens = [];
 
     function displayEvents(sources, callback){
-        if(i === sources.length){
-            i = 0;
-
-            $rootScope.$broadcast('loading:Finished');
-
-            if(callback && typeof callback === 'function'){
-                callback();
-            }
-
-            return '';
-        }
-
         $rootScope.$broadcast('loading:Started');
 
         events = Events.list({
             'calendarId': sources[i].id,
-            'access_token': $rootScope.dataCache.access_token
+            'access_token': $rootScope.dataCache.access_token,
+            'pageToken': pageTokens[sources[i].id]
         });
 
         events.$then(function(){
+            pageTokens[sources[i].id] = events.nextPageToken ? events.nextPageToken : null;
+
             $scope.events.push({
-                'id': sources[i].id,
                 'events': events.items,
                 'color': sources[i].backgroundColor,
                 'textColor': sources[i].foregroundColor
             });
 
+            $rootScope.$broadcast('loading:Finished');
+
             i++;
+
+            if(i === sources.length){
+                i = 0;
+
+                if(callback && typeof callback === 'function'){
+                    callback();
+                }
+
+                return '';
+            }
+
+
             displayEvents(sources, callback);
         });
     }
 
     function listEvents(sources){
-        if(j < sources.length){
-            displayEvents(sources[j].calendars, function(){
-                j++;
-                listEvents(sources);
-            });
+        if(j === sources.length) {
+            j = 0;
+            return ''
         }
+
+        displayEvents(sources[j].calendars, function(){
+            j++;
+            listEvents(sources);
+        });
     }
 
     $rootScope.$on('calendar:CalendarListLoaded', function(){
@@ -313,7 +321,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     });
 
     $rootScope.$on('calendar:CalendarListUpdated', function(){
-        listEvents();
+        listEvents($rootScope.dataCache.calendarList);
     });
 
     $scope.resetEventDetails = function(start, end){
@@ -478,6 +486,10 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
             });
         }
     };
+
+    $(document).on('click', '.fc-header-right span', function(){
+        listEvents($rootScope.dataCache.calendarList);
+    });
 });
 
 /******************************************************************/
