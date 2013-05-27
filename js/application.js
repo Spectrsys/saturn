@@ -63,7 +63,8 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
             ],
             'eventTokens': [],
             'currentCalendar':{},
-            'tempCalendar': {}
+            'tempCalendar': {},
+            'events': []
         };
 
         $rootScope.user = {
@@ -260,8 +261,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 /******************************************************************/
 /* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter, $location, Events, Calendars){
-    $scope.events = [];
-    $scope.eventSources = $scope.events;
+    $scope.eventSources = $rootScope.dataCache.events;
     $scope.modals = {};
 
     var events = null,
@@ -298,7 +298,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
         events.$then(function(){
             pageTokens[sources[i].id] = events.nextPageToken ? events.nextPageToken : null;
 
-            $scope.events.push({
+            $rootScope.dataCache.events.push({
                 'events': events.items,
                 'color': sources[i].backgroundColor,
                 'textColor': sources[i].foregroundColor
