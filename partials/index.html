@@ -54,7 +54,7 @@
                                 <li>
                                     <a href="">Hide this calendar from the list</a>
                                 </li>
-                                <li>
+                                <li ng-show="{{calendar.accessRole == 'owner'}}">
                                     <a href="">Share this calendar</a>
                                 </li>
                                 <li ng-show="{{calendar.accessRole == 'owner'}}">
@@ -64,9 +64,9 @@
                         </div>
 
                         <label>
-                        <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.backgroundColor}}">
-                            <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
-                        </span>
+                            <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.backgroundColor}}">
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
+                            </span>
                             {{calendar.summary}}
                         </label>
                     </li>
@@ -84,7 +84,7 @@
     <!--/content-->
 
     <!--event details-->
-    <div modal="modals.eventDetails" options="">
+    <div modal="modals.eventDetails">
         <form id="eventDetailsForm" name="eventDetailsForm">
             <div class="modal-header">
                 <a href="" class="pull-right" ng-click="modals.eventDetails = false">
@@ -95,15 +95,15 @@
             <div class="modal-body">
                 <ol class="unstyled">
                     <li>
-                        <input type="text" class="input-block-level" ng-model="currentEvent.title" />
+                        <input type="text" class="input-block-level" ng-model="dataCache.currentEvent.title" />
                     </li>
                     <li>
                         <label for="event-location">Location</label>
-                        <input type="text" id="event-location" class="input-block-level" ng-model="currentEvent.location" />
+                        <input type="text" id="event-location" class="input-block-level" ng-model="dataCache.currentEvent.location" />
                     </li>
                     <li>
                         <label for="event-description">Description</label>
-                        <textarea id="event-description" class="input-block-level" ng-model="currentEvent.description"></textarea>
+                        <textarea id="event-description" class="input-block-level" ng-model="dataCache.currentEvent.description"></textarea>
                     </li>
                     <li>
                         <div class="input-prepend">
@@ -113,7 +113,7 @@
                             <input type="text" id="event-start-date" ui-date />
                         </div>
                         <div class="input-append bst-right" ng-hide="currentEvent.allDay">
-                            <input type="text" id="event-start-time" class="input-small" ng-model="currentEvent.startTime" disabled bs-timepicker />
+                            <input type="text" id="event-start-time" class="input-small" ng-model="dataCache.currentEvent.startTime" disabled bs-timepicker />
                             <span class="add-on" title="Start time" data-toggle="tooltip">
                                 <i class="icon-time"></i>
                             </span>
@@ -127,7 +127,7 @@
                             <input type="text" id="event-end-date" ui-date />
                         </div>
                         <div class="input-append bst-right" ng-hide="currentEvent.allDay">
-                            <input type="text" id="event-end-time" class="input-small" ng-model="currentEvent.endTime" bs-timepicker />
+                            <input type="text" id="event-end-time" class="input-small" ng-model="dataCache.currentEvent.endTime" bs-timepicker />
                             <span class="add-on" title="End time" data-toggle="tooltip">
                                 <i class="icon-time"></i>
                             </span>
@@ -135,14 +135,14 @@
                     </li>
                     <li>
                         <label for="event-calendar">Calendar</label>
-                        <select id="event-calendar">
+                        <select id="event-calendar" ng-model="dataCache.currentEvent.calendar">
                             <option ng-repeat="calendar in dataCache.calendarList[0].calendars" value="{{calendar.id}}">{{calendar.summary}}</option>
                         </select>
                     </li>
                 </ol>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success"><i class="icon-save"></i> Save</button>
+                <button type="submit" class="btn btn-success" ng-click="saveEvent()"><i class="icon-save"></i> Save</button>
                 <button type="reset" class="btn" ng-click="modals.eventDetails = false">Cancel</button>
             </div>
         </form>
@@ -150,7 +150,7 @@
     <!--/event details-->
 
     <!--calendar details-->
-    <div modal="modals.calendarDetails" options="">
+    <div modal="modals.calendarDetails">
         <form id="calendarDetailsForm" name="calendarDetailsForm">
             <div class="modal-header">
                 <a href="" class="pull-right" ng-click="modals.calendarDetails = false">

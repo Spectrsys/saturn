@@ -38,7 +38,7 @@ var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']
 saturnApp.config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/', {templateUrl: 'partials/index.html'}).
-            when('/settings', {templateUrl: 'partials/settings.html'}).
+            when('/settings/profile', {templateUrl: 'partials/settings-profile.html'}).
             when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html'}).
             when('/calendar/create', {templateUrl: 'partials/calendar-settings.html'}).
             otherwise({redirectTo: '/'});
@@ -332,43 +332,18 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
         listEvents($rootScope.dataCache.calendarList);
     });
 
-    $scope.resetEventDetails = function(start, end){
-        $scope.action = 'Add';
+    //events
+    $scope.saveEvent = function(){
+        //push the current event into the stack
+        $rootScope.events.push($rootScope.currentEvent);
 
-        var date = new Date(),
-            d = date.getDate(),
-            m = date.getMonth(),
-            y = date.getFullYear(),
-            H = date.getHours(),
-            M  = date.getMinutes();
-
-        switch (true) {
-            case (M < 15):
-                M = 15;
-
-                break;
-
-            case (M < 30):
-                M = 30;
-
-                break;
-
-            case (M < 45):
-                M = 45;
-
-                break;
-
-            case (M < 60):
-                M = 60;
-
-                break;
+        //if we have an ID it means we're editing an event
+        if($rootScope.currentEvent.id){
+            Events.update({
+                'calendarId': $oo
+            });
         }
-
-        var startDate = start ? start : new Date(y, m, d, H, M),
-            endDate = end ? end : new Date(y, m, d, H + 1, M);
-    };
-
-    $scope.resetEventDetails();
+    }
 
     /*******************************************************/
     //called after the user has selected something in the calendar
@@ -380,10 +355,19 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
 
     //when you click on an event
     $scope.eventClick = function(event, jsEvent, view){
-        console.log(event, jsEvent, view);
-
         if(event.editable || event.source.editable) {
+            $location.path();
         }
+
+        safeApply($scope, function(){
+            //show event details modal box
+            //$scope.modals.eventDetails = true;
+
+            //update current event
+            $rootScope.dataCache.currentEvent = event;
+        });
+
+        console.log($rootScope.dataCache.currentEvent,event, jsEvent, view);
 
         if(event.url) {
             window.open(event.url, 'eventPreview', 'width=400, height=400');
@@ -456,7 +440,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
                 'title': event.title,
                 'content': content,
                 'html': true,
-                'trigger': 'hover',
+                'trigger': 'click',
                 'placement': 'top',
                 'delay': 200
             });

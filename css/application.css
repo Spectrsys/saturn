@@ -72,10 +72,6 @@ input {
     background: #fff;
 }
 
-#settings-menu {
-    width: 270px;
-}
-
 /* user navigation */
 #user-nav > ul > li {
     padding: 10px 0 0 10px;
