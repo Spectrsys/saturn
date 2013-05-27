@@ -273,7 +273,8 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         events = Events.list({
             'calendarId': sources[i].id,
             'access_token': $rootScope.dataCache.access_token,
-            'pageToken': pageTokens[sources[i].id]
+            'pageToken': pageTokens[sources[i].id],
+            'maxResults': 1000
         });
 
         events.$then(function(){
@@ -486,10 +487,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
             });
         }
     };
-
-    $(document).on('click', '.fc-header-right span', function(){
-        listEvents($rootScope.dataCache.calendarList);
-    });
 });
 
 /******************************************************************/
