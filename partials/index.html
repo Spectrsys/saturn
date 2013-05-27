@@ -7,7 +7,7 @@
                     <button class="btn btn-success" data-toggle="dropdown"> Create New </button>
                     <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                        <li><a href="">Calendar</a></li>
+                        <li><a href="" ng-click="modals.calendarDetails = true">Calendar</a></li>
                         <li><a href="" ng-click="modals.eventDetails = true">Event</a></li>
                     </ul>
                 </div>
@@ -45,7 +45,7 @@
                                 <i class="icon-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li ng-show="{{calendar.accessRole == 'owner'}}">
+                                <li>
                                     <a href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCurrentCalendar()">Calendar settings</a>
                                 </li>
                                 <li>
@@ -165,23 +165,23 @@
                 <ol class="unstyled">
                     <li>
                         <label for="calendar-name">Calendar name</label>
-                        <input type="text" id="calendar-name" class="input-block-level" ng-model="currentCalendar.summary" />
+                        <input type="text" id="calendar-name" class="input-block-level" ng-model="dataCache.currentCalendar.summary" />
                     </li>
                     <li>
                         <label for="calendar-owner">Calendar owner</label>
-                        <input type="text" id="calendar-owner" class="input-block-level" disabled ng-model="currentCalendar.owner" />
+                        <input type="text" id="calendar-owner" class="input-block-level" disabled ng-model="dataCache.currentCalendar.owner" />
                     </li>
                     <li>
                         <label for="calendar-organization">Organization</label>
-                        <input type="text" id="calendar-organization" class="input-block-level" disabled ng-model="currentCalendar.organization" />
+                        <input type="text" id="calendar-organization" class="input-block-level" disabled ng-model="dataCache.currentCalendar.organization" />
                     </li>
                     <li>
                         <label for="calendar-description">Description</label>
-                        <textarea id="calendar-description" name="calendar-description" class="input-xxlarge" ng-model="currentCalendar.description"></textarea>
+                        <textarea id="calendar-description" name="calendar-description" class="input-block-level" ng-model="dataCache.currentCalendar.description"></textarea>
                     </li>
                     <li>
                         <label for="calendar-location">Location</label>
-                        <input type="text" id="calendar-location" name="calendar-location" class="input-xxlarge" ng-model="currentCalendar.location" />
+                        <input type="text" id="calendar-location" name="calendar-location" class="input-block-level" ng-model="dataCache.currentCalendar.location" />
                         <label for="calendar-location">
                             <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
                         </label>

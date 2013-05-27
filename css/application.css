@@ -23,7 +23,6 @@ input[type="password"],
 textarea,
 select {
     font-size: 13px;
-    background: #FAFAFA;
 }
 
 input[type="text"]:focus,

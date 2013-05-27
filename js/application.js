@@ -61,7 +61,9 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
                     'calendars': []
                 }
             ],
-            'eventTokens': []
+            'eventTokens': [],
+            'currentCalendar':{},
+            'tempCalendar': {}
         };
 
         $rootScope.user = {
@@ -257,7 +259,7 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 
 /******************************************************************/
 /* Events */
-saturnApp.controller('EventController', function($scope, $rootScope, $filter, Events){
+saturnApp.controller('EventController', function($scope, $rootScope, $filter, $location, Events){
     $scope.events = [];
     $scope.eventSources = $scope.events;
     $scope.modals = {};
@@ -417,7 +419,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
     });
 
     /*******************************************************/
-        //calendar configuration
+    //calendar configuration
     $scope.extendedCalendar = {
         header:{
             left: 'month agendaWeek agendaDay',
@@ -495,9 +497,26 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         }
     };
 
-    $(document).on('click', '.fc-header-right span', function(){
-        listEvents($rootScope.dataCache.calendarList);
-    });
+    $scope.setCurrentCalendar = function(){
+        $scope.resetCalendar();
+
+        $rootScope.dataCache.currentCalendar = this.calendar;
+        updateEntity($rootScope.dataCache.currentCalendar, $rootScope.dataCache.tempCalendar);
+    };
+
+    $scope.saveCalendar = function(){
+        //clone temp calendar into current calendar
+        updateEntity($rootScope.dataCache.tempCalendar, $rootScope.dataCache.currentCalendar);
+
+        //redirect to home page
+        $location.path('/');
+    };
+
+    $scope.resetCalendar = function(){
+        //delete temp calendar
+        $rootScope.dataCache.tempCalendar = null;
+        $rootScope.dataCache.tempCalendar = {};
+    };
 });
 
 /******************************************************************/

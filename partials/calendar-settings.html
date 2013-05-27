@@ -7,19 +7,19 @@
             <ol class="unstyled">
                 <li>
                     <label for="calendar-name">Calendar name</label>
-                    <input type="text" id="calendar-name" name="calendar-name" class="input-xxlarge" required ng-model="dataCache.currentCalendarClone.summary" />
+                    <input type="text" id="calendar-name" name="calendar-name" class="input-xxlarge" required ng-model="dataCache.tempCalendar.summary" />
                 </li>
                 <li>
                     <label for="calendar-owner">Calendar owner</label>
-                    <input type="text" id="calendar-owner" name="calendar-owner" class="input-xxlarge" readonly disabled />
+                    <input type="text" id="calendar-owner" name="calendar-owner" class="input-xxlarge" ng-model="dataCache.tempCalendar.owner" readonly disabled />
                 </li>
                 <li>
                     <label for="calendar-organization">Organization</label>
-                    <input type="text" id="calendar-organization" name="calendar-organization" class="input-xxlarge" readonly disabled />
+                    <input type="text" id="calendar-organization" name="calendar-organization" class="input-xxlarge" ng-model="dataCache.tempCalendar.organization" readonly disabled />
                 </li>
                 <li>
                     <label for="calendar-description">Description</label>
-                    <textarea id="calendar-description" name="calendar-description" class="input-xxlarge" ng-model="dataCache.currentCalendarClone.description"></textarea>
+                    <textarea id="calendar-description" name="calendar-description" class="input-xxlarge" ng-model="dataCache.tempCalendar.description"></textarea>
                 </li>
                 <li>
                     <label for="calendar-location">Location</label>
@@ -30,7 +30,7 @@
                 </li>
             </ol>
             <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
-            <a ng-href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
+            <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
         </div>
     </div>
 </form>
