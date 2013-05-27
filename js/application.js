@@ -347,6 +347,9 @@ saturnApp.controller('UserController', function($scope, $rootScope, $location){
     function loginCallback(response){
         if(response && !response.error) {
             safeApply($rootScope, function(){
+                //notify everyone that the user has logged in
+                $rootScope.$broadcast('login');
+
                 //save a copy of the access token for later use
                 $rootScope.dataCache.access_token = response.access_token;
 
@@ -355,15 +358,15 @@ saturnApp.controller('UserController', function($scope, $rootScope, $location){
 
                 //redirect to the home page
                 $location.path('/');
-
-                //notify everyone that the user has logged in
-                $rootScope.$broadcast('login');
             });
         }
     }
 
     //logout
     $scope.logout = function(){
+        //notify everyone that the user has logged out
+        $rootScope.$broadcast('logout');
+
         //set the user as logged in
         $rootScope.user.loggedIn = false;
 
