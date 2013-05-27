@@ -304,3 +304,17 @@ div.colorPicker-swatch {
     -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.1);
     box-shadow: 0 0 2px rgba(0,0,0,0.1);
 }
+
+/* menus */
+.menu a {
+    display: block;
+    padding: 0.5em;
+    zoom: 1;
+}
+
+.menu a:hover,
+.menu a:focus,
+.menu a:active,
+.menu .on a {
+    color: #333;
+}

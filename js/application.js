@@ -39,6 +39,7 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/', {templateUrl: 'partials/index.html'}).
             when('/settings/profile', {templateUrl: 'partials/settings-profile.html'}).
+            when('/settings/account', {templateUrl: 'partials/settings-account.html'}).
             when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html'}).
             when('/calendar/create', {templateUrl: 'partials/calendar-settings.html'}).
             otherwise({redirectTo: '/'});

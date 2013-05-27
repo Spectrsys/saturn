@@ -94,33 +94,7 @@
         </form>
         <!--/profile-->
 
-        <!--account settings-->
-        <form name="accountSettingsForm">
-            <div id="account-settings" class="widget">
-                <div class="widget-heading">
-                    <div class="widget-title">Change password</div>
-                </div>
-                <div class="widget-content">
-                    <ol class="unstyled">
-                        <li>
-                            <label for="old-password">Old password</label>
-                            <input type="password" id="old-password" name="old-password" class="input-xxlarge" required ng-model="settings.oldPassword" />
-                        </li>
-                        <li>
-                            <label for="new-password">New password</label>
-                            <input type="password" id="new-password" name="new-password" class="input-xxlarge" required  ng-model="settings.newPassword" />
-                        </li>
-                        <li>
-                            <label for="confirm-password">Confirm password</label>
-                            <input type="password" id="confirm-password" name="confirm-password" class="input-xxlarge" required  ng-model="settings.confirmPassword" />
-                        </li>
-                    </ol>
-                    <button type="submit" class="btn btn-success" ng-disabled="accountSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
-                    <button type="reset" class="btn"><i class="icon-undo"></i> Cancel</button>
-                </div>
-            </div>
-        </form>
-        <!--/account settings-->
+
 
         <!--general settings-->
         <form name="generalSettingsForm">
