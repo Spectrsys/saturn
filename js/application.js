@@ -27,11 +27,6 @@ function updateEntity(source, destination) {
     }
 }
 
-var userConfig = {
-    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
-    'scopes': 'https://www.googleapis.com/auth/calendar'
-};
-
 //define applicaton
 var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
@@ -57,8 +52,15 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         $rootScope.$on( "$routeChangeStart", function(event, next, current) {
             if ( $rootScope.user.loggedIn === false ) {
                 // no logged user, we should be going to #login
-                if ( next.templateUrl !== "partials/login.html" ) {
+                if (next.templateUrl !== "partials/login.html") {
                     $location.path( "/login" );
+                }
+            }
+
+            if ( $rootScope.user.loggedIn === true ) {
+                // logged in users should not see the login again
+                if (next.templateUrl === "partials/login.html") {
+                    $location.path( "/" );
                 }
             }
         });
@@ -324,55 +326,70 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
 saturnApp.controller('SettingsController', function($scope, $rootScope){
 });
 
+/******************************************************************/
 //User
-saturnApp.controller('UserController', function($scope, $rootScope, CalendarList){
-    $scope.checkAuth = function(){
+var userConfig = {
+    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+    'scopes': 'https://www.googleapis.com/auth/calendar'
+};
+
+saturnApp.controller('UserController', function($scope, $rootScope, $location){
+    //check user
+    $scope.login = function(){
         gapi.auth.authorize({
             'client_id': userConfig.clientId,
             'scope': userConfig.scopes,
             'immediate': false
-        }, authCallback);
+        }, loginCallback);
     };
 
-    function authCallback(response){
+    //called after the user has logged in
+    function loginCallback(response){
         if(response && !response.error) {
-            //notify everyone that we're loading some data
-            $rootScope.$broadcast('loading:Started');
-
-            $rootScope.user.loggedIn = true;
-
             safeApply($rootScope, function(){
+                //save a copy of the access token for later use
                 $rootScope.dataCache.access_token = response.access_token;
 
-                var promise = CalendarList.list({
-                    'access_token': $rootScope.dataCache.access_token
-                });
-
-                promise.$then(function(){
-                    sortCalendars(promise.items, function(){
-                        $rootScope.$broadcast('calendar:CalendarListLoaded');
-                    });
-                });
+                //notify everyone that the user has logged in
+                $rootScope.$broadcast('login');
             });
         }
     }
 
-    //sort calendars by access role
-    function sortCalendars(calendars, callback){
-        angular.forEach(calendars, function(value, key){
-            //personal calendars
-            if(calendars[key].accessRole === 'owner'){
-                $rootScope.dataCache.calendarList[0].calendars.push(calendars[key]);
-            }
+    //listen for login/logout events
+    $rootScope.$on('login', function(){
+        //set the user as logged in
+        $rootScope.user.loggedIn = true;
 
-            //subscribed calendars
-            if(calendars[key].accessRole === 'reader'){
-                $rootScope.dataCache.calendarList[1].calendars.push(calendars[key]);
-            }
-        });
+        //redirect to the home page
+        $location.path('/');
+    });
 
-        if(callback && typeof callback === 'function'){
-            callback();
-        }
-    }
+    //listen for login/logout events
+    $rootScope.$on('logout', function(){
+        //set the user as logged in
+        $rootScope.user.loggedIn = false;
+
+        //redirect to the login page
+        $location.path('/login');
+    });
 });
+
+//sort calendars by access role
+function sortCalendars(calendars, callback){
+    angular.forEach(calendars, function(value, key){
+        //personal calendars
+        if(calendars[key].accessRole === 'owner'){
+            $rootScope.dataCache.calendarList[0].calendars.push(calendars[key]);
+        }
+
+        //subscribed calendars
+        if(calendars[key].accessRole === 'reader'){
+            $rootScope.dataCache.calendarList[1].calendars.push(calendars[key]);
+        }
+    });
+
+    if(callback && typeof callback === 'function'){
+        callback();
+    }
+}
