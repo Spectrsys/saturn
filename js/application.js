@@ -498,9 +498,13 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
     };
 
     $scope.setCurrentCalendar = function(){
+        //clear the temporary calendar
         $scope.resetCalendar();
 
+        //update the current calendar
         $rootScope.dataCache.currentCalendar = this.calendar;
+
+        //clone the current calendar into the temporary one
         updateEntity($rootScope.dataCache.currentCalendar, $rootScope.dataCache.tempCalendar);
     };
 
@@ -522,7 +526,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
     };
 
     $scope.resetCalendar = function(){
-        //delete temp calendar
+        //delete temporary calendar
         $rootScope.dataCache.tempCalendar = null;
         $rootScope.dataCache.tempCalendar = {};
     };
