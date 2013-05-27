@@ -320,6 +320,12 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
         }
     };
 
+    /******************************************************************/
+    //load calendars
+    function loadCalendarList(){
+        
+    }
+
     //after the user has logged in load calendars
     $rootScope.$on('login', function(){
 
