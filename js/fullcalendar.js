@@ -1,6 +1,6 @@
 /*!
- * FullCalendar v1.6.1
- * Docs & License: http://arshaw.com/fullcalendar/
+ * FullCalendar v1.6.1.spectrsys.snapshot
+ * Docs & License: https://github.com/Spectrsys/fullcalendar
  * (c) 2013 Adam Shaw
  */
 
@@ -113,7 +113,7 @@
 
     ;;
 
-    var fc = $.fullCalendar = { version: "1.6.1" };
+    var fc = $.fullCalendar = { version: "1.6.1.spectrsys.snapshot" };
     var fcViews = fc.views = {};
 
 
