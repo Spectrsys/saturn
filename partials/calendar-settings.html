@@ -1,49 +1,116 @@
 <form name="calendarSettingsForm" ng-controller="EventController">
     <div class="widget">
         <div class="widget-heading">
-            <div class="widget-title">Calendar settings</div>
+            <div class="widget-title">"{{dataCache.currentCalendar.summary}}" Details</div>
         </div>
         <div class="widget-content">
-            <ol class="unstyled">
-                <li>
-                    <label for="calendar-name">Calendar name</label>
-                    <input type="text" id="calendar-name" name="calendar-name" class="input-block-level" required ng-model="dataCache.tempCalendar.summary" />
-                </li>
-                <li>
-                    <label for="calendar-owner">Calendar owner</label>
-                    <input type="text" id="calendar-owner" name="calendar-owner" class="input-block-level" ng-model="dataCache.tempCalendar.owner" disabled />
-                </li>
-                <li>
-                    <label for="calendar-organization">Organization</label>
-                    <input type="text" id="calendar-organization" name="calendar-organization" class="input-block-level" ng-model="dataCache.tempCalendar.organization" disabled />
-                </li>
-                <li>
-                    <label for="calendar-description">Description</label>
-                    <textarea id="calendar-description" name="calendar-description" class="input-block-level" ng-model="dataCache.tempCalendar.description"></textarea>
-                </li>
-                <li>
-                    <label for="calendar-location">Location</label>
-                    <input type="text" id="calendar-location" name="calendar-location" class="input-block-level" />
-                    <label for="calendar-location">
-                        <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
-                    </label>
-                </li>
-                <li>
-                    <label for="calendar-background">
-                        <input type="text" class="color-preview" id="calendar-background" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.backgroundColor" ng-model="dataCache.tempCalendar.backgroundColor" />
-                        Background color
-                    </label>
+            <tabs>
+                <pane heading="Calendar details">
+                    <ol class="unstyled">
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-name">Calendar name</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-name" name="calendar-name" class="input-block-level" required ng-model="dataCache.tempCalendar.summary" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-owner">Calendar owner</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-owner" name="calendar-owner" class="input-block-level" ng-model="dataCache.tempCalendar.owner" disabled />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-organization">Organization</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-organization" name="calendar-organization" class="input-block-level" ng-model="dataCache.tempCalendar.organization" disabled />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-description">Description</label>
+                            </div>
+                            <div class="span10">
+                                <textarea id="calendar-description" name="calendar-description" class="input-block-level" ng-model="dataCache.tempCalendar.description"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-location">Location</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-location" name="calendar-location" class="input-block-level" />
+                                <label for="calendar-location">
+                                    <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-background">Background color</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" class="color-preview" id="calendar-background" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.backgroundColor" ng-model="dataCache.tempCalendar.backgroundColor" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-foreground">Text color</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" class="color-preview" id="calendar-foreground" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.foregroundColor" ng-model="dataCache.tempCalendar.foregroundColor" />
+                            </div>
+                        </li>
+                    </ol>
+                    <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
+                    <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
+                </pane>
 
-                </li>
-                <li>
-                    <label for="calendar-foreground">
-                        <input type="text" class="color-preview" id="calendar-foreground" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.foregroundColor" ng-model="dataCache.tempCalendar.foregroundColor" />
-                        Text color
-                    </label>
-                </li>
-            </ol>
-            <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
-            <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
+                <pane heading="Share this calendar">
+                    <form name="calendarShareForm">
+                        <ol class="unstyled">
+                            <li>
+                                <label>
+                                    <input type="checkbox" ng-model="dataCache.currentCalendar.share" />
+                                    Share this calendar with others
+                                </label>
+                            </li>
+                            <li>
+                                <div class="span3">
+                                    <label>
+                                        <input type="checkbox" ng-disabled="!dataCache.currentCalendar.share" ng-model="dataCache.currentCalendar.publicShare" />
+                                        Make this calendar public
+                                    </label>
+                                </div>
+                                <div class="span9">
+                                    <select ng-model="dataCache.currentCalendar.publicPermissions" ng-disabled="!dataCache.currentCalendar.publicShare">
+                                        <option value="1">See only free/busy (hide details)</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="span3">
+                                    <label>
+                                        <input type="checkbox" ng-model="dataCache.currentCalendar.organizationShare" ng-disabled="!dataCache.currentCalendar.share" />
+                                        Share this calendar with everyone in the organization
+                                    </label>
+                                </div>
+                                <div class="span9">
+                                    <select ng-model="dataCache.currentCalendar.organizationPermissions" ng-disabled="!dataCache.currentCalendar.organizationShare">
+                                        <option value="1">See all event details</option>
+                                        <option value="2">See only free/busy (hide details)</option>
+                                    </select>
+                                </div>
+                            </li>
+                        </ol>
+                    </form>
+                </pane>
+            </tabs>
         </div>
     </div>
 </form>

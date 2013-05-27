@@ -5,6 +5,7 @@ body  {
 
 a {
     outline: none;
+    cursor: pointer;
 }
 
 /* forms */
