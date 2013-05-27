@@ -319,3 +319,9 @@ div.colorPicker-swatch {
 .menu .on a {
     color: #333;
 }
+
+/* login */
+#login {
+    padding-top: 10em;
+    text-align: center;
+}
