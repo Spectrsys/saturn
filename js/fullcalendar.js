@@ -1224,8 +1224,6 @@
 
             event.title = event.title || event.summary;
             // TODO: if there is no start date, return false to indicate an invalid event
-
-            console.log(event.start, event.end);
         }
 
 

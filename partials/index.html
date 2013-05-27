@@ -86,6 +86,7 @@
     </div>
     <!--/content-->
 
+    <!--event details-->
     <div modal="modals.eventDetails" options="">
         <form id="eventDetailsForm" name="eventDetailsForm">
             <div class="modal-header">
@@ -149,4 +150,49 @@
             </div>
         </form>
     </div>
+    <!--/event details-->
+
+    <!--calendar details-->
+    <div modal="modals.calendarDetails" options="">
+        <form id="calendarDetailsForm" name="calendarDetailsForm">
+            <div class="modal-header">
+                <a href="" class="pull-right" ng-click="modals.calendarDetails = false">
+                    <i class="icon-remove"></i>
+                </a>
+                <h4>Calendar details</h4>
+            </div>
+            <div class="modal-body">
+                <ol class="unstyled">
+                    <li>
+                        <label for="calendar-name">Calendar name</label>
+                        <input type="text" id="calendar-name" class="input-block-level" ng-model="currentCalendar.summary" />
+                    </li>
+                    <li>
+                        <label for="calendar-owner">Calendar owner</label>
+                        <input type="text" id="calendar-owner" class="input-block-level" disabled ng-model="currentCalendar.owner" />
+                    </li>
+                    <li>
+                        <label for="calendar-organization">Organization</label>
+                        <input type="text" id="calendar-organization" class="input-block-level" disabled ng-model="currentCalendar.organization" />
+                    </li>
+                    <li>
+                        <label for="calendar-description">Description</label>
+                        <textarea id="calendar-description" name="calendar-description" class="input-xxlarge" ng-model="currentCalendar.description"></textarea>
+                    </li>
+                    <li>
+                        <label for="calendar-location">Location</label>
+                        <input type="text" id="calendar-location" name="calendar-location" class="input-xxlarge" ng-model="currentCalendar.location" />
+                        <label for="calendar-location">
+                            <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
+                        </label>
+                    </li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success"><i class="icon-save"></i> Save</button>
+                <button type="reset" class="btn" ng-click="modals.calendarDetails = false">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <!--/calendar details-->
 </div>

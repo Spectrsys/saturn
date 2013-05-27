@@ -268,13 +268,29 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
         pageTokens = [];
 
     function displayEvents(sources, callback){
+        var d = new Date(),
+            minDate = d.setMonth(d.getMonth() - 6),
+            maxDate = d.setMonth(d.getMonth() + 6);
+
+        if(i === sources.length){
+            i = 0;
+
+            if(callback && typeof callback === 'function'){
+                callback();
+            }
+
+            return '';
+        }
+
         $rootScope.$broadcast('loading:Started');
 
         events = Events.list({
             'calendarId': sources[i].id,
             'access_token': $rootScope.dataCache.access_token,
-            'pageToken': pageTokens[sources[i].id],
-            'maxResults': 1000
+            'showDeleted': true,
+            'timeMin': $filter('date')(minDate, 'yyyy-MM-ddTHH:mm:ssZ'),
+            'timeMax': $filter('date')(maxDate, 'yyyy-MM-ddTHH:mm:ssZ'),
+            'maxResults': 10000
         });
 
         events.$then(function(){
@@ -290,27 +306,16 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 
             i++;
 
-            if(i === sources.length){
-                i = 0;
-
-                if(callback && typeof callback === 'function'){
-                    callback();
-                }
-
-                return '';
-            }
-
-
             displayEvents(sources, callback);
         });
     }
 
     function listEvents(sources){
+        i = 0;
         if(j === sources.length) {
             j = 0;
-            return ''
+            return '';
         }
-
         displayEvents(sources[j].calendars, function(){
             j++;
             listEvents(sources);
@@ -373,6 +378,8 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
 
     //when you click on an event
     $scope.eventClick = function(event, jsEvent, view){
+        console.log(event, jsEvent, view);
+
         if(event.editable || event.source.editable) {
         }
 
@@ -417,7 +424,7 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
             center: 'title',
             right: 'today prev,next'
         },
-        editable:  true,
+        allDayDefault: false,
         selectable: true,
         defaultView: 'agendaWeek',
         slotMinutes: 15,
@@ -487,6 +494,10 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, Ev
             });
         }
     };
+
+    $(document).on('click', '.fc-header-right span', function(){
+        listEvents($rootScope.dataCache.calendarList);
+    });
 });
 
 /******************************************************************/
