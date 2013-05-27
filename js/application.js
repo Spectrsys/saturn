@@ -45,13 +45,25 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
             when('/calendar/create', {templateUrl: 'partials/calendar-settings.html'}).
             otherwise({redirectTo: '/'});
     }
-    ]).run(function($rootScope){
+    ]).run(function($rootScope, $location){
+        //application config
         $rootScope.config = {
             'baseURL': 'https://www.googleapis.com/calendar/v3',
             'collapsed': {
             }
         };
 
+        // register listener to watch route changes
+        $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+            if ( $rootScope.user.loggedIn === false ) {
+                // no logged user, we should be going to #login
+                if ( next.templateUrl !== "partials/login.html" ) {
+                    $location.path( "/login" );
+                }
+            }
+        });
+
+        //application data storage
         $rootScope.dataCache = {
             'calendarList': [
                 {
@@ -72,10 +84,6 @@ saturnApp.config(['$routeProvider', function($routeProvider) {
         $rootScope.user = {
             'loggedIn': false
         };
-
-        $rootScope.logout = function(){
-            $rootScope.user.loggedIn = false;
-        }
     });
 
 /******************************************************************/
