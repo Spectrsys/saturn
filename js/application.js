@@ -350,29 +350,26 @@ saturnApp.controller('UserController', function($scope, $rootScope, $location){
                 //save a copy of the access token for later use
                 $rootScope.dataCache.access_token = response.access_token;
 
+                //set the user as logged in
+                $rootScope.user.loggedIn = true;
+
+                //redirect to the home page
+                $location.path('/');
+
                 //notify everyone that the user has logged in
                 $rootScope.$broadcast('login');
             });
         }
     }
 
-    //listen for login/logout events
-    $rootScope.$on('login', function(){
-        //set the user as logged in
-        $rootScope.user.loggedIn = true;
-
-        //redirect to the home page
-        $location.path('/');
-    });
-
-    //listen for login/logout events
-    $rootScope.$on('logout', function(){
+    //logout
+    $scope.logout = function(){
         //set the user as logged in
         $rootScope.user.loggedIn = false;
 
         //redirect to the login page
         $location.path('/login');
-    });
+    };
 });
 
 //sort calendars by access role
