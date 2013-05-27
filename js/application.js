@@ -38,6 +38,7 @@ var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']
 saturnApp.config(['$routeProvider', function($routeProvider) {
         $routeProvider.
             when('/', {templateUrl: 'partials/index.html'}).
+            when('/login', {templateUrl: 'partials/login.html'}).
             when('/settings/profile', {templateUrl: 'partials/settings-profile.html'}).
             when('/settings/account', {templateUrl: 'partials/settings-account.html'}).
             when('/calendar/:calendarId/settings', {templateUrl: 'partials/calendar-settings.html'}).
@@ -262,6 +263,34 @@ saturnApp.factory('Settings', function($resource, $rootScope){
 /******************************************************************/
 /* Events */
 saturnApp.controller('EventController', function($scope, $rootScope, $filter, $location, Events, Calendars){
+    $scope.eventSources = $rootScope.dataCache.events;
+
+    //master calendar
+    $scope.masterCalendar = {
+        header:{
+            left: 'month agendaWeek agendaDay',
+            center: 'title',
+            right: 'today prev,next'
+        },
+        allDayDefault: false,
+        selectable: true,
+        defaultView: 'agendaWeek',
+        slotMinutes: 15,
+        eventClick: $scope.eventClick,
+        viewDisplay: function(view){
+        },
+        loading: function(bool){
+            if(!bool) {
+                $rootScope.$broadcast('loading:Started');
+                $scope.calendar.fullCalendar('gotoDate', $scope.dateCache);
+            } else {
+                $rootScope.$broadcast('loading:Finished');
+            }
+        },
+        select: $scope.select,
+        unselect: $scope.unselect
+    };
+
     //mini calendar
     $scope.miniCalendar = {
         header:{
@@ -278,9 +307,6 @@ saturnApp.controller('EventController', function($scope, $rootScope, $filter, $l
             return false;
         },
         dayClick: function(date, allDay, jsEvent, view){
-            $scope.$apply(function(){
-                $scope.currentDate = date;
-            });
         }
     };
 });
