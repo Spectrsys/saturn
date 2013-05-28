@@ -113,7 +113,7 @@
     });
 
     /******************************************************************/
-        //ACL
+    //ACL
     saturnApp.factory('ACL', function ($resource, $rootScope) {
         return $resource(
             $rootScope.config.baseURL + '/calendars/:calendarId/acl/:ruleId', {
@@ -273,6 +273,7 @@
     /******************************************************************/
     /* Events */
     saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Calendars, CalendarList) {
+
         $scope.eventSources = $rootScope.dataCache.events;
 
         //load calendars
@@ -341,6 +342,10 @@
 
                     fetchEvents(sources, params, callback);
                 });
+            } else {
+                if(typeof callback === 'function'){
+                    callback();
+                }
             }
         }
 
