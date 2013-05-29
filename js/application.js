@@ -274,7 +274,33 @@
     /******************************************************************/
     /* Events */
     saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Calendars, CalendarList) {
-        $scope.eventSources = $rootScope.dataCache.events;
+        $rootScope.events = [];
+        $scope.eventSources = [$rootScope.events];
+
+        //fetch events
+        var i = 0;
+        function fetchEvents(sources, start, end, callback){
+            if((sources.length > 1) && (i < sources.length)) {
+                if(sources[i].selected === true){
+                    var promise = Events.list({
+                        'calendarId': sources[i].id,
+                        'access_token': $rootScope.dataCache.access_token,
+                        'timeMin': start,
+                        'timeMax': end
+                    });
+
+                    promise.$then(function(){
+                        $rootScope.events.push.apply($rootScope.events, promise.items);
+
+                        i++;
+                        fetchEvents(sources, start, end, callback);
+                    });
+                } else {
+                    i++;
+                    fetchEvents(sources, start, end, callback);
+                }
+            }
+        }
 
         //load calendars
         function loadCalendarList() {
@@ -289,10 +315,7 @@
                 $rootScope.dataCache.calendars = promise.items;
 
                 //sort them by owner
-                sortCalendars(promise.items);
-
-                //let everyone know that calendars are available
-                $rootScope.$broadcast('calendars:loaded');
+                sortCalendars($rootScope.dataCache.calendars);
             });
         }
 
@@ -311,40 +334,6 @@
             });
         }
 
-        //fetch events
-        var j = 0;
-        function fetchEvents(sources, params, callback){
-            params = params || {};
-            if(j < sources.length){
-                if(sources[j].selected === true){
-                    var promise = Events.list({
-                        'calendarId': sources[j].id,
-                        'access_token': $rootScope.dataCache.access_token,
-                        'timeMin': params.start,
-                        'timeMax': params.end,
-                        'orderBy': params.orderBy,
-                        'showDeleted': params.showDeleted,
-                        'pageToken': params.pageToken,
-                        'maxResults': params.maxResults
-                    });
-
-                    promise.$then(function(){
-                        j++;
-
-                        fetchEvents(sources, params, callback);
-                    });
-                } else {
-                    j++;
-
-                    fetchEvents(sources, params, callback);
-                }
-            } else {
-                if(typeof callback === 'function'){
-                    callback();
-                }
-            }
-        }
-
         //master calendar
         $scope.masterCalendar = {
             header: {
@@ -358,18 +347,12 @@
             slotMinutes: 15,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
-                if($rootScope.dataCache.calendars.length){
-                    fetchEvents(
-                        $rootScope.dataCache.calendars,
-                        {
-                            'start': $filter('date')(view.start, 'yyyy/MM/dd HH:mm:ss'),
-                            'end': $filter('date')(view.end, 'yyyy/MM/dd HH:mm:ss')
-                        },
-                        function(){
-                            console.log(2);
-                        }
-                    );
-                }
+                var start = $filter('date')(view.visStart, 'yyyy-MM-ddTHH:mm:ssZ'),
+                    end = $filter('date')(view.visEnd, 'yyyy-MM-ddTHH:mm:ssZ');
+
+                safeApply($scope, function(){
+                    fetchEvents($rootScope.dataCache.calendars, start, end);
+                });
             },
             loading: function (bool) {
                 if (!bool) {
