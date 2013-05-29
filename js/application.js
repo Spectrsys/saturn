@@ -64,6 +64,7 @@
 
                 //application data storage
                 $rootScope.dataCache = {
+                    'calendars': [],
                     'calendarList': [{
                         'title': 'My calendars',
                         'calendars': []
@@ -273,19 +274,25 @@
     /******************************************************************/
     /* Events */
     saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Calendars, CalendarList) {
-
         $scope.eventSources = $rootScope.dataCache.events;
 
         //load calendars
         function loadCalendarList() {
+            //request calendars from the server
             var promise = CalendarList.list({
                 'access_token': $rootScope.dataCache.access_token
             });
 
+            //after they've loaded
             promise.$then(function () {
-                sortCalendars(promise.items, function () {
-                    fetchEventSources($rootScope.dataCache.calendarList);
-                });
+                //save the in the root scope
+                $rootScope.dataCache.calendars = promise.items;
+
+                //sort them by owner
+                sortCalendars(promise.items);
+
+                //let everyone know that calendars are available
+                $rootScope.$broadcast('calendars:loaded');
             });
         }
 
@@ -309,39 +316,32 @@
         }
 
         //fetch events
-        var i = 0;
-        function fetchEventSources(sources){
-            if(i <  sources.length){
-                fetchEvents(sources[i].calendars, {
-                    'maxResults': 1000
-                }, function(){
-                    fetchEventSources(sources);
-                });
-
-                i++;
-            }
-        }
-
         var j = 0;
         function fetchEvents(sources, params, callback){
             params = params || {};
             if(j < sources.length){
-                var promise = Events.list({
-                    'calendarId': sources[j].id,
-                    'access_token': $rootScope.dataCache.access_token,
-                    'timeMin': params.start,
-                    'timeMax': params.end,
-                    'orderBy': params.orderBy,
-                    'showDeleted': params.showDeleted,
-                    'pageToken': params.pageToken,
-                    'maxResults': params.maxResults
-                });
+                if(sources[j].selected === true){
+                    var promise = Events.list({
+                        'calendarId': sources[j].id,
+                        'access_token': $rootScope.dataCache.access_token,
+                        'timeMin': params.start,
+                        'timeMax': params.end,
+                        'orderBy': params.orderBy,
+                        'showDeleted': params.showDeleted,
+                        'pageToken': params.pageToken,
+                        'maxResults': params.maxResults
+                    });
 
-                promise.$then(function(){
+                    promise.$then(function(){
+                        j++;
+
+                        fetchEvents(sources, params, callback);
+                    });
+                } else {
                     j++;
 
                     fetchEvents(sources, params, callback);
-                });
+                }
             } else {
                 if(typeof callback === 'function'){
                     callback();
@@ -361,7 +361,20 @@
             defaultView: 'agendaWeek',
             slotMinutes: 15,
             eventClick: $scope.eventClick,
-            viewDisplay: function (view) {},
+            viewDisplay: function (view) {
+                if($rootScope.dataCache.calendars.length){
+                    fetchEvents(
+                        $rootScope.dataCache.calendars,
+                        {
+                            'start': $filter('date')(view.start, 'yyyy/MM/dd HH:mm:ss'),
+                            'end': $filter('date')(view.end, 'yyyy/MM/dd HH:mm:ss')
+                        },
+                        function(){
+                            console.log(2);
+                        }
+                    );
+                }
+            },
             loading: function (bool) {
                 if (!bool) {
                     $rootScope.$broadcast('loading:Started');
