@@ -297,7 +297,7 @@
         }
 
         //sort calendars by access role
-        function sortCalendars(calendars, callback) {
+        function sortCalendars(calendars) {
             angular.forEach(calendars, function (value, key) {
                 //personal calendars
                 if (calendars[key].accessRole === 'owner') {
@@ -309,10 +309,6 @@
                     $rootScope.dataCache.calendarList[1].calendars.push(calendars[key]);
                 }
             });
-
-            if (callback && typeof callback === 'function') {
-                callback();
-            }
         }
 
         //fetch events
