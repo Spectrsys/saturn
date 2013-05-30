@@ -352,7 +352,7 @@ License: MIT
 }
 .sp-dd {
     padding: 2px 0;
-    height: 16px;
+    height: 13px;
     line-height: 16px;
     float:left;
     font-size:10px;
@@ -360,8 +360,8 @@ License: MIT
 .sp-preview
 {
     position:relative;
-    width:25px;
-    height: 20px;
+    width:20px;
+    height: 15px;
     border: solid 1px #222;
     margin-right: 5px;
     float:left;
