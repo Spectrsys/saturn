@@ -169,7 +169,8 @@
     saturnApp.factory('Calendars', function ($resource, $rootScope) {
         return $resource(
             $rootScope.config.baseURL + '/calendars/:calendarId', {
-                'calendarId': '@calendarId'
+                'calendarId': '@calendarId',
+                'key': '@key'
             }, {
                 'clear': {
                     'method': 'POST',
@@ -381,7 +382,9 @@
 
     /******************************************************************/
     /* Calendars */
-    saturnApp.controller('CalendarController', function ($scope, $rootScope, CalendarList) {
+    saturnApp.controller('CalendarController', function ($scope, $rootScope, CalendarList, Calendars) {
+        $scope.calendar = {};
+
         //render calendars after login
         $rootScope.$on('login', function(){
             loadCalendarList();
@@ -418,6 +421,17 @@
                 }
             });
         }
+
+
+        //save a new calendar
+        $scope.createCalendar = function(){
+            Calendars.insert({
+                'summary': $scope.calendar.summary,
+                'description': $scope.calendar.description,
+                'location': $scope.calendar.location,
+                'timeZone': $scope.calendar.timeZone
+            });
+        };
     });
 
     /******************************************************************/
@@ -427,6 +441,7 @@
     /******************************************************************/
     //User
     var userConfig = {
+        'clientSecret': 'Onhyzb0B8l1VltUAjcslrLbk',
         'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
         'scopes': 'https://www.googleapis.com/auth/calendar'
     };
