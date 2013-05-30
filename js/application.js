@@ -5,14 +5,21 @@
     });
 
     /******************************************************************/
-        //helper functions
-
+    //helper functions
     function safeApply(scope, fn) {
         var phase = scope.$root.$$phase;
         if (phase === '$apply' || phase === '$digest')
             scope.$eval(fn);
         else
             scope.$apply(fn);
+    }
+
+    //random color generator
+    function randomHexColor(){
+        function c() {
+            return Math.floor(Math.random()*256).toString(16);
+        }
+        return "#"+c()+c()+c();
     }
 
     //calendar
@@ -273,63 +280,12 @@
 
     /******************************************************************/
     /* Events */
-    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Calendars, CalendarList) {
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
-
-        $scope.evt = [
-            {
-                title: 'All Day Event',
-                start: new Date(y, m, 1)
-            },
-            {
-                title: 'Long Event',
-                start: new Date(y, m, d-5),
-                end: new Date(y, m, d-2)
-            },
-            {
-                id: 999,
-                title: 'Repeating Event',
-                start: new Date(y, m, d-3, 16, 0),
-                allDay: false
-            },
-            {
-                id: 999,
-                title: 'Repeating Event',
-                start: new Date(y, m, d+4, 16, 0),
-                allDay: false
-            },
-            {
-                title: 'Meeting',
-                start: new Date(y, m, d, 10, 30),
-                allDay: false
-            },
-            {
-                title: 'Lunch',
-                start: new Date(y, m, d, 12, 0),
-                end: new Date(y, m, d, 14, 0),
-                allDay: false
-            },
-            {
-                title: 'Birthday Party',
-                start: new Date(y, m, d+1, 19, 0),
-                end: new Date(y, m, d+1, 22, 30),
-                allDay: false
-            },
-            {
-                title: 'Click for Google',
-                start: new Date(y, m, 28),
-                end: new Date(y, m, 29),
-                url: 'http://google.com/'
-            }
-        ];
+    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events) {
         $scope.events =  function(start, end, callback) {
             return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
         };
 
-        $scope.eventSources = [$scope.evt, $scope.events];
+        $scope.eventSources = [$scope.events];
 
         //fetch events
         var i = 0,
@@ -377,7 +333,59 @@
         }
 
         $scope.updateEventSources = function(){
-        }
+        };
+
+        //master calendar
+        $scope.masterCalendar = {
+            header: {
+                left: 'month agendaWeek agendaDay',
+                center: 'title',
+                right: 'today prev,next'
+            },
+            allDayDefault: false,
+            selectable: true,
+            defaultView: 'agendaWeek',
+            slotMinutes: 15,
+            eventClick: $scope.eventClick,
+            viewDisplay: function (view) {
+            },
+            loading: function (bool) {
+                if (!bool) {
+                    $rootScope.$broadcast('loading:Started');
+                } else {
+                    $rootScope.$broadcast('loading:Finished');
+                }
+            },
+            select: $scope.select,
+            unselect: $scope.unselect
+        };
+
+        //mini calendar
+        $scope.miniCalendar = {
+            header: {
+                left: '',
+                center: 'title',
+                right: 'today prev,next'
+            },
+            editable: false,
+            selectable: false,
+            columnFormat: {
+                day: 'D'
+            },
+            eventRender: function () {
+                return false;
+            },
+            dayClick: function (date, allDay, jsEvent, view) {}
+        };
+    });
+
+    /******************************************************************/
+    /* Calendars */
+    saturnApp.controller('CalendarController', function ($scope, $rootScope, CalendarList) {
+        //render calendars after login
+        $rootScope.$on('login', function(){
+            loadCalendarList();
+        });
 
         //load calendars
         function loadCalendarList() {
@@ -410,56 +418,6 @@
                 }
             });
         }
-
-        //master calendar
-        $scope.masterCalendar = {
-            header: {
-                left: 'month agendaWeek agendaDay',
-                center: 'title',
-                right: 'today prev,next'
-            },
-            allDayDefault: false,
-            selectable: true,
-            defaultView: 'agendaWeek',
-            slotMinutes: 15,
-            eventClick: $scope.eventClick,
-            viewDisplay: function (view) {
-                var start = $filter('date')(view.visStart, 'yyyy-MM-ddTHH:mm:ssZ'),
-                    end = $filter('date')(view.visEnd, 'yyyy-MM-ddTHH:mm:ssZ');
-            },
-            loading: function (bool) {
-                if (!bool) {
-                    $rootScope.$broadcast('loading:Started');
-                } else {
-                    $rootScope.$broadcast('loading:Finished');
-                }
-            },
-            select: $scope.select,
-            unselect: $scope.unselect
-        };
-
-        //mini calendar
-        $scope.miniCalendar = {
-            header: {
-                left: '',
-                center: 'title',
-                right: 'today prev,next'
-            },
-            editable: false,
-            selectable: false,
-            columnFormat: {
-                day: 'D'
-            },
-            eventRender: function () {
-                return false;
-            },
-            dayClick: function (date, allDay, jsEvent, view) {}
-        };
-
-        //render calendars after login
-        $rootScope.$on('login', function(){
-            loadCalendarList();
-        });
     });
 
     /******************************************************************/
@@ -498,7 +456,7 @@
                     $location.path('/');
 
                     //notify everyone that the user has logged in
-                    $rootScope.$emit('login');
+                    $rootScope.$broadcast('login');
                 });
             }
         }
@@ -515,7 +473,7 @@
             $rootScope.setup();
 
             //notify everyone that the user has logged out
-            $rootScope.$emit('logout');
+            $rootScope.$broadcast('logout');
         };
     });
 })(jQuery);

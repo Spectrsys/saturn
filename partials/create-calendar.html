@@ -1,7 +1,7 @@
 <form name="createCalendarForm" ng-controller="EventController">
     <div class="widget">
         <div class="widget-heading">
-            <div class="widget-title">"Create New Calendar</div>
+            <div class="widget-title">Create New Calendar</div>
         </div>
         <div class="widget-content">
             <ol class="unstyled">
@@ -70,7 +70,7 @@
                     </div>
                 </li>
             </ol>
-            <button type="submit" class="btn btn-success" ng-disabled="createCalendarForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
+            <button type="submit" class="btn btn-success" ng-disabled="createCalendarForm.$invalid" ng-click="createCalendar()"><i class="icon-save"></i> Save</button>
             <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
         </div>
     </div>

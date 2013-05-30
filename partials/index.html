@@ -1,28 +1,28 @@
-<div ng-controller="EventController">
-    <!--sidebar-->
-    <aside id="sidebar" class="span2">
-        <div class="widget">
-            <div class="widget-content">
-                <div class="btn-group">
-                    <button class="btn btn-success" data-toggle="dropdown"> Create New </button>
-                    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li><a href="" ng-click="modals.calendarDetails = true">Calendar</a></li>
-                        <li><a href="" ng-click="modals.eventDetails = true">Event</a></li>
-                    </ul>
-                </div>
+<!--sidebar-->
+<aside id="sidebar" class="span2">
+    <div class="widget">
+        <div class="widget-content">
+            <div class="btn-group">
+                <button class="btn btn-success" data-toggle="dropdown"> Create New </button>
+                <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="" ng-click="modals.calendarDetails = true">Calendar</a></li>
+                    <li><a href="" ng-click="modals.eventDetails = true">Event</a></li>
+                </ul>
             </div>
         </div>
+    </div>
 
-        <div class="widget">
-            <div class="widget-heading" ng-click="config.collapsed.minicalendar = !config.collapsed.minicalendar">
-                <div class="widget-title">Mini calendar</div>
-            </div>
-            <div class="widget-content" collapse="config.collapsed.minicalendar">
-                <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
-            </div>
+    <div class="widget" ng-controller="EventController">
+        <div class="widget-heading">
+            <div class="widget-title">Mini calendar</div>
         </div>
+        <div class="widget-content">
+            <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
+        </div>
+    </div>
 
+    <div ng-controller="CalendarController">
         <!--calendar listing-->
         <div class="widget" ng-repeat="list in dataCache.calendarList">
             <div class="widget-heading">
@@ -76,124 +76,12 @@
             </div>
         </div>
         <!--/calendar listing-->
-    </aside>
-    <!--/sidebar-->
-
-    <!--content-->
-    <div id="content" class="span10">
-        <div ui-calendar="masterCalendar" class="calendar" ng-model="eventSources"></div>
     </div>
-    <!--/content-->
+</aside>
+<!--/sidebar-->
 
-    <!--event details-->
-    <div modal="modals.eventDetails">
-        <form id="eventDetailsForm" name="eventDetailsForm">
-            <div class="modal-header">
-                <a href="" class="pull-right" ng-click="modals.eventDetails = false">
-                    &nbsp;
-                    <i class="icon-remove"></i>
-                    &nbsp;
-                </a>
-                <h4>Event details</h4>
-            </div>
-            <div class="modal-body">
-                <ol class="unstyled">
-                    <li>
-                        <input type="text" class="input-block-level" ng-model="dataCache.currentEvent.title" />
-                    </li>
-                    <li>
-                        <label for="event-location">Location</label>
-                        <input type="text" id="event-location" class="input-block-level" ng-model="dataCache.currentEvent.location" />
-                    </li>
-                    <li>
-                        <label for="event-description">Description</label>
-                        <textarea id="event-description" class="input-block-level" ng-model="dataCache.currentEvent.description"></textarea>
-                    </li>
-                    <li>
-                        <div class="input-prepend">
-                            <span class="add-on" title="Start date" data-toggle="tooltip">
-                                <i class="icon-calendar"></i>
-                            </span>
-                            <input type="text" id="event-start-date" ui-date />
-                        </div>
-                        <div class="input-append bst-right" ng-hide="currentEvent.allDay">
-                            <input type="text" id="event-start-time" class="input-small" ng-model="dataCache.currentEvent.startTime" disabled bs-timepicker />
-                            <span class="add-on" title="Start time" data-toggle="tooltip">
-                                <i class="icon-time"></i>
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="input-prepend">
-                            <span class="add-on" title="End date" data-toggle="tooltip">
-                                <i class="icon-calendar"></i>
-                            </span>
-                            <input type="text" id="event-end-date" ui-date />
-                        </div>
-                        <div class="input-append bst-right" ng-hide="currentEvent.allDay">
-                            <input type="text" id="event-end-time" class="input-small" ng-model="dataCache.currentEvent.endTime" bs-timepicker />
-                            <span class="add-on" title="End time" data-toggle="tooltip">
-                                <i class="icon-time"></i>
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <label for="event-calendar">Calendar</label>
-                        <select id="event-calendar" ng-model="dataCache.currentEvent.calendar">
-                            <option ng-repeat="calendar in dataCache.calendarList[0].calendars" value="{{calendar.id}}">{{calendar.summary}}</option>
-                        </select>
-                    </li>
-                </ol>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success" ng-click="saveEvent()"><i class="icon-save"></i> Save</button>
-                <button type="reset" class="btn" ng-click="modals.eventDetails = false">Cancel</button>
-            </div>
-        </form>
-    </div>
-    <!--/event details-->
-
-    <!--calendar details-->
-    <div modal="modals.calendarDetails">
-        <form id="calendarDetailsForm" name="calendarDetailsForm">
-            <div class="modal-header">
-                <a href="" class="pull-right" ng-click="modals.calendarDetails = false">
-                    <i class="icon-remove"></i>
-                </a>
-                <h4>Calendar details</h4>
-            </div>
-            <div class="modal-body">
-                <ol class="unstyled">
-                    <li>
-                        <label for="calendar-name">Calendar name</label>
-                        <input type="text" id="calendar-name" class="input-block-level" ng-model="dataCache.currentCalendar.summary" />
-                    </li>
-                    <li>
-                        <label for="calendar-owner">Calendar owner</label>
-                        <input type="text" id="calendar-owner" class="input-block-level" disabled ng-model="dataCache.currentCalendar.owner" />
-                    </li>
-                    <li>
-                        <label for="calendar-organization">Organization</label>
-                        <input type="text" id="calendar-organization" class="input-block-level" disabled ng-model="dataCache.currentCalendar.organization" />
-                    </li>
-                    <li>
-                        <label for="calendar-description">Description</label>
-                        <textarea id="calendar-description" name="calendar-description" class="input-block-level" ng-model="dataCache.currentCalendar.description"></textarea>
-                    </li>
-                    <li>
-                        <label for="calendar-location">Location</label>
-                        <input type="text" id="calendar-location" name="calendar-location" class="input-block-level" ng-model="dataCache.currentCalendar.location" />
-                        <label for="calendar-location">
-                            <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
-                        </label>
-                    </li>
-                </ol>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success"><i class="icon-save"></i> Save</button>
-                <button type="reset" class="btn" ng-click="modals.calendarDetails = false">Cancel</button>
-            </div>
-        </form>
-    </div>
-    <!--/calendar details-->
+<!--content-->
+<div id="content" class="span10" ng-controller="EventController">
+    <div ui-calendar="masterCalendar" class="calendar" ng-model="eventSources"></div>
 </div>
+<!--/content-->
