@@ -81,7 +81,6 @@
                     }
                     ],
                     'eventTokens': [],
-                    'currentCalendar': {},
                     'tempCalendar': {},
                     'events': []
                 };
@@ -283,7 +282,7 @@
     /* Events */
     saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events) {
         $scope.events =  function(start, end, callback) {
-            return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
+            //return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
         };
 
         $scope.eventSources = [$scope.events];
@@ -385,6 +384,12 @@
     saturnApp.controller('CalendarController', function ($scope, $rootScope, CalendarList, Calendars) {
         $scope.calendar = {};
 
+        if($rootScope.currentCalendar){
+            updateEntity($rootScope.currentCalendar, $scope.calendar);
+
+            $rootScope.currentCalendar = null;
+        }
+
         //render calendars after login
         $rootScope.$on('login', function(){
             loadCalendarList();
@@ -425,12 +430,40 @@
 
         //save a new calendar
         $scope.createCalendar = function(){
-            Calendars.insert({
+            //insert new calendar
+            var promise = Calendars.insert({
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
                 'location': $scope.calendar.location,
                 'timeZone': $scope.calendar.timeZone
             });
+
+            //callback
+            promise.$then(function(){
+
+            });
+        };
+
+        //save calendar settings
+        $scope.saveCalendar = function(){
+            //update calendar meta
+            var promise = Calendars.update({
+                'calendarId': $scope.calendar.id,
+                'summary': $scope.calendar.summary,
+                'description': $scope.calendar.description,
+                'location': $scope.calendar.location,
+                'timeZone': $scope.calendar.timeZone
+            });
+
+            //callback
+            promise.$then(function(){
+
+            });
+        };
+
+        //set current calendar
+        $scope.setCalendar = function(){
+            $rootScope.currentCalendar = this.calendar;
         };
     });
 
