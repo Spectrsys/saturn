@@ -1,0 +1,68 @@
+<form name="createCalendarForm" ng-controller="EventController">
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">"Create New Calendar</div>
+        </div>
+        <div class="widget-content">
+            <tabs>
+                <pane heading="Calendar details">
+                    <ol class="unstyled">
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-name">Calendar name</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-name" name="calendar-name" class="input-block-level" required ng-model="dataCache.tempCalendar.summary" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label>Calendar owner</label>
+                            </div>
+                            <div class="span10">
+                                {{dataCache.tempCalendar.owner}}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-description">Description</label>
+                            </div>
+                            <div class="span10">
+                                <textarea id="calendar-description" name="calendar-description" class="input-block-level" ng-model="dataCache.tempCalendar.description"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-location">Location</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-location" name="calendar-location" class="input-block-level" />
+                                <label for="calendar-location">
+                                    <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-background">Background color</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-background" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.backgroundColor" ng-model="dataCache.tempCalendar.backgroundColor" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="span2">
+                                <label for="calendar-foreground">Text color</label>
+                            </div>
+                            <div class="span10">
+                                <input type="text" id="calendar-foreground" ng-change="colorPickerTest()" color-picker="dataCache.tempCalendar.foregroundColor" ng-model="dataCache.tempCalendar.foregroundColor" />
+                            </div>
+                        </li>
+                    </ol>
+                    <button type="submit" class="btn btn-success" ng-disabled="createCalendarForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
+                    <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
+                </pane>
+            </tabs>
+        </div>
+    </div>
+</form>
