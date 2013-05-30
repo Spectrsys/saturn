@@ -28,14 +28,6 @@
         $(this).addClass('on');
     });
 
-    //update entity
-
-    function updateEntity(source, destination) {
-        if (typeof source === typeof destination) {
-            angular.copy(source, destination);
-        }
-    }
-
     //define applicaton
     var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
 
@@ -382,10 +374,21 @@
     /******************************************************************/
     /* Calendars */
     saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars) {
-        $scope.calendar = {};
+        var bgColor = randomHexColor();
+        //avoid generating a black background
+        if(bgColor === '#000000'){
+            bgColor = randomHexColor();
+        }
+
+        $scope.calendar = {
+            //set random bg color
+            //text color defaults to black
+            'backgroundColor': bgColor,
+            'foregroundColor': '#000'
+        };
 
         if($rootScope.currentCalendar){
-            $scope.calendar = $rootScope.currentCalendar;
+            angular.copy($rootScope.currentCalendar, $scope.calendar);
         }
 
         //render calendars after login
@@ -444,6 +447,8 @@
 
         //save calendar settings
         $scope.saveCalendar = function(){
+            angular.copy($scope.calendar, $rootScope.currentCalendar);
+
             //update calendar meta
             var promise = Calendars.update({
                 'calendarId': $scope.calendar.id,
@@ -455,18 +460,21 @@
 
             //callback
             promise.$then(function(){
-                //destroy the current calendar
-                $rootScope.currentCalendar = null;
-                delete $rootScope.currentCalendar;
-
-                //redirect to the homepage
-                $location.path('/');
+                $scope.resetCalendar();
             });
         };
 
         //set current calendar
         $scope.setCalendar = function(){
             $rootScope.currentCalendar = this.calendar;
+        };
+
+        //reset current calendar settings
+        $scope.resetCalendar = function(){
+            angular.copy($rootScope.currentCalendar, $scope.calendar);
+
+            //redirect to the homepage
+            $location.path('/');
         };
     });
 
