@@ -53,7 +53,7 @@ angular.module('ui.directives').directive('uiCalendar',['ui.config', '$parse', f
                 expression = {};
               }
               angular.extend(options, uiConfig.uiCalendar, expression);
-              scope.calendar.fullCalendar(options);
+              (options);
             }
             update();
               /* watches all eventSources */

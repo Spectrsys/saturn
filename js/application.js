@@ -274,32 +274,57 @@
     /******************************************************************/
     /* Events */
     saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Calendars, CalendarList) {
-        $rootScope.events = [];
-        $scope.eventSources = [$rootScope.events];
+        $scope.events =  function(start, end, callback) {
+            safeApply($scope, function(){
+                return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
+            });
+        };
+
+        $scope.eventSources = [$scope.events];
 
         //fetch events
-        var i = 0;
+        var i = 0,
+            evtCache = [];
+
         function fetchEvents(sources, start, end, callback){
-            if((sources.length > 1) && (i < sources.length)) {
-                if(sources[i].selected === true){
-                    var promise = Events.list({
-                        'calendarId': sources[i].id,
-                        'access_token': $rootScope.dataCache.access_token,
-                        'timeMin': start,
-                        'timeMax': end
-                    });
+            var sortStart  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
+                sortEnd  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
 
-                    promise.$then(function(){
-                        $rootScope.events.push.apply($rootScope.events, promise.items);
-
-                        i++;
-                        fetchEvents(sources, start, end, callback);
-                    });
-                } else {
-                    i++;
-                    fetchEvents(sources, start, end, callback);
-                }
+            if(!sources.length){
+                return false;
             }
+
+            if(i === sources.length){
+                i = 0;
+                if(typeof callback === 'function'){
+                    callback();
+                }
+
+                return false;
+            }
+
+            if(sources[i].selected === true){
+                var promise = Events.list({
+                    'calendarId': sources[i].id,
+                    'access_token': $rootScope.dataCache.access_token,
+                    'timeMin': sortStart,
+                    'timeMax': sortEnd
+                });
+
+                promise.$then(function(){
+                    i++;
+
+                    evtCache.push.apply(evtCache, promise.items);
+                    return fetchEvents(sources, start, end, callback);
+                });
+            } else {
+                i++;
+                return fetchEvents(sources, start, end, callback);
+            }
+
+            console.log(evtCache);
+
+            return evtCache;
         }
 
         //load calendars
@@ -349,15 +374,10 @@
             viewDisplay: function (view) {
                 var start = $filter('date')(view.visStart, 'yyyy-MM-ddTHH:mm:ssZ'),
                     end = $filter('date')(view.visEnd, 'yyyy-MM-ddTHH:mm:ssZ');
-
-                safeApply($scope, function(){
-                    fetchEvents($rootScope.dataCache.calendars, start, end);
-                });
             },
             loading: function (bool) {
                 if (!bool) {
                     $rootScope.$broadcast('loading:Started');
-                    $scope.calendar.fullCalendar('gotoDate', $scope.dateCache);
                 } else {
                     $rootScope.$broadcast('loading:Finished');
                 }
