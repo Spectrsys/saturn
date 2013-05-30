@@ -381,13 +381,11 @@
 
     /******************************************************************/
     /* Calendars */
-    saturnApp.controller('CalendarController', function ($scope, $rootScope, CalendarList, Calendars) {
+    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars) {
         $scope.calendar = {};
 
         if($rootScope.currentCalendar){
-            updateEntity($rootScope.currentCalendar, $scope.calendar);
-
-            $rootScope.currentCalendar = null;
+            $scope.calendar = $rootScope.currentCalendar;
         }
 
         //render calendars after login
@@ -457,7 +455,12 @@
 
             //callback
             promise.$then(function(){
+                //destroy the current calendar
+                $rootScope.currentCalendar = null;
+                delete $rootScope.currentCalendar;
 
+                //redirect to the homepage
+                $location.path('/');
             });
         };
 
