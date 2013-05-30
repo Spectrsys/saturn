@@ -275,9 +275,7 @@
     /* Events */
     saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Calendars, CalendarList) {
         $scope.events =  function(start, end, callback) {
-            safeApply($scope, function(){
-                return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
-            });
+            return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
         };
 
         $scope.eventSources = [$scope.events];
@@ -304,27 +302,30 @@
             }
 
             if(sources[i].selected === true){
-                var promise = Events.list({
-                    'calendarId': sources[i].id,
-                    'access_token': $rootScope.dataCache.access_token,
-                    'timeMin': sortStart,
-                    'timeMax': sortEnd
-                });
+                safeApply($scope, function(){
+                    var promise = Events.list({
+                        'calendarId': sources[i].id,
+                        'access_token': $rootScope.dataCache.access_token,
+                        'timeMin': sortStart,
+                        'timeMax': sortEnd
+                    });
 
-                promise.$then(function(){
-                    i++;
+                    promise.$then(function(){
+                        i++;
 
-                    evtCache.push.apply(evtCache, promise.items);
-                    return fetchEvents(sources, start, end, callback);
+                        evtCache.push.apply(evtCache, promise.items);
+                        return fetchEvents(sources, start, end, callback);
+                    });
                 });
             } else {
                 i++;
                 return fetchEvents(sources, start, end, callback);
             }
 
-            console.log(evtCache);
-
             return evtCache;
+        }
+
+        $scope.updateEventSources = function(){
         }
 
         //load calendars
