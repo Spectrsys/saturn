@@ -178,6 +178,9 @@
                 },
                 'patch': {
                     'method': 'PATCH'
+                },
+                'delete': {
+                    'method': 'DELETE'
                 }
             });
     });
@@ -478,6 +481,20 @@
 
             //redirect to the homepage
             $location.path('/');
+        };
+
+        //delete calendar
+        $scope.deleteCalendar = function(){
+            //make sure the user knows what he's doing
+            if(confirm('Are you sure you want to delete this calendar ?')){
+                //remove the current calendar from the array
+                $rootScope.dataCache.calendarList[0].calendars.splice(this.$index, 1);
+
+                //send a request to teh server to delete the calendar
+                Calendars.delete({
+                    'calendarId': this.calendar.id
+                });
+            }
         };
     });
 
