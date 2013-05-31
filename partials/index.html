@@ -48,16 +48,16 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
+                                    <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
                                 </li>
                                 <li>
-                                    <a href="">Display only this calendar</a>
+                                    <a ng-href="">Display only this calendar</a>
                                 </li>
                                 <li>
-                                    <a href="">Hide this calendar from the list</a>
+                                    <a ng-href="">Hide this calendar from the list</a>
                                 </li>
                                 <li ng-show="{{calendar.accessRole == 'owner'}}">
-                                    <a href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="panes.calendarShare = true">Share this calendar</a>
+                                    <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="panes.calendarShare = true">Share this calendar</a>
                                 </li>
                                 <li ng-show="{{calendar.accessRole == 'owner'}}">
                                     <a href="">Create an event on this calendar</a>
