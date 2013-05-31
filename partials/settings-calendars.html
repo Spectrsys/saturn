@@ -43,12 +43,21 @@
 <!--main content-->
 <div id="main-content" class="span10">
     <form name="calendarsSettingsForm" ng-controller="CalendarController">
+        <!--personal calendars-->
         <div class="widget" ng-show="dataCache.calendarList[0].calendars.length">
             <div class="widget-heading">
                 <div class="widget-title">My Calendars <small>Calendars I can view and modify</small></div>
             </div>
             <div class="widget-content">
                 <table class="table">
+                    <colgroup>
+                        <col width="40%" />
+                        <col width="10%" />
+                        <col width="20%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>Calendar</th>
@@ -92,9 +101,57 @@
                 </table>
             </div>
         </div>
-        <div class="widget">
+        <!--/personal calendars-->
 
+        <!--calendar subscriptions-->
+        <div class="widget" ng-show="dataCache.calendarList[1].calendars.length">
+            <div class="widget-heading">
+                <div class="widget-title">Other Calendars <small>Calendars I can only view</small></div>
+            </div>
+            <div class="widget-content">
+                <table class="table">
+                    <colgroup>
+                        <col width="40%" />
+                        <col width="10%" />
+                        <col width="40%" />
+                        <col width="10%" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Calendar</th>
+                            <th>Show in list</th>
+                            <th>Notifications</th>
+                            <th>Subscription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="calendar in dataCache.calendarList[1].calendars">
+                            <td>
+                                <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">
+                                    <i class="icon-calendar"></i>
+                                    {{calendar.summary}}
+                                </a>
+                                <div>
+                                    <small>{{calendar.description}}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
+                            </td>
+                            <td>
+                                <a ng-href="">Reminders and notifications</a>
+                            </td>
+                            <td>
+                                <a ng-href="">Unsubscribe</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <!--/calendar subscriptions-->
+
+        <a href="#/" class="btn">Back</a>
     </form>
 </div>
 <!--/main content-->
