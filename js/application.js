@@ -50,7 +50,7 @@
                         templateUrl: 'partials/settings-account.html'
                     }).
                     when('/calendar/:calendarId/settings', {
-                        templateUrl: 'partials/calendar-settings.html'
+                        templateUrl: 'partials/settings-calendar.html'
                     }).
                     when('/calendar/create', {
                         templateUrl: 'partials/create-calendar.html'
