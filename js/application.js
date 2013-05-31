@@ -496,6 +496,13 @@
                 });
             }
         };
+
+        //unsubscribe from calendar
+        $scope.unsubscribe = function(){
+            //make sure the user knows what he's doing
+            if(confirm('Are you sure you want to unsubscribe from "' + this.calendar.summary + '" ?')){
+            }
+        };
     });
 
     /******************************************************************/
