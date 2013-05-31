@@ -9,10 +9,13 @@
         <div class="widget-content">
             <ul class="unstyled menu">
                 <li>
+                    <a href="/#/settings">General</a>
+                </li>
+                <li>
                     <a href="/#/settings/profile">Profile</a>
                 </li>
                 <li>
-                    <a href="/#/settings/account">Account Settings</a>
+                    <a href="/#/settings/account">Account</a>
                 </li>
                 <li>
                     <a href="/#/settings/emails">Emails</a>
@@ -20,21 +23,10 @@
                 <li>
                     <a href="/#/settings/organizations">Organizations</a>
                 </li>
-            </ul>
-        </div>
-    </div>
-    <div class="widget" ng-controller="CalendarController" ng-show="dataCache.calendarList[0].calendars.length">
-        <div class="widget-heading">
-            <div class="widget-title">
-                <i class="icon-calendar"></i> My calendars
-            </div>
-        </div>
-        <div class="widget-content">
-            <ol class="unstyled menu">
-                <li ng-repeat="calendar in dataCache.calendarList[0].calendars" title="{{calendar.description}}">
-                    <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">{{calendar.summary}}</a>
+                <li class="on">
+                    <a href="/#/settings/calendars">Calendars</a>
                 </li>
-            </ol>
+            </ul>
         </div>
     </div>
 </aside>
@@ -43,7 +35,8 @@
 <!--content-->
 <div id="content" class="span10">
     <form name="calendarSettingsForm" ng-controller="CalendarController">
-        <div class="widget">
+        <!--calendar details-->
+        <div class="widget" id="calendar-details">
             <div class="widget-heading">
                 <div class="widget-title">Calendar Details</div>
             </div>
@@ -105,7 +98,11 @@
                 </ol>
             </div>
         </div>
-        <div class="widget">
+        <!--/calendar details-->
+
+
+        <!--calendar sharing-->
+        <div class="widget" id="calendar-sharing">
             <div class="widget-heading">
                 <div class="widget-title">Sharing settings</div>
             </div>
@@ -147,6 +144,76 @@
                 </ol>
             </div>
         </div>
+        <!--/calendar sharing-->
+
+        <!--reminders and notifications-->
+        <div class="widget" id="calendar-reminders">
+            <div class="widget-heading">
+                <div class="widget-title">Reminders and notifications</div>
+            </div>
+            <div class="widget-content">
+                <table class="table">
+                    <thead>
+                        <th>Notification</th>
+                        <th>Email</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>New events:</strong>
+                                <br />
+                                Receive a notification when someone sends you an invitation to an event.
+                            </td>
+                            <td>
+                                <input type="checkbox" name="new" ng-model="calendar.notifications.new" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Changed events:</strong>
+                                <br />
+                                Receive a notification when someone sends an update about a changed event.
+                            </td>
+                            <td>
+                                <input type="checkbox" name="changed" ng-model="calendar.notifications.changed" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Canceled events:</strong>
+                                <br />
+                                Receive a notification when someone sends an update about a cancelled event.
+                            </td>
+                            <td>
+                                <input type="checkbox" name="canceled" ng-model="calendar.notifications.canceled" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Event responses:</strong>
+                                <br />
+                                Receive a notification when guests respond to an event for which you can see the guest list.
+                            </td>
+                            <td>
+                                <input type="checkbox" name="responses" ng-model="calendar.notifications.responses" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Daily agenda:</strong>
+                                <br />
+                                Receive an email with your agenda every day at 5am in your current time zone.
+                            </td>
+                            <td>
+                                <input type="checkbox" name="daily" ng-model="calendar.notifications.daily" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--reminders and notifications-->
+
         <button type="submit" class="btn btn-success" ng-disabled="calendarSettingsForm.$invalid" ng-click="saveCalendar()"><i class="icon-save"></i> Save</button>
         <a href="#/" ng-click="resetCalendar()" class="btn"><i class="icon-undo"></i> Cancel</a>
     </form>

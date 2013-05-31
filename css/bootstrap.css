@@ -3280,7 +3280,7 @@ button.close {
 
 .btn.disabled,
 .btn[disabled] {
-  cursor: default;
+  cursor: not-allowed;
   background-image: none;
   opacity: 0.65;
   filter: alpha(opacity=65);

@@ -9,10 +9,13 @@
         <div class="widget-content">
             <ul class="unstyled menu">
                 <li>
+                    <a href="/#/settings">General</a>
+                </li>
+                <li>
                     <a href="/#/settings/profile">Profile</a>
                 </li>
                 <li>
-                    <a href="/#/settings/account">Account Settings</a>
+                    <a href="/#/settings/account">Account</a>
                 </li>
                 <li>
                     <a href="/#/settings/emails">Emails</a>
@@ -20,21 +23,10 @@
                 <li>
                     <a href="/#/settings/organizations">Organizations</a>
                 </li>
-            </ul>
-        </div>
-    </div>
-    <div class="widget" ng-controller="CalendarController" ng-show="dataCache.calendarList[0].calendars.length">
-        <div class="widget-heading">
-            <div class="widget-title">
-                <i class="icon-calendar"></i> My calendars
-            </div>
-        </div>
-        <div class="widget-content">
-            <ol class="unstyled menu">
-                <li ng-repeat="calendar in dataCache.calendarList[0].calendars" title="{{calendar.description}}">
-                    <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">{{calendar.summary}}</a>
+                <li class="on">
+                    <a href="/#/settings/calendars">Calendars</a>
                 </li>
-            </ol>
+            </ul>
         </div>
     </div>
 </aside>
@@ -83,10 +75,10 @@
                                 <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-disabled="calendar.primary" />
                             </td>
                             <td>
-                                <a ng-href="">Reminders and notifications</a>
+                                <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Reminders and notifications</a>
                             </td>
                             <td>
-                                <a ng-href="">Edit settings</a>
+                                <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Edit settings</a>
                             </td>
                             <td>
                                 <a ng-click="unsubscribe()">Unsubscribe</a>
