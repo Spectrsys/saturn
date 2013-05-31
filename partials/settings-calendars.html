@@ -1,0 +1,100 @@
+<!--sidebar-->
+<aside id="sidebar" class="span2">
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">
+                <i class="icon-user"></i> John Doe
+            </div>
+        </div>
+        <div class="widget-content">
+            <ul class="unstyled menu">
+                <li>
+                    <a href="/#/settings/profile">Profile</a>
+                </li>
+                <li>
+                    <a href="/#/settings/account">Account Settings</a>
+                </li>
+                <li>
+                    <a href="/#/settings/emails">Emails</a>
+                </li>
+                <li>
+                    <a href="/#/settings/organizations">Organizations</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="widget" ng-controller="CalendarController" ng-show="dataCache.calendarList[0].calendars.length">
+        <div class="widget-heading">
+            <div class="widget-title">
+                <i class="icon-calendar"></i> My calendars
+            </div>
+        </div>
+        <div class="widget-content">
+            <ol class="unstyled menu">
+                <li ng-repeat="calendar in dataCache.calendarList[0].calendars" title="{{calendar.description}}">
+                    <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">{{calendar.summary}}</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+</aside>
+<!--/sidebar-->
+
+<!--main content-->
+<div id="main-content" class="span10">
+    <form name="calendarsSettingsForm" ng-controller="CalendarController">
+        <div class="widget" ng-show="dataCache.calendarList[0].calendars.length">
+            <div class="widget-heading">
+                <div class="widget-title">My Calendars <small>Calendars I can view and modify</small></div>
+            </div>
+            <div class="widget-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Calendar</th>
+                            <th>Show in list</th>
+                            <th>Notifications</th>
+                            <th>Sharing</th>
+                            <th>Subscription</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="calendar in dataCache.calendarList[0].calendars">
+                            <td>
+                                <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">
+                                    <i class="icon-calendar"></i>
+                                    {{calendar.summary}}
+                                </a>
+                                <div>
+                                    <small>{{calendar.description}}</small>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
+                            </td>
+                            <td>
+                                <a ng-href="">Reminders and notifications</a>
+                            </td>
+                            <td>
+                                <a ng-href="">Edit settings</a>
+                            </td>
+                            <td>
+                                <a ng-href="">Unsubscribe</a>
+                            </td>
+                            <td>
+                                <a ng-click="deleteCalendar()" title="Delete">
+                                    <i class="icon-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="widget">
+
+        </div>
+    </form>
+</div>
+<!--/main content-->

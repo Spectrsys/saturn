@@ -40,8 +40,8 @@
                     when('/login', {
                         templateUrl: 'partials/login.html'
                     }).
-                    when('/settings/', {
-                        templateUrl: 'partials/settings-general.html'
+                    when('/settings/calendars', {
+                        templateUrl: 'partials/settings-calendars.html'
                     }).
                     when('/settings/profile', {
                         templateUrl: 'partials/settings-profile.html'

@@ -8,6 +8,13 @@ a {
     cursor: pointer;
 }
 
+/* icons */
+[class^="icon-"] {
+    font-size: 1.2em;
+    text-decoration: none !important;
+    color: #333;
+}
+
 /* forms */
 .modal form {
     margin-bottom: 0;
