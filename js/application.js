@@ -87,6 +87,10 @@
                 };
 
                 $rootScope.user = {
+                    'name': {
+                        'first': '',
+                        'last': ''
+                    },
                     'authorised': false
                 };
 
@@ -540,19 +544,19 @@
                 'username': $scope.loginData.username,
                 'password': $scope.loginData.password
             }).success(function(data, status, headers, config){
-                    //set google auth key
-                    gapi.client.setApiKey(data.apiKey);
+                //set google auth key
+                gapi.client.setApiKey(data.apiKey);
 
-                    window.setTimeout(function(){
-                        gapi.auth.authorize({
-                            'client_id': data.clientId,
-                            'scope': data.scopes,
-                            'response_type': 'token',
-                            'immediate': false
-                        }, handleAuthResult);
-                    }, 200);
-                }).error(function(data, status, headers, config){
-                });
+                window.setTimeout(function(){
+                    gapi.auth.authorize({
+                        'client_id': data.clientId,
+                        'scope': data.scopes,
+                        'response_type': 'token',
+                        'immediate': false
+                    }, handleAuthResult);
+                }, 200);
+            }).error(function(data, status, headers, config){
+            });
         };
 
         //called after the user has logged in
@@ -563,7 +567,7 @@
                     $rootScope.dataCache.access_token = response.access_token;
 
                     //set the user as logged in
-                    $rootScope.user.loggedIn = true;
+                    $rootScope.user.authorised = true;
 
                     //redirect to the home page
                     $location.path('/');
@@ -571,6 +575,9 @@
                     //notify everyone that the user has logged in
                     $rootScope.$broadcast('login');
                 });
+
+                //get user data
+                $scope.getUserData();
             }
         }
 
@@ -588,5 +595,24 @@
             //notify everyone that the user has logged out
             $rootScope.$broadcast('logout');
         };
+
+        //get user data
+        $scope.getUserData = function(){
+            //makea request to google apps and get user data
+            $http({
+                'method': 'GET',
+                'url': 'https://www.googleapis.com/oauth2/v3/userinfo',
+                'params': {
+                    'access_token': $rootScope.dataCache.access_token
+                }
+            }).success(function(data, status, headers, config){
+                //update user data
+                $rootScope.user.name.first = data.given_name;
+                $rootScope.user.name.last = data.family_name;
+                $rootScope.user.email = data.email;
+                $rootScope.user.gender = data.gender;
+                $rootScope.user.picture = data.picture;
+            });
+        }
     });
 })(jQuery);
