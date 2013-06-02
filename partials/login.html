@@ -1,7 +1,13 @@
 <form id="login" name="loginForm">
     <ol class="unstyled">
         <li>
-            <input type="text" />
+            <label for="username" class="hidden">User</label>
+            <input type="email" id="username" placeholder="user@example.com" required />
+        </li>
+        <li>
+            <label for="password" class="hidden">Password</label>
+            <input type="password" id="password" placeholder="password" required />
         </li>
     </ol>
+    <button type="submit" class="btn">Log In</button>
 </form>
