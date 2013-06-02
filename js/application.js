@@ -115,13 +115,9 @@
             });
 
             //mock server interaction
-            $httpBackend.whenPOST('/auth').respond(function(method, url, data) {
-                $rootScope.user.authorised = true;
-                return [200];
+            $httpBackend.whenPOST('/login').respond(function(method, url, data) {
             });
             $httpBackend.whenPOST('/logout').respond(function(method, url, data) {
-                $rootScope.user.authorised = false;
-                return [200];
             });
 
             //otherwise
@@ -540,13 +536,11 @@
         //login
         $scope.login = function(){
             //make a post to the sever with the user credentials
-            $http({
-                'method': 'POST',
-                'url': '/auth',
-                'data': {
-                    'user': $scope.login.username,
-                    'password': $scope.login.password
-                }
+            $http.post('/login', {
+                'user': $scope.loginData.username,
+                'password': $scope.loginData.password
+            }).success(function(data, status, headers, config){
+            }).error(function(data, status, headers, config){
             });
         };
 
