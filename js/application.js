@@ -29,7 +29,7 @@
     });
 
     //define applicaton
-    var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource']);
+    var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource', 'ngMockE2E']);
 
     saturnApp.config(['$routeProvider',
             function ($routeProvider) {
@@ -65,7 +65,7 @@
                         redirectTo: '/'
                     });
             }
-        ]).run(function ($rootScope, $location) {
+        ]).run(function ($rootScope, $location, $httpBackend) {
             //application setup
             $rootScope.setup = function () {
                 $rootScope.dataCache = $rootScope.user = $rootScope.config = null;
@@ -87,7 +87,7 @@
                 };
 
                 $rootScope.user = {
-                    'loggedIn': false
+                    'authorised': false
                 };
 
                 $rootScope.config = {
@@ -99,20 +99,33 @@
 
             // register listener to watch route changes
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                if ($rootScope.user.loggedIn === false) {
+                if ($rootScope.user.authorised === false) {
                     // no logged user, we should be going to #login
                     if (next.templateUrl !== "partials/login.html") {
                         $location.path("/login");
                     }
                 }
 
-                if ($rootScope.user.loggedIn === true) {
+                if ($rootScope.user.authorised === true) {
                     // logged in users should not see the login again
                     if (next.templateUrl === "partials/login.html") {
                         $location.path("/");
                     }
                 }
             });
+
+            //mock server interaction
+            $httpBackend.whenPOST('/auth').respond(function(method, url, data) {
+                $rootScope.user.authorised = true;
+                return [200];
+            });
+            $httpBackend.whenPOST('/logout').respond(function(method, url, data) {
+                $rootScope.user.authorised = false;
+                return [200];
+            });
+
+            //otherwise
+            $httpBackend.whenGET(/.*/).passThrough();
         });
 
     /******************************************************************/
@@ -540,7 +553,7 @@
         //logout
         $scope.logout = function () {
             //set the user as logged in
-            $rootScope.user.loggedIn = false;
+            $rootScope.user.authorised = false;
 
             //redirect to the login page
             $location.path('/login');
