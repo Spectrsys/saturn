@@ -1,0 +1,82 @@
+<!--sidebar-->
+<aside id="sidebar" class="span2">
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">
+                <i class="icon-user"></i> John Doe
+            </div>
+        </div>
+        <div class="widget-content">
+            <ul class="unstyled menu">
+                <li>
+                    <a href="/#/settings">General</a>
+                </li>
+                <li>
+                    <a href="/#/settings/profile">Profile</a>
+                </li>
+                <li>
+                    <a href="/#/settings/account">Account</a>
+                </li>
+                <li class="on">
+                    <a href="/#/settings/emails">Emails</a>
+                </li>
+                <li>
+                    <a href="/#/settings/organizations">Organizations</a>
+                </li>
+                <li>
+                    <a href="/#/settings/calendars">Calendars</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<!--/sidebar-->
+
+<!--content-->
+<div id="content" class="span10">
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">Emails</div>
+        </div>
+        <div class="widget-content">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <td>
+                        example@example.com
+                        <span class="label label-success">Default</span>
+                    </td>
+                    <td class="text-right">
+                        <a class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        example@example.com
+                    </td>
+                    <td class="text-right">
+                        <a class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        example@example.com
+                    </td>
+                    <td class="text-right">
+                        <a class="btn">Verify</a>
+                        <a class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form name="emailSettingsForm" ng-controller="SettingsController" novalidate>
+        <label for="user-email">Add another email address</label>
+        <div class="input-append">
+            <input type="email" id="user-email" name="user-email" required />
+            <button type="submit" class="btn" ng-disabled="emailSettingsForm.$invalid">Add</button>
+        </div>
+    </form>
+</div>
+<!--/content-->

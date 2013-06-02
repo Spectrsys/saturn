@@ -721,15 +721,15 @@ a.text-success:focus {
 }
 
 .text-left {
-  text-align: left;
+  text-align: left !important;
 }
 
 .text-right {
-  text-align: right;
+  text-align: right !important;
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 h1,
@@ -5691,7 +5691,7 @@ a.badge:focus {
 
 .label-success,
 .badge-success {
-  background-color: #468847;
+  background-color: #6CC644;
 }
 
 .label-success[href],

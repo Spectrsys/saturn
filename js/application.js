@@ -43,6 +43,9 @@
                     when('/settings/', {
                         templateUrl: 'partials/settings.html'
                     }).
+                    when('/settings/emails', {
+                        templateUrl: 'partials/settings-emails.html'
+                    }).
                     when('/settings/calendars', {
                         templateUrl: 'partials/settings-calendars.html'
                     }).
