@@ -5,7 +5,7 @@
     });
 
     /******************************************************************/
-    //helper functions
+        //helper functions
     function safeApply(scope, fn) {
         var phase = scope.$root.$$phase;
         if (phase === '$apply' || phase === '$digest')
@@ -115,8 +115,14 @@
             });
 
             //mock server interaction
-            $httpBackend.whenPOST('/login').respond(function(method, url, data) {
-            });
+            $httpBackend.whenPOST('/login').respond(
+                {
+                    'apiKey': 'AIzaSyC3K--D5YHRX9rz0hU4tkb6evngzEuk-34',
+                    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+                    'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
+                }
+            );
+
             $httpBackend.whenPOST('/logout').respond(function(method, url, data) {
             });
 
@@ -130,7 +136,7 @@
     });
 
     /******************************************************************/
-    //ACL
+        //ACL
     saturnApp.factory('ACL', function ($resource, $rootScope) {
         return $resource(
             $rootScope.config.baseURL + '/calendars/:calendarId/acl/:ruleId', {
@@ -525,24 +531,48 @@
     saturnApp.controller('SettingsController', function ($scope, $rootScope) {});
 
     /******************************************************************/
-    //User
-    var userConfig = {
-        'clientSecret': 'Onhyzb0B8l1VltUAjcslrLbk',
-        'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
-        'scopes': 'https://www.googleapis.com/auth/calendar'
-    };
-
+        //User
     saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http) {
         //login
         $scope.login = function(){
             //make a post to the sever with the user credentials
             $http.post('/login', {
-                'user': $scope.loginData.username,
+                'username': $scope.loginData.username,
                 'password': $scope.loginData.password
             }).success(function(data, status, headers, config){
-            }).error(function(data, status, headers, config){
-            });
+                    //set google auth key
+                    gapi.client.setApiKey(data.apiKey);
+
+                    window.setTimeout(function(){
+                        gapi.auth.authorize({
+                            'client_id': data.clientId,
+                            'scope': data.scopes,
+                            'response_type': 'token',
+                            'immediate': false
+                        }, handleAuthResult);
+                    }, 200);
+                }).error(function(data, status, headers, config){
+                });
         };
+
+        //called after the user has logged in
+        function handleAuthResult(response) {
+            if (response && !response.error) {
+                safeApply($rootScope, function () {
+                    //save a copy of the access token for later use
+                    $rootScope.dataCache.access_token = response.access_token;
+
+                    //set the user as logged in
+                    $rootScope.user.loggedIn = true;
+
+                    //redirect to the home page
+                    $location.path('/');
+
+                    //notify everyone that the user has logged in
+                    $rootScope.$broadcast('login');
+                });
+            }
+        }
 
         //logout
         $scope.logout = function () {
