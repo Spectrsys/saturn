@@ -523,35 +523,19 @@
         'scopes': 'https://www.googleapis.com/auth/calendar'
     };
 
-    saturnApp.controller('UserController', function ($scope, $rootScope, $location) {
-        //check user
-        $scope.login = function () {
-            gapi.auth.authorize({
-                'client_id': userConfig.clientId,
-                'scope': userConfig.scopes,
-                'immediate': false
-            }, loginCallback);
+    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http) {
+        //login
+        $scope.login = function(){
+            //make a post to the sever with the user credentials
+            $http({
+                'method': 'POST',
+                'url': '/auth',
+                'data': {
+                    'user': $scope.login.username,
+                    'password': $scope.login.password
+                }
+            });
         };
-
-        //called after the user has logged in
-
-        function loginCallback(response) {
-            if (response && !response.error) {
-                safeApply($rootScope, function () {
-                    //save a copy of the access token for later use
-                    $rootScope.dataCache.access_token = response.access_token;
-
-                    //set the user as logged in
-                    $rootScope.user.loggedIn = true;
-
-                    //redirect to the home page
-                    $location.path('/');
-
-                    //notify everyone that the user has logged in
-                    $rootScope.$broadcast('login');
-                });
-            }
-        }
 
         //logout
         $scope.logout = function () {
