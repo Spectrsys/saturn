@@ -68,7 +68,11 @@
         ]).run(function ($rootScope, $location, $httpBackend) {
             //application setup
             $rootScope.setup = function () {
-                $rootScope.dataCache = $rootScope.user = $rootScope.config = null;
+                $rootScope.user = {
+                    'authorised': false
+                };
+
+                $rootScope.dataCache = $rootScope.config = null;
 
                 //application data storage
                 $rootScope.dataCache = {
@@ -84,14 +88,6 @@
                     'eventTokens': [],
                     'tempCalendar': {},
                     'events': []
-                };
-
-                $rootScope.user = {
-                    'name': {
-                        'first': '',
-                        'last': ''
-                    },
-                    'authorised': false
                 };
 
                 $rootScope.config = {
@@ -553,33 +549,31 @@
                         'scope': data.scopes,
                         'response_type': 'token',
                         'immediate': false
-                    }, handleAuthResult);
+                    }, $scope.handleAuthResult);
                 }, 200);
             }).error(function(data, status, headers, config){
             });
         };
 
         //called after the user has logged in
-        function handleAuthResult(response) {
+        $scope.handleAuthResult = function (response) {
             if (response && !response.error) {
-                safeApply($rootScope, function () {
-                    //save a copy of the access token for later use
-                    $rootScope.dataCache.access_token = response.access_token;
+                //save a copy of the access token for later use
+                $rootScope.dataCache.access_token = response.access_token;
 
-                    //set the user as logged in
-                    $rootScope.user.authorised = true;
+                //set the user as logged in
+                $rootScope.user.authorised = true;
 
-                    //redirect to the home page
-                    $location.path('/');
+                //redirect to the home page
+                $location.path('/');
 
-                    //notify everyone that the user has logged in
-                    $rootScope.$broadcast('login');
-                });
+                //notify everyone that the user has logged in
+                $rootScope.$broadcast('login');
 
                 //get user data
                 $scope.getUserData();
             }
-        }
+        };
 
         //logout
         $scope.logout = function () {
@@ -598,21 +592,23 @@
 
         //get user data
         $scope.getUserData = function(){
-            //makea request to google apps and get user data
-            $http({
-                'method': 'GET',
-                'url': 'https://www.googleapis.com/oauth2/v3/userinfo',
-                'params': {
-                    'access_token': $rootScope.dataCache.access_token
-                }
-            }).success(function(data, status, headers, config){
-                //update user data
-                $rootScope.user.name.first = data.given_name;
-                $rootScope.user.name.last = data.family_name;
-                $rootScope.user.email = data.email;
-                $rootScope.user.gender = data.gender;
-                $rootScope.user.picture = data.picture;
+            safeApply($scope, function(){
+                //makea request to google apps and get user data
+                $http({
+                    'method': 'GET',
+                    'url': 'https://www.googleapis.com/oauth2/v3/userinfo',
+                    'params': {
+                        'access_token': $rootScope.dataCache.access_token
+                    }
+                }).success(function(data, status, headers, config){
+                    //update user data
+                    $rootScope.user.firstName = data.given_name;
+                    $rootScope.user.lastName = data.family_name;
+                    $rootScope.user.email = data.email;
+                    $rootScope.user.gender = data.gender;
+                    $rootScope.user.picture = data.picture;
+                });
             });
-        }
+        };
     });
 })(jQuery);
