@@ -116,12 +116,13 @@
 
             //mock server interaction
             $httpBackend.whenPOST('/login').respond(function(method, url, data){
-                return {
+                data = $rootScope.$eval(data);
+                return [200, {
                     'login_hint': data.user,
                     'apiKey': 'AIzaSyC3K--D5YHRX9rz0hU4tkb6evngzEuk-34',
                     'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
                     'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
-                }
+                }];
             });
 
             $httpBackend.whenPOST('/logout').respond(function(method, url, data) {
@@ -538,7 +539,7 @@
         $scope.login = function(){
             //make a post to the sever with the user credentials
             $http.post('/login', {
-                'username': $scope.loginData.username,
+                'user': $scope.loginData.user,
                 'password': $scope.loginData.password
             }).success(function(data, status, headers, config){
                 //set google auth key
