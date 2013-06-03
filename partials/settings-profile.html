@@ -43,31 +43,31 @@
                 <ol class="unstyled">
                     <li>
                         <label for="user-first-name">Name</label>
-                        <input type="text" id="user-first-name" name="user-name" required ng-model="user.firstName" placeholder="First name" />
-                        <input type="text" id="user-last-name" name="user-name" required ng-model="user.lastName" placeholder="Last name" />
+                        <input type="text" id="user-first-name" name="user-name" required ng-model="data.user.firstName" placeholder="First name" />
+                        <input type="text" id="user-last-name" name="user-name" required ng-model="data.user.lastName" placeholder="Last name" />
                     </li>
                     <li>
                         <label for="user-email">Email</label>
-                        <input type="email" id="user-email" name="user-email" class="input-xxlarge" required ng-model="user.email" />
+                        <input type="email" id="user-email" name="user-email" class="input-xxlarge" required ng-model="data.user.email" />
                     </li>
                     <li>
                         <label for="user-url">URL</label>
-                        <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="settings.url" />
+                        <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="data.user.url" />
                     </li>
                     <li>
                         <label for="user-company">Company</label>
-                        <input type="text" id="user-company" name="user-company" class="input-xxlarge" ng-model="settings.company" />
+                        <input type="text" id="user-company" name="user-company" class="input-xxlarge" ng-model="data.user.company" />
                     </li>
                     <li>
                         <label for="user-location">Location</label>
-                        <input type="text" id="user-location" name="user-location" class="input-xxlarge" ng-model="settings.location" />
+                        <input type="text" id="user-location" name="user-location" class="input-xxlarge" ng-model="data.user.location" />
                     </li>
                     <li>
                         <label for="user-gravatar">Gravatar email</label>
-                        <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="settings.gravatar" />
+                        <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="data.user.gravatar" />
                     </li>
-                    <li ng-show="user.picture">
-                        <img width="100" ng-src="{{user.picture}}?s=100" />
+                    <li ng-show="data.user.picture">
+                        <img width="100" ng-src="{{data.user.picture}}?s=100" />
                     </li>
                 </ol>
                 <button type="submit" class="btn btn-success" ng-disabled="profileSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
