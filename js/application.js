@@ -113,6 +113,7 @@
         return {
             'baseURL': 'https://www.googleapis.com/calendar/v3',
             'user': {
+                'firstName': 'User',
                 'authorised': false
             },
             'calendars': [],
