@@ -297,7 +297,7 @@
         $scope.data = Data;
 
         $scope.events =  function(start, end, callback) {
-            //return fetchEvents($scope.data.calendars, start, end, callback);
+            return fetchEvents($scope.data.calendars, start, end, callback);
         };
 
         $scope.eventSources = [$scope.events];
