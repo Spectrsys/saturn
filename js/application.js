@@ -115,13 +115,14 @@
             });
 
             //mock server interaction
-            $httpBackend.whenPOST('/login').respond(
-                {
+            $httpBackend.whenPOST('/login').respond(function(method, url, data){
+                return {
+                    'login_hint': data.user,
                     'apiKey': 'AIzaSyC3K--D5YHRX9rz0hU4tkb6evngzEuk-34',
                     'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
                     'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
                 }
-            );
+            });
 
             $httpBackend.whenPOST('/logout').respond(function(method, url, data) {
             });
@@ -548,7 +549,8 @@
                         'client_id': data.clientId,
                         'scope': data.scopes,
                         'response_type': 'token',
-                        'immediate': false
+                        'immediate': false,
+                        'login_hint': data.login_hint
                     }, $scope.handleAuthResult);
                 }, 200);
             }).error(function(data, status, headers, config){

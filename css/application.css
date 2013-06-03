@@ -333,6 +333,7 @@ div.colorPicker-swatch {
 
 /* login */
 #login {
-    padding-top: 10em;
-    text-align: center;
+    width: 18em;
+    padding-top: 8em;
+    margin:  0 auto;
 }
