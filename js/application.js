@@ -608,6 +608,7 @@
                     $scope.data.user.email = data.email;
                     $scope.data.user.gender = data.gender;
                     $scope.data.user.picture = data.picture;
+                    $scope.data.user.profile = data.profile;
                 });
             });
         };
