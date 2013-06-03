@@ -36,7 +36,7 @@
 <div id="main-content" class="span10">
     <form name="calendarsSettingsForm" ng-controller="CalendarController">
         <!--personal calendars-->
-        <div class="widget" ng-show="dataCache.calendarList[0].calendars.length">
+        <div class="widget" ng-show="data.calendarList[0].calendars.length">
             <div class="widget-heading">
                 <div class="widget-title">My Calendars <small>Calendars I can view and modify</small></div>
             </div>
@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="calendar in dataCache.calendarList[0].calendars">
+                        <tr ng-repeat="calendar in data.calendarList[0].calendars">
                             <td>
                                 <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">
                                     <i class="icon-calendar"></i>
@@ -94,7 +94,7 @@
         <!--/personal calendars-->
 
         <!--calendar subscriptions-->
-        <div class="widget" ng-show="dataCache.calendarList[1].calendars.length">
+        <div class="widget" ng-show="data.calendarList[1].calendars.length">
             <div class="widget-heading">
                 <div class="widget-title">Other Calendars <small>Calendars I can only view</small></div>
             </div>
@@ -115,7 +115,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="calendar in dataCache.calendarList[1].calendars">
+                        <tr ng-repeat="calendar in data.calendarList[1].calendars">
                             <td>
                                 <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">
                                     <i class="icon-calendar"></i>
