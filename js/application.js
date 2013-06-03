@@ -138,7 +138,14 @@
     });
 
     /******************************************************************/
-        //ACL
+    //Data storage
+    //will be used for communication between controllers
+    saturnApp.factory('Data', function () {
+        return {};
+    });
+
+    /******************************************************************/
+    //ACL
     saturnApp.factory('ACL', function ($resource, $rootScope) {
         return $resource(
             $rootScope.config.baseURL + '/calendars/:calendarId/acl/:ruleId', {
