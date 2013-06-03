@@ -418,7 +418,7 @@
 
         //render calendars after login
         $scope.$watch('data.user.authorised', function(newValue, oldValue){
-            if(newValue === true){
+            if(newValue === true && $scope.data.calendars.length === 0){
                 loadCalendarList();
             }
         });
@@ -580,7 +580,7 @@
 
         //logout
         $scope.logout = function () {
-            //set the user as logged in
+            //set the user as logged out
             $scope.data.user.authorised = false;
 
             //redirect to the login page

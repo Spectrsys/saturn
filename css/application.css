@@ -10,7 +10,6 @@ a {
 
 /* icons */
 [class^="icon-"] {
-    font-size: 1.2em;
     text-decoration: none !important;
     color: #333;
 }
