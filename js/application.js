@@ -65,17 +65,17 @@
                         redirectTo: '/'
                     });
             }
-        ]).run(function ($rootScope, $location, $httpBackend) {
+        ]).run(function ($rootScope, $location, $httpBackend, Data) {
             // register listener to watch route changes
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                if ($scope.data.user.authorised === false) {
+                if (Data.user.authorised === false) {
                     // no logged user, we should be going to #login
                     if (next.templateUrl !== "partials/login.html") {
                         $location.path("/login");
                     }
                 }
 
-                if ($scope.data.user.authorised === true) {
+                if (Data.user.authorised === true) {
                     // logged in users should not see the login again
                     if (next.templateUrl === "partials/login.html") {
                         $location.path("/");
