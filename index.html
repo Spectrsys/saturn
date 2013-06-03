@@ -51,13 +51,13 @@
 
                     <!--user navigation-->
                     <nav id="user-nav" class="pull-right" ng-controller="UserController">
-                        <ul ng-show="user.authorised">
+                        <ul ng-show="data.user.authorised">
                             <li>
                                 <div class="btn-group">
                                     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                                         <i class="icon-user"></i>
-                                        <span ng-bind="user.firstName"></span>
-                                        <span ng-bind="user.lastName"></span>
+                                        <span ng-bind="data.user.firstName"></span>
+                                        <span ng-bind="data.user.lastName"></span>
                                         <span class="icon-caret-down"></span>
                                     </a>
                                     <ul class="dropdown-menu">

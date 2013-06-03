@@ -569,7 +569,7 @@
                 $scope.data.access_token = response.access_token;
 
                 //set the user as logged in
-                $scope.user.authorised = true;
+                $scope.data.user.authorised = true;
 
                 //redirect to the home page
                 $location.path('/');
