@@ -562,9 +562,6 @@
         //called after the user has logged in
         function handleAuthResult (response) {
             if (response && !response.error) {
-                //notify everyone that the user has logged in
-                $scope.$broadcast('login');
-
                 //save a copy of the access token for later use
                 $scope.data.access_token = response.access_token;
 
@@ -586,9 +583,6 @@
 
             //redirect to the login page
             $location.path('/login');
-
-            //notify everyone that the user has logged out
-            $scope.$broadcast('logout');
         };
 
         //get user data
