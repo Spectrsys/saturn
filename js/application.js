@@ -421,7 +421,7 @@
         }
 
         //render calendars after login
-        $rootScope.$on('login', function(){
+        $scope.$on('login', function(){
             loadCalendarList();
         });
 
