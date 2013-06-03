@@ -551,7 +551,8 @@
                         'scope': data.scopes,
                         'response_type': 'token',
                         'immediate': false,
-                        'login_hint': data.login_hint
+                        'login_hint': data.login_hint,
+                        'approval_prompt': 'force'
                     }, $scope.handleAuthResult);
                 }, 200);
             }).error(function(data, status, headers, config){
