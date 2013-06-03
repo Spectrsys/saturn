@@ -562,6 +562,9 @@
         //called after the user has logged in
         $scope.handleAuthResult = function (response) {
             if (response && !response.error) {
+                //notify everyone that the user has logged in
+                $rootScope.$broadcast('login');
+
                 //save a copy of the access token for later use
                 $rootScope.dataCache.access_token = response.access_token;
 
@@ -570,9 +573,6 @@
 
                 //redirect to the home page
                 $location.path('/');
-
-                //notify everyone that the user has logged in
-                $rootScope.$broadcast('login');
 
                 //get user data
                 $scope.getUserData();
