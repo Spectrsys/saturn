@@ -421,7 +421,7 @@
         }
 
         //render calendars after login
-        $scope.$on('login', function(){
+        $rootScope.$on('login', function(){
             loadCalendarList();
         });
 
@@ -553,14 +553,14 @@
                         'immediate': false,
                         'login_hint': data.login_hint,
                         'approval_prompt': 'force'
-                    }, $scope.handleAuthResult);
+                    }, handleAuthResult);
                 }, 200);
             }).error(function(data, status, headers, config){
             });
         };
 
         //called after the user has logged in
-        $scope.handleAuthResult = function (response) {
+        function handleAuthResult (response) {
             if (response && !response.error) {
                 //notify everyone that the user has logged in
                 $rootScope.$broadcast('login');
@@ -577,7 +577,7 @@
                 //get user data
                 $scope.getUserData();
             }
-        };
+        }
 
         //logout
         $scope.logout = function () {
