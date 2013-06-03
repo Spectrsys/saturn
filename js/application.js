@@ -66,37 +66,6 @@
                     });
             }
         ]).run(function ($rootScope, $location, $httpBackend) {
-            //application setup
-            $rootScope.setup = function () {
-                $rootScope.user = {
-                    'authorised': false
-                };
-
-                $rootScope.dataCache = $rootScope.config = null;
-
-                //application data storage
-                $rootScope.dataCache = {
-                    'calendars': [],
-                    'calendarList': [{
-                        'title': 'My calendars',
-                        'calendars': []
-                    }, {
-                        'title': 'Subscribed calendars',
-                        'calendars': []
-                    }
-                    ],
-                    'eventTokens': [],
-                    'tempCalendar': {},
-                    'events': []
-                };
-
-                $rootScope.config = {
-                    'baseURL': 'https://www.googleapis.com/calendar/v3'
-                };
-            };
-
-            $rootScope.setup();
-
             // register listener to watch route changes
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 if ($rootScope.user.authorised === false) {
@@ -141,7 +110,23 @@
     //Data storage
     //will be used for communication between controllers
     saturnApp.factory('Data', function () {
-        return {};
+        return {
+            'baseURL': 'https://www.googleapis.com/calendar/v3',
+            'user': {
+                'authorised': false
+            },
+            'calendars': [],
+            'calendarList': [{
+                'title': 'My calendars',
+                'calendars': []
+            }, {
+                'title': 'Subscribed calendars',
+                'calendars': []
+            }],
+            'eventTokens': [],
+            'tempCalendar': {},
+            'events': []
+        };
     });
 
     /******************************************************************/
@@ -308,7 +293,9 @@
 
     /******************************************************************/
     /* Events */
-    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events) {
+    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Data) {
+        $scope.data = Data;
+
         $scope.events =  function(start, end, callback) {
             //return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
         };
@@ -409,7 +396,9 @@
 
     /******************************************************************/
     /* Calendars */
-    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars) {
+    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars, Data) {
+        $scope.data = Data;
+
         var bgColor = randomHexColor();
         //avoid generating a black background
         if(bgColor === '#000000'){
@@ -537,11 +526,15 @@
 
     /******************************************************************/
     /* Settings */
-    saturnApp.controller('SettingsController', function ($scope, $rootScope) {});
+    saturnApp.controller('SettingsController', function ($scope, $rootScope, Data) {
+        $scope.data = Data;
+    });
 
     /******************************************************************/
         //User
-    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http) {
+    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, Data) {
+        $scope.data = Data;
+
         //login
         $scope.login = function(){
             //make a post to the sever with the user credentials
