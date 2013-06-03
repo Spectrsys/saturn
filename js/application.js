@@ -68,14 +68,14 @@
         ]).run(function ($rootScope, $location, $httpBackend) {
             // register listener to watch route changes
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                if ($rootScope.user.authorised === false) {
+                if ($scope.data.user.authorised === false) {
                     // no logged user, we should be going to #login
                     if (next.templateUrl !== "partials/login.html") {
                         $location.path("/login");
                     }
                 }
 
-                if ($rootScope.user.authorised === true) {
+                if ($scope.data.user.authorised === true) {
                     // logged in users should not see the login again
                     if (next.templateUrl === "partials/login.html") {
                         $location.path("/");
@@ -131,9 +131,9 @@
 
     /******************************************************************/
     //ACL
-    saturnApp.factory('ACL', function ($resource, $rootScope) {
+    saturnApp.factory('ACL', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL + '/calendars/:calendarId/acl/:ruleId', {
+            Data.baseURL + '/calendars/:calendarId/acl/:ruleId', {
                 'calendarId': '@calendarId',
                 'ruleId': '@ruleId'
             }, {
@@ -153,9 +153,9 @@
     });
 
     //Calendar List
-    saturnApp.factory('CalendarList', function ($resource, $rootScope) {
+    saturnApp.factory('CalendarList', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL + '/users/:user/calendarList/:calendarId', {
+            Data.baseURL + '/users/:user/calendarList/:calendarId', {
                 'user': 'me',
                 'calendarId': '@calendarId'
             }, {
@@ -175,15 +175,15 @@
     });
 
     //Calendars
-    saturnApp.factory('Calendars', function ($resource, $rootScope) {
+    saturnApp.factory('Calendars', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL + '/calendars/:calendarId', {
+            Data.baseURL + '/calendars/:calendarId', {
                 'calendarId': '@calendarId',
                 'key': '@key'
             }, {
                 'clear': {
                     'method': 'POST',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/clear'
+                    'url': Data.baseURL + '/calendars/:calendarId/clear'
                 },
                 'insert': {
                     'method': 'POST'
@@ -201,103 +201,103 @@
     });
 
     //Colors
-    saturnApp.factory('Colors', function ($resource, $rootScope) {
+    saturnApp.factory('Colors', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL, {
+            Data.baseURL, {
                 'get': {
                     'method': 'GET',
-                    'url': $rootScope.config.baseURL + '/colors'
+                    'url': Data.baseURL + '/colors'
                 }
             });
     });
 
     //Events
-    saturnApp.factory('Events', function ($resource, $rootScope) {
+    saturnApp.factory('Events', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL, {
+            Data.baseURL, {
                 'calendarId': '@calendarId',
                 'eventId': '@eventId',
                 'access_token': '@access_token'
             }, {
                 'delete': {
                     'method': 'DELETE',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'get': {
                     'method': 'GET',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'import': {
                     'method': 'POST',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/import'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/import'
                 },
                 'insert': {
                     'method': 'POST',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events'
+                    'url': Data.baseURL + '/calendars/:calendarId/events'
                 },
                 'instances': {
                     'method': 'GET',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId/instances'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId/instances'
                 },
                 'list': {
                     'method': 'GET',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events'
+                    'url': Data.baseURL + '/calendars/:calendarId/events'
                 },
                 'move': {
                     'method': 'POST',
-                    'URL': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId/move'
+                    'URL': Data.baseURL + '/calendars/:calendarId/events/:eventId/move'
                 },
                 'quickAdd': {
                     'method': 'POST',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/quickAdd'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/quickAdd'
                 },
                 'update': {
                     'method': 'POST',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'patch': {
                     'method': 'PATCH',
-                    'url': $rootScope.config.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
                 }
             });
     });
 
     //Colors
-    saturnApp.factory('Freebusy', function ($resource, $rootScope) {
+    saturnApp.factory('Freebusy', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL, {
+            Data.baseURL, {
                 'query': {
                     'method': 'POST',
-                    'url': $rootScope.config.baseURL + '/freeBusy'
+                    'url': Data.baseURL + '/freeBusy'
                 }
             });
     });
 
     //Settings
-    saturnApp.factory('Settings', function ($resource, $rootScope) {
+    saturnApp.factory('Settings', function ($resource, Data) {
         return $resource(
-            $rootScope.config.baseURL, {
+            Data.baseURL, {
                 'userId': '@userId',
                 'setting': '@setting'
             }, {
                 'get': {
                     'method': 'GET',
-                    'url': $rootScope.config.baseURL + '/users/:userId/settings/:setting'
+                    'url': Data.baseURL + '/users/:userId/settings/:setting'
                 },
                 'list': {
                     'method': 'GET',
-                    'url': $rootScope.config.baseURL + '/users/:userId/settings'
+                    'url': Data.baseURL + '/users/:userId/settings'
                 }
             });
     });
 
     /******************************************************************/
     /* Events */
-    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Data) {
+    saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
         $scope.events =  function(start, end, callback) {
-            //return fetchEvents($rootScope.dataCache.calendars, start, end, callback);
+            //return fetchEvents($scope.data.calendars, start, end, callback);
         };
 
         $scope.eventSources = [$scope.events];
@@ -327,7 +327,7 @@
                 safeApply($scope, function(){
                     var promise = Events.list({
                         'calendarId': sources[i].id,
-                        'access_token': $rootScope.dataCache.access_token,
+                        'access_token': $scope.data.access_token,
                         'timeMin': sortStart,
                         'timeMax': sortEnd
                     });
@@ -366,9 +366,9 @@
             },
             loading: function (bool) {
                 if (!bool) {
-                    $rootScope.$broadcast('loading:Started');
+                    $scope.$broadcast('loading:Started');
                 } else {
-                    $rootScope.$broadcast('loading:Finished');
+                    $scope.$broadcast('loading:Finished');
                 }
             },
             select: $scope.select,
@@ -396,7 +396,7 @@
 
     /******************************************************************/
     /* Calendars */
-    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars, Data) {
+    saturnApp.controller('CalendarController', function ($scope, $location, CalendarList, Calendars, Data) {
         $scope.data = Data;
 
         var bgColor = randomHexColor();
@@ -412,12 +412,12 @@
             'foregroundColor': '#000'
         };
 
-        if($rootScope.currentCalendar){
-            angular.copy($rootScope.currentCalendar, $scope.calendar);
+        if($scope.data.currentCalendar){
+            angular.copy($scope.data.currentCalendar, $scope.calendar);
         }
 
         //render calendars after login
-        $rootScope.$on('login', function(){
+        $scope.$on('login', function(){
             loadCalendarList();
         });
 
@@ -425,16 +425,16 @@
         function loadCalendarList() {
             //request calendars from the server
             var promise = CalendarList.list({
-                'access_token': $rootScope.dataCache.access_token
+                'access_token': $scope.data.access_token
             });
 
             //after they've loaded
             promise.$then(function () {
                 //save the in the root scope
-                $rootScope.dataCache.calendars = promise.items;
+                $scope.data.calendars = promise.items;
 
                 //sort them by owner
-                sortCalendars($rootScope.dataCache.calendars);
+                sortCalendars($scope.data.calendars);
             });
         }
 
@@ -443,12 +443,12 @@
             angular.forEach(calendars, function (value, key) {
                 //personal calendars
                 if (calendars[key].accessRole === 'owner') {
-                    $rootScope.dataCache.calendarList[0].calendars.push(calendars[key]);
+                    $scope.data.calendarList[0].calendars.push(calendars[key]);
                 }
 
                 //subscribed calendars
                 if (calendars[key].accessRole === 'reader') {
-                    $rootScope.dataCache.calendarList[1].calendars.push(calendars[key]);
+                    $scope.data.calendarList[1].calendars.push(calendars[key]);
                 }
             });
         }
@@ -472,7 +472,7 @@
 
         //save calendar settings
         $scope.saveCalendar = function(){
-            angular.copy($scope.calendar, $rootScope.currentCalendar);
+            angular.copy($scope.calendar, $scope.data.currentCalendar);
 
             //update calendar meta
             var promise = Calendars.update({
@@ -491,12 +491,12 @@
 
         //set current calendar
         $scope.setCalendar = function(){
-            $rootScope.currentCalendar = this.calendar;
+            $scope.data.currentCalendar = this.calendar;
         };
 
         //reset current calendar settings
         $scope.resetCalendar = function(){
-            angular.copy($rootScope.currentCalendar, $scope.calendar);
+            angular.copy($scope.data.currentCalendar, $scope.calendar);
 
             //redirect to the homepage
             $location.path('/');
@@ -507,7 +507,7 @@
             //make sure the user knows what he's doing
             if(confirm('Are you sure you want to delete this calendar ?')){
                 //remove the current calendar from the array
-                $rootScope.dataCache.calendarList[0].calendars.splice(this.$index, 1);
+                $scope.data.calendarList[0].calendars.splice(this.$index, 1);
 
                 //send a request to teh server to delete the calendar
                 Calendars.delete({
@@ -526,13 +526,13 @@
 
     /******************************************************************/
     /* Settings */
-    saturnApp.controller('SettingsController', function ($scope, $rootScope, Data) {
+    saturnApp.controller('SettingsController', function ($scope, Data) {
         $scope.data = Data;
     });
 
     /******************************************************************/
         //User
-    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, Data) {
+    saturnApp.controller('UserController', function ($scope, $location, $http, Data) {
         $scope.data = Data;
 
         //login
@@ -563,13 +563,13 @@
         function handleAuthResult (response) {
             if (response && !response.error) {
                 //notify everyone that the user has logged in
-                $rootScope.$broadcast('login');
+                $scope.$broadcast('login');
 
                 //save a copy of the access token for later use
-                $rootScope.dataCache.access_token = response.access_token;
+                $scope.data.access_token = response.access_token;
 
                 //set the user as logged in
-                $rootScope.user.authorised = true;
+                $scope.user.authorised = true;
 
                 //redirect to the home page
                 $location.path('/');
@@ -582,16 +582,13 @@
         //logout
         $scope.logout = function () {
             //set the user as logged in
-            $rootScope.user.authorised = false;
+            $scope.data.user.authorised = false;
 
             //redirect to the login page
             $location.path('/login');
 
-            //application setup
-            $rootScope.setup();
-
             //notify everyone that the user has logged out
-            $rootScope.$broadcast('logout');
+            $scope.$broadcast('logout');
         };
 
         //get user data
@@ -602,15 +599,15 @@
                     'method': 'GET',
                     'url': 'https://www.googleapis.com/oauth2/v3/userinfo',
                     'params': {
-                        'access_token': $rootScope.dataCache.access_token
+                        'access_token': $scope.data.access_token
                     }
                 }).success(function(data, status, headers, config){
                     //update user data
-                    $rootScope.user.firstName = data.given_name;
-                    $rootScope.user.lastName = data.family_name;
-                    $rootScope.user.email = data.email;
-                    $rootScope.user.gender = data.gender;
-                    $rootScope.user.picture = data.picture;
+                    $scope.data.user.firstName = data.given_name;
+                    $scope.data.user.lastName = data.family_name;
+                    $scope.data.user.email = data.email;
+                    $scope.data.user.gender = data.gender;
+                    $scope.data.user.picture = data.picture;
                 });
             });
         };
