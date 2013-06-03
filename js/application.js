@@ -417,8 +417,10 @@
         }
 
         //render calendars after login
-        $scope.$on('login', function(){
-            loadCalendarList();
+        $scope.$watch('data.user.authorised', function(newValue, oldValue){
+            if(newValue === true){
+                loadCalendarList();
+            }
         });
 
         //load calendars
