@@ -43,32 +43,15 @@
             <div class="widget-content">
                 <table class="table">
                     <tbody>
-                    <tr>
-                        <td>
-                            example@example.com
-                            <span class="label label-success">Default</span>
-                        </td>
-                        <td class="text-right">
-                            <a class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            example@example.com
-                        </td>
-                        <td class="text-right">
-                            <a class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            example@example.com
-                        </td>
-                        <td class="text-right">
-                            <a class="btn">Verify</a>
-                            <a class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <span ng-bind="data.user.email"></span>
+                                <span class="label label-success">Default</span>
+                            </td>
+                            <td class="text-right">
+                                <a class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
