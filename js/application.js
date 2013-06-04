@@ -328,7 +328,7 @@
                 safeApply($scope, function(){
                     var promise = Events.list({
                         'calendarId': sources[i].id,
-                        'access_token': $scope.data.access_token,
+                        'access_token': $.cookie('saturn_access_token'),
                         'timeMin': sortStart,
                         'timeMax': sortEnd
                     });
@@ -428,7 +428,7 @@
         function loadCalendarList() {
             //request calendars from the server
             var promise = CalendarList.list({
-                'access_token': $scope.data.access_token
+                'access_token': $.cookie('saturn_access_token')
             });
 
             //after they've loaded
@@ -536,6 +536,8 @@
     /******************************************************************/
         //User
     saturnApp.controller('UserController', function ($scope, $location, $http, Data) {
+        console.log($.cookie('saturn_access_token'));
+
         $scope.data = Data;
 
         //login
@@ -566,7 +568,7 @@
         function handleAuthResult (response) {
             if (response && !response.error) {
                 //save a copy of the access token for later use
-                $scope.data.access_token = response.access_token;
+                $.cookie('saturn_access_token', response.access_token);
 
                 //set the user as logged in
                 $scope.data.user.authorised = true;
@@ -581,6 +583,9 @@
 
         //logout
         $scope.logout = function () {
+            //destroy token cookie
+            $.cookie('saturn_access_token', null);
+
             //set the user as logged out
             $scope.data.user.authorised = false;
 
@@ -596,7 +601,7 @@
                     'method': 'GET',
                     'url': 'https://www.googleapis.com/oauth2/v3/userinfo',
                     'params': {
-                        'access_token': $scope.data.access_token
+                        'access_token': $.cookie('saturn_access_token')
                     }
                 }).success(function(data, status, headers, config){
                     //update user data
@@ -609,5 +614,16 @@
                 });
             });
         };
+
+        if($.cookie('saturn_access_token')){
+            //set the user as logged in
+            $scope.data.user.authorised = true;
+
+            //redirect to the home page
+            $location.path('/');
+
+            //get user data
+            $scope.getUserData();
+        }
     });
 })(jQuery);
