@@ -1,57 +1,58 @@
-<!--sidebar-->
-<aside id="sidebar" class="span2">
-    <div class="widget">
-        <div class="widget-heading">
-            <div class="widget-title">
-                <i class="icon-user"></i>
-                <span ng-bind="data.user.firstName + ' ' + data.user.lastName"></span>
-            </div>
-        </div>
-        <div class="widget-content">
-            <ul class="unstyled menu">
-                <li>
-                    <a href="/#/settings">General</a>
-                </li>
-                <li>
-                    <a href="/#/settings/profile">Profile</a>
-                </li>
-                <li>
-                    <a href="/#/settings/account">Account</a>
-                </li>
-                <li>
-                    <a href="/#/settings/emails">Emails</a>
-                </li>
-                <li>
-                    <a href="/#/settings/organizations">Organizations</a>
-                </li>
-                <li class="on">
-                    <a href="/#/settings/calendars">Calendars</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</aside>
-<!--/sidebar-->
-
-<!--main content-->
-<div id="main-content" class="span10">
-    <form name="calendarsSettingsForm" ng-controller="CalendarController">
-        <!--personal calendars-->
-        <div class="widget" ng-show="data.calendarList[0].calendars.length">
+<div ng-controller="CalendarController">
+    <!--sidebar-->
+    <aside id="sidebar" class="span2">
+        <div class="widget">
             <div class="widget-heading">
-                <div class="widget-title">My Calendars <small>Calendars I can view and modify</small></div>
+                <div class="widget-title">
+                    <i class="icon-user"></i>
+                    <span ng-bind="data.user.firstName + ' ' + data.user.lastName"></span>
+                </div>
             </div>
             <div class="widget-content">
-                <table class="table">
-                    <colgroup>
-                        <col width="40%" />
-                        <col width="10%" />
-                        <col width="20%" />
-                        <col width="10%" />
-                        <col width="10%" />
-                        <col width="10%" />
-                    </colgroup>
-                    <thead>
+                <ul class="unstyled menu">
+                    <li>
+                        <a href="/#/settings">General</a>
+                    </li>
+                    <li>
+                        <a href="/#/settings/profile">Profile</a>
+                    </li>
+                    <li>
+                        <a href="/#/settings/account">Account</a>
+                    </li>
+                    <li>
+                        <a href="/#/settings/emails">Emails</a>
+                    </li>
+                    <li>
+                        <a href="/#/settings/organizations">Organizations</a>
+                    </li>
+                    <li class="on">
+                        <a href="/#/settings/calendars">Calendars</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <!--/sidebar-->
+
+    <!--main content-->
+    <div id="main-content" class="span10">
+        <form name="calendarsSettingsForm">
+            <!--personal calendars-->
+            <div class="widget" ng-show="data.calendarList[0].calendars.length">
+                <div class="widget-heading">
+                    <div class="widget-title">My Calendars <small>Calendars I can view and modify</small></div>
+                </div>
+                <div class="widget-content">
+                    <table class="table">
+                        <colgroup>
+                            <col width="40%" />
+                            <col width="10%" />
+                            <col width="20%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                            <col width="10%" />
+                        </colgroup>
+                        <thead>
                         <tr>
                             <th>Calendar</th>
                             <th>Show in list</th>
@@ -60,8 +61,8 @@
                             <th>Subscription</th>
                             <th>Delete</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr ng-repeat="calendar in data.calendarList[0].calendars">
                             <td>
                                 <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">
@@ -88,34 +89,34 @@
                                 </a>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <!--/personal calendars-->
+            <!--/personal calendars-->
 
-        <!--calendar subscriptions-->
-        <div class="widget" ng-show="data.calendarList[1].calendars.length">
-            <div class="widget-heading">
-                <div class="widget-title">Other Calendars <small>Calendars I can only view</small></div>
-            </div>
-            <div class="widget-content">
-                <table class="table">
-                    <colgroup>
-                        <col width="40%" />
-                        <col width="10%" />
-                        <col width="40%" />
-                        <col width="10%" />
-                    </colgroup>
-                    <thead>
+            <!--calendar subscriptions-->
+            <div class="widget" ng-show="data.calendarList[1].calendars.length">
+                <div class="widget-heading">
+                    <div class="widget-title">Other Calendars <small>Calendars I can only view</small></div>
+                </div>
+                <div class="widget-content">
+                    <table class="table">
+                        <colgroup>
+                            <col width="40%" />
+                            <col width="10%" />
+                            <col width="40%" />
+                            <col width="10%" />
+                        </colgroup>
+                        <thead>
                         <tr>
                             <th>Calendar</th>
                             <th>Show in list</th>
                             <th>Notifications</th>
                             <th>Subscription</th>
                         </tr>
-                    </thead>
-                    <tbody>
+                        </thead>
+                        <tbody>
                         <tr ng-repeat="calendar in data.calendarList[1].calendars">
                             <td>
                                 <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">
@@ -134,13 +135,14 @@
                                 <a ng-click="unsubscribe()">Unsubscribe</a>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <!--/calendar subscriptions-->
+            <!--/calendar subscriptions-->
 
-        <a href="#/" class="btn">Back</a>
-    </form>
+            <a href="#/" class="btn">Back</a>
+        </form>
+    </div>
+    <!--/main content-->
 </div>
-<!--/main content-->
