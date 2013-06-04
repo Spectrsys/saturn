@@ -298,13 +298,34 @@
         $scope.data = Data;
 
         $scope.events =  function(start, end, callback) {
-            return fetchEvents($scope.data.calendars, start, end, callback);
+            var events = [{
+                title  : 'event1',
+                start  : '2013-06-01'
+            },
+                {
+                    title  : 'event2',
+                    start  : '2013-06-05',
+                    end    : '2013-06-07'
+                },
+                {
+                    title  : 'event3',
+                    start  : '2013-06-09 12:30:00',
+                    allDay : false // will make the time show
+                }];
+
+
+            fetchEvents($scope.data.calendars, start, end, function(results){console.log(results);
+                events.push.apply(events, results);
+
+                callback(events);
+            });
         };
 
         $scope.eventSources = [$scope.events];
+
         //fetch events
-        var i = 0,
-            evtCache = [];
+        var i = 0
+            _events = [];
 
         function fetchEvents(sources, start, end, callback){
             var sortStart  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
@@ -317,7 +338,7 @@
             if(i === sources.length){
                 i = 0;
                 if(typeof callback === 'function'){
-                    callback();
+                    callback(_events);
                 }
 
                 return false;
@@ -335,16 +356,17 @@
                     promise.$then(function(){
                         i++;
 
-                        evtCache.push.apply(evtCache, promise.items);
-                        return fetchEvents(sources, start, end, callback);
+                        if(promise.items && promise.items.length > 0){
+                            _events.push.apply(_events, promise.items);
+                        }
+
+                        fetchEvents(sources, start, end, callback);
                     });
                 });
             } else {
                 i++;
-                return fetchEvents(sources, start, end, callback);
+                fetchEvents(sources, start, end, callback);
             }
-
-            return evtCache;
         }
 
         $scope.updateEventSources = function(){
