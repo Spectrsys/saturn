@@ -1,79 +1,82 @@
-<!--sidebar-->
-<aside id="sidebar" class="span2">
-    <div class="widget">
-        <div class="widget-heading">
-            <div class="widget-title">
-                <i class="icon-user"></i> John Doe
-            </div>
-        </div>
-        <div class="widget-content">
-            <ul class="unstyled menu">
-                <li>
-                    <a href="/#/settings">General</a>
-                </li>
-                <li class="on">
-                    <a href="/#/settings/profile">Profile</a>
-                </li>
-                <li>
-                    <a href="/#/settings/account">Account</a>
-                </li>
-                <li>
-                    <a href="/#/settings/emails">Emails</a>
-                </li>
-                <li>
-                    <a href="/#/settings/organizations">Organizations</a>
-                </li>
-                <li>
-                    <a href="/#/settings/calendars">Calendars</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</aside>
-<!--/sidebar-->
-
-<!--content-->
-<div id="content" class="span10" ng-controller="SettingsController">
-    <form name="profileSettingsForm">
-        <div id="profile" class="widget">
+<div  ng-controller="SettingsController">
+    <!--sidebar-->
+    <aside id="sidebar" class="span2">
+        <div class="widget">
             <div class="widget-heading">
-                <div class="widget-title">Public profile</div>
+                <div class="widget-title">
+                    <i class="icon-user"></i>
+                    <span ng-bind="data.user.firstName + ' ' + data.user.lastName"></span>
+                </div>
             </div>
             <div class="widget-content">
-                <ol class="unstyled">
+                <ul class="unstyled menu">
                     <li>
-                        <label for="user-first-name">Name</label>
-                        <input type="text" id="user-first-name" name="user-name" required ng-model="data.user.firstName" placeholder="First name" />
-                        <input type="text" id="user-last-name" name="user-name" required ng-model="data.user.lastName" placeholder="Last name" />
+                        <a href="/#/settings">General</a>
                     </li>
-                    <li>
-                        <label for="user-email">Email</label>
-                        <input type="email" id="user-email" name="user-email" class="input-xxlarge" required ng-model="data.user.email" />
+                    <li class="on">
+                        <a href="/#/settings/profile">Profile</a>
                     </li>
                     <li>
-                        <label for="user-url">URL</label>
-                        <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="data.user.url" />
+                        <a href="/#/settings/account">Account</a>
                     </li>
                     <li>
-                        <label for="user-company">Company</label>
-                        <input type="text" id="user-company" name="user-company" class="input-xxlarge" ng-model="data.user.company" />
+                        <a href="/#/settings/emails">Emails</a>
                     </li>
                     <li>
-                        <label for="user-location">Location</label>
-                        <input type="text" id="user-location" name="user-location" class="input-xxlarge" ng-model="data.user.location" />
+                        <a href="/#/settings/organizations">Organizations</a>
                     </li>
                     <li>
-                        <label for="user-gravatar">Gravatar email</label>
-                        <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="data.user.gravatar" />
+                        <a href="/#/settings/calendars">Calendars</a>
                     </li>
-                    <li ng-show="data.user.picture">
-                        <img width="100" ng-src="{{data.user.picture}}?s=100" />
-                    </li>
-                </ol>
-                <button type="submit" class="btn btn-success" ng-disabled="profileSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
-                <button type="reset" class="btn"><i class="icon-undo"></i> Cancel</button>
+                </ul>
             </div>
         </div>
-    </form>
+    </aside>
+    <!--/sidebar-->
+
+    <!--content-->
+    <div id="content" class="span10">
+        <form name="profileSettingsForm">
+            <div id="profile" class="widget">
+                <div class="widget-heading">
+                    <div class="widget-title">Public profile</div>
+                </div>
+                <div class="widget-content">
+                    <ol class="unstyled">
+                        <li>
+                            <label for="user-first-name">Name</label>
+                            <input type="text" id="user-first-name" name="user-name" required ng-model="data.user.firstName" placeholder="First name" />
+                            <input type="text" id="user-last-name" name="user-name" required ng-model="data.user.lastName" placeholder="Last name" />
+                        </li>
+                        <li>
+                            <label for="user-email">Email</label>
+                            <input type="email" id="user-email" name="user-email" class="input-xxlarge" required ng-model="data.user.email" />
+                        </li>
+                        <li>
+                            <label for="user-url">URL</label>
+                            <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="data.user.url" />
+                        </li>
+                        <li>
+                            <label for="user-company">Company</label>
+                            <input type="text" id="user-company" name="user-company" class="input-xxlarge" ng-model="data.user.company" />
+                        </li>
+                        <li>
+                            <label for="user-location">Location</label>
+                            <input type="text" id="user-location" name="user-location" class="input-xxlarge" ng-model="data.user.location" />
+                        </li>
+                        <li>
+                            <label for="user-gravatar">Gravatar email</label>
+                            <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="data.user.gravatar" />
+                        </li>
+                        <li ng-show="data.user.picture">
+                            <img width="100" ng-src="{{data.user.picture}}?s=100" />
+                        </li>
+                    </ol>
+                    <button type="submit" class="btn btn-success" ng-disabled="profileSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
+                    <button type="reset" class="btn"><i class="icon-undo"></i> Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--/content-->
 </div>
-<!--/content-->

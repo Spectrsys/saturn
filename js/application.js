@@ -302,7 +302,6 @@
         };
 
         $scope.eventSources = [$scope.events];
-
         //fetch events
         var i = 0,
             evtCache = [];
@@ -536,8 +535,6 @@
     /******************************************************************/
         //User
     saturnApp.controller('UserController', function ($scope, $location, $http, Data) {
-        console.log($.cookie('saturn_access_token'));
-
         $scope.data = Data;
 
         //login
@@ -626,4 +623,8 @@
             $scope.getUserData();
         }
     });
+})(jQuery);
+
+(function($){
+    //$ is protected
 })(jQuery);
