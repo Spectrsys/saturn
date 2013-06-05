@@ -297,8 +297,8 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
-        var events = [],
-            eventsCache = [],
+        var events = $scope.data.events ? $scope.data.events : [],
+            eventsCache = $scope.data.eventsCache ? $scope.data.eventsCache : [],
             i = 0;
 
         $scope.events =  function(start, end, callback) {
@@ -321,7 +321,6 @@
 
             start  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ');
             end  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
-
             if(typeof eventsCache[sources[i].id + start + end] !== 'undefined'){
                 $scope.getCachedEvents(eventsCache[sources[i].id + start + end], function(){
                     i++;
@@ -338,7 +337,7 @@
         $scope.getCachedEvents = function(source, callback){
             events.push.apply(source);
 
-            if(typeof  callback === 'function'){
+            if(typeof callback === 'function'){
                 callback();
             }
         };
@@ -353,12 +352,10 @@
                 });
 
                 promise.$then(function(){
-                    if(promise.items && (promise.items.length > 0) && (eventsCache[sources[i].id + start + end] === undefined)){
-                        events.push.apply(events, promise.items);
-                        eventsCache[sources[i].id + start + end] = promise.items;
-                    }
+                    events.push.apply(events, promise.items);
+                    eventsCache[sources[i].id + start + end] = promise.items;
 
-                    if(typeof  callback === 'function'){
+                    if(typeof callback === 'function'){
                         callback();
                     }
                 });
