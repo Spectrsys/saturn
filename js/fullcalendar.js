@@ -1,6 +1,6 @@
 /*!
- * FullCalendar v1.6.1.spectrsys.snapshot
- * Docs & License: https://github.com/Spectrsys/fullcalendar
+ * FullCalendar v1.6.1
+ * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
  */
 
@@ -113,7 +113,7 @@
 
     ;;
 
-    var fc = $.fullCalendar = { version: "1.6.1.spectrsys.snapshot" };
+    var fc = $.fullCalendar = { version: "1.6.1" };
     var fcViews = fc.views = {};
 
 
@@ -1188,23 +1188,6 @@
                 }
                 delete event.date;
             }
-
-            if(event.start && event.start.date){
-                event.start = $.fullCalendar.parseDate(event.start.date);
-            }
-
-            if(event.start && event.start.dateTime){
-                event.start = $.fullCalendar.parseDate(event.start.dateTime);
-            }
-
-            if(event.end && event.end.date){
-                event.end = $.fullCalendar.parseDate(event.end.date);
-            }
-
-            if(event.end && event.end.dateTime){
-                event.end = $.fullCalendar.parseDate(event.end.dateTime);
-            }
-
             event._start = cloneDate(event.start = parseDate(event.start, ignoreTimezone));
             event.end = parseDate(event.end, ignoreTimezone);
             if (event.end && event.end <= event.start) {
@@ -1221,8 +1204,6 @@
             }else{
                 event.className = [];
             }
-
-            event.title = event.title || event.summary;
             // TODO: if there is no start date, return false to indicate an invalid event
         }
 
@@ -1904,7 +1885,6 @@
 
 
     function htmlEscape(s) {
-        s = s || '';
         return s.replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
