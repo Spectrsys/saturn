@@ -297,77 +297,76 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
+        var events = [],
+            eventsCache = [],
+            i = 0;
+
         $scope.events =  function(start, end, callback) {
-            var events = [{
-                title  : 'event1',
-                start  : '2013-06-01'
-            },
-                {
-                    title  : 'event2',
-                    start  : '2013-06-05',
-                    end    : '2013-06-07'
-                },
-                {
-                    title  : 'event3',
-                    start  : '2013-06-09 12:30:00',
-                    allDay : false // will make the time show
-                }];
-
-
-            fetchEvents($scope.data.calendars, start, end, function(results){console.log(results);
-                events.push.apply(events, results);
-
+            $scope.fetchEvents($scope.data.calendars, start, end, function(){
                 callback(events);
+            });
+        };
+
+        $scope.fetchEvents = function(sources, start, end, callback){
+            if(sources.length === 0){
+                return;
+            }
+
+            if(sources.length === i){
+                i = 0;
+                callback(events);
+
+                return;
+            }
+
+            start  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ');
+            end  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+
+            if(typeof eventsCache[sources[i].id + start + end] !== 'undefined'){
+                $scope.getCachedEvents(eventsCache[sources[i].id + start + end], function(){
+                    i++;
+                    $scope.fetchEvents(sources, start, end, callback);
+                });
+            } else {
+                $scope.getEvents($scope.data.calendars, start, end, function(){
+                    i++;
+                    $scope.fetchEvents(sources, start, end, callback);
+                });
+            }
+        };
+
+        $scope.getCachedEvents = function(source, callback){
+            events.push.apply(source);
+
+            if(typeof  callback === 'function'){
+                callback();
+            }
+        };
+
+        $scope.getEvents = function(sources, start, end, callback){
+            safeApply($scope, function(){
+                var promise = Events.list({
+                    'calendarId': sources[i].id,
+                    'access_token': $.cookie('saturn_access_token'),
+                    'timeMin': start,
+                    'timeMax': end
+                });
+
+                promise.$then(function(){
+                    if(promise.items && (promise.items.length > 0) && (eventsCache[sources[i].id + start + end] === undefined)){
+                        events.push.apply(events, promise.items);
+                        eventsCache[sources[i].id + start + end] = promise.items;
+                    }
+
+                    if(typeof  callback === 'function'){
+                        callback();
+                    }
+                });
             });
         };
 
         $scope.eventSources = [$scope.events];
 
-        //fetch events
-        var i = 0
-            _events = [];
-
-        function fetchEvents(sources, start, end, callback){
-            var sortStart  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
-                sortEnd  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
-
-            if(!sources.length){
-                return false;
-            }
-
-            if(i === sources.length){
-                i = 0;
-                if(typeof callback === 'function'){
-                    callback(_events);
-                }
-
-                return false;
-            }
-
-            if(sources[i].selected === true){
-                safeApply($scope, function(){
-                    var promise = Events.list({
-                        'calendarId': sources[i].id,
-                        'access_token': $.cookie('saturn_access_token'),
-                        'timeMin': sortStart,
-                        'timeMax': sortEnd
-                    });
-
-                    promise.$then(function(){
-                        i++;
-
-                        if(promise.items && promise.items.length > 0){
-                            _events.push.apply(_events, promise.items);
-                        }
-
-                        fetchEvents(sources, start, end, callback);
-                    });
-                });
-            } else {
-                i++;
-                fetchEvents(sources, start, end, callback);
-            }
-        }
 
         $scope.updateEventSources = function(){
         };
