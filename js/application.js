@@ -382,6 +382,42 @@
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
             },
+            eventDataTransform: function(eventData){
+                var newEvent = {
+                    'created': eventData.created,
+                    'creator': eventData.creator,
+                    'etag': eventData.etag,
+                    'gadget': eventData.gadget,
+                    'htmlLink': eventData.htmlLink,
+                    'iCalUID': eventData.iCalUID,
+                    'id': eventData.id,
+                    'kind': eventData.kind,
+                    'organizer': eventData.organizer,
+                    'sequence': eventData.sequence,
+                    'status': eventData.status,
+                    'title': eventData.title || eventData.summary,
+                    'updated': eventData.updated,
+                    'visibility': eventData.visibility
+                };
+
+                if(eventData.start && eventData.start.date){
+                    newEvent.start = $.fullCalendar.parseDate(eventData.start.date);
+                }
+
+                if(eventData.start && eventData.start.dateTime){
+                    newEvent.start = $.fullCalendar.parseDate(eventData.start.dateTime);
+                }
+
+                if(eventData.end && eventData.end.date){
+                    newEvent.end = $.fullCalendar.parseDate(eventData.end.date);
+                }
+
+                if(eventData.end && eventData.end.dateTime){
+                    newEvent.end = $.fullCalendar.parseDate(eventData.end.dateTime);
+                }
+
+                return newEvent;
+            },
             loading: function (bool) {
                 if (!bool) {
                     $scope.$broadcast('loading:Started');
