@@ -297,15 +297,39 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
+        //store event sources and event sources cache in Data service
         if(!$scope.data.eventSources){
             $scope.data.eventSources = [];
         }
 
-        $scope.eventSources = $scope.data.eventSources;
+        if(!$scope.data.eventSourcesCache){
+            $scope.data.eventSourcesCache = [];
+        }
 
-
-        $scope.updateEventSources = function(){
+        $scope.events =  function(start, end, callback) {
         };
+
+        //cache event sources
+        $scope.cacheEventSources = function(sources){
+            if(!sources.length){
+                return;
+            }
+
+            angular.forEach(sources, function(value, key){
+                $scope.data.eventSourcesCache[value.id] = {
+                    'id': value.id,
+                    'title': value.summary,
+                    'description': value.description,
+                    'color': value.backgroundColor,
+                    'textColor': value.foregroundColor,
+                    'events': [],
+                    'dateRangeCache': []
+                };
+            });
+        };
+
+        //use stored sources for calendar events
+        $scope.eventSources = [$scope.data.eventSources];
 
         //master calendar
         $scope.masterCalendar = {
