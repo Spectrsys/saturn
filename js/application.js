@@ -89,7 +89,7 @@
                 return [200, {
                     'login_hint': data.user,
                     'apiKey': 'AIzaSyC3K--D5YHRX9rz0hU4tkb6evngzEuk-34',
-                    'clientId': '512508236814-d35qanajio78edinfs3sekn56g8ia07l.apps.googleusercontent.com',
+                    'clientId': '314009841930-t42p9qgq3ga5m31i795s7dkdo9pvavgl.apps.googleusercontent.com',
                     'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
                 }];
             });
