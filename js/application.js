@@ -297,72 +297,11 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
-        var events = $scope.data.events ? $scope.data.events : [],
-            eventsCache = $scope.data.eventsCache ? $scope.data.eventsCache : [],
-            i = 0;
+        if(!$scope.data.eventSources){
+            $scope.data.eventSources = [];
+        }
 
-        $scope.events =  function(start, end, callback) {
-            $scope.fetchEvents($scope.data.calendars, start, end, function(){
-                callback(events);
-            });
-        };
-
-        $scope.fetchEvents = function(sources, start, end, callback){
-            if(sources.length === 0){
-                return;
-            }
-
-            if(sources.length === i){
-                i = 0;
-                callback(events);
-
-                return;
-            }
-
-            start  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ');
-            end  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
-            if(typeof eventsCache[sources[i].id + start + end] !== 'undefined'){
-                $scope.getCachedEvents(eventsCache[sources[i].id + start + end], function(){
-                    i++;
-                    $scope.fetchEvents(sources, start, end, callback);
-                });
-            } else {
-                $scope.getEvents($scope.data.calendars, start, end, function(){
-                    i++;
-                    $scope.fetchEvents(sources, start, end, callback);
-                });
-            }
-        };
-
-        $scope.getCachedEvents = function(source, callback){
-            events.push.apply(source);
-
-            if(typeof callback === 'function'){
-                callback();
-            }
-        };
-
-        $scope.getEvents = function(sources, start, end, callback){
-            safeApply($scope, function(){
-                var promise = Events.list({
-                    'calendarId': sources[i].id,
-                    'access_token': $.cookie('saturn_access_token'),
-                    'timeMin': start,
-                    'timeMax': end
-                });
-
-                promise.$then(function(){
-                    events.push.apply(events, promise.items);
-                    eventsCache[sources[i].id + start + end] = promise.items;
-
-                    if(typeof callback === 'function'){
-                        callback();
-                    }
-                });
-            });
-        };
-
-        $scope.eventSources = [$scope.events];
+        $scope.eventSources = $scope.data.eventSources;
 
 
         $scope.updateEventSources = function(){
