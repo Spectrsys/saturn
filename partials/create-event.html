@@ -1,0 +1,92 @@
+<form name="createEventForm" ng-controller="EventController">
+    <div class="widget">
+        <div class="widget-heading">
+            <div class="widget-title">Create New Event</div>
+        </div>
+        <div class="widget-content" ng-show="data.calendarList[0].calendars.length">
+            <ol class="unstyled clearfix">
+                <li>
+                    <div class="span2">
+                        <label for="event-name">Event name</label>
+                    </div>
+                    <div class="span10">
+                        <input type="text" id="event-name" name="event-name" class="input-block-level" required ng-model="event.title" />
+                    </div>
+                </li>
+                <li>
+                    <div class="span2">
+                        <label for="event-description">Description</label>
+                    </div>
+                    <div class="span10">
+                        <textarea id="event-description" name="event-description" class="input-block-level" ng-model="event.description"></textarea>
+                    </div>
+                </li>
+                <li>
+                    <div class="span2">
+                        <label for="event-location">Location</label>
+                    </div>
+                    <div class="span10">
+                        <input type="text" id="event-location" name="event-location" class="input-block-level" ng-model="event.location" />
+                        <label for="event-location">
+                            <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="span2">
+                        <label for="event-calendar">Calendar</label>
+                    </div>
+                    <div class="span10">
+                        <select id="event-calendar" ng-model="event.calendar" required>
+                            <option ng-repeat="calendar in data.calendarList[0].calendars" value="calendar.id">{{calendar.summary}}</option>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                   <div class="span2">
+                       <label for="event-start-date">Start date</label>
+                   </div>
+                   <div class="span10">
+                       <div class="input-prepend">
+                           <span class="add-on">
+                               <i class="icon-calendar"></i>
+                           </span>
+                           <input type="text" id="event-start-date" ui-date ng-model="event.startDate" required />
+                       </div>
+                       <div class="input-append">
+                           <input type="text" id="event-start-time" bs-timepicker ng-model="event.startTime" required />
+                           <span class="add-on">
+                               <i class="icon-time"></i>
+                           </span>
+                       </div>
+                   </div>
+                </li>
+                <li>
+                    <div class="span2">
+                        <label for="event-end-date">End date</label>
+                    </div>
+                    <div class="span10">
+                        <div class="input-prepend">
+                           <span class="add-on">
+                               <i class="icon-calendar"></i>
+                           </span>
+                            <input type="text" id="event-end-date" ui-date ng-model="event.endDate" />
+                        </div>
+                        <div class="input-append">
+                            <input type="text" id="event-end-time" bs-timepicker ng-model="event.endTime" />
+                           <span class="add-on">
+                               <i class="icon-time"></i>
+                           </span>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <button type="submit" class="btn btn-success" ng-disabled="createEventForm.$invalid" ng-click="createEvent()"><i class="icon-save"></i> Save</button>
+            <a href="#/" ng-click="resetEvent()" class="btn"><i class="icon-undo"></i> Cancel</a>
+        </div>
+        <div ng-show="!data.calendarList[0].calendars.length">
+            <p class="alert">You need to have at least one calledar before you can create and event.</p>
+            <a href="#/calendar/create" class="btn"><i class="icon-calendar"></i> Create a new calendar</a>
+        </div>
+    </div>
+</form>
