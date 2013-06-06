@@ -71,7 +71,10 @@
         ]).run(function ($rootScope, $location, $httpBackend, Data) {
             // register listener to watch route changes
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                if (Data.user.authorised === false) {
+                if (Data.user.authorised === false || !$.cookie('saturn_access_token')) {
+                    //force log out
+                    Data.user.authorised = false;
+
                     // no logged user, we should be going to #login
                     $location.path("/login");
 
@@ -129,6 +132,9 @@
                     'changeMonth': true,
                     'changeYear': true,
                     'yearRange': d.getFullYear() + ':' + (d.getFullYear() + 5)
+                },
+                'timePicker': {
+                    'showMeridian': true
                 }
             }
         };
@@ -721,7 +727,6 @@
                     });
             });
         };
-
         if($.cookie('saturn_access_token')){
             //set the user as logged in
             $scope.data.user.authorised = true;
