@@ -661,8 +661,12 @@
         //called after the user has logged in
         function handleAuthResult (response) {
             if (response && !response.error) {
+                var d = new Date();
+                
+                d.setTime(d.getTime() + (parseInt(response.expires_in) * 1000));
+
                 //save a copy of the access token for later use
-                $.cookie('saturn_access_token', response.access_token);
+                $.cookie('saturn_access_token', response.access_token, {'expires': d});
 
                 //set the user as logged in
                 $scope.data.user.authorised = true;
@@ -710,6 +714,7 @@
         };
 
         if($.cookie('saturn_access_token')){
+            console.log($.cookie('saturn_access_token'));
             //set the user as logged in
             $scope.data.user.authorised = true;
 
