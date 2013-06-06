@@ -297,6 +297,8 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
+        var i = 0;
+
         //store event sources and event sources cache in Data service
         if(!$scope.data.eventSources){
             $scope.data.eventSources = [];
@@ -307,10 +309,71 @@
         }
 
         $scope.events =  function(start, end, callback) {
+            i = 0;
+            $scope.getEvents($scope.data.eventSourcesCache, start, end, function(){
+                callback();
+            });
+        };
+
+        //get events
+        $scope.getEvents = function(sources, start, end, callback){
+            if(!sources.length){
+                return;
+            }
+
+            if(i === sources.length){
+                i = 0;
+                return;
+            }
+
+            //get min and max time
+            var min = start.getTime(),
+                max = end.getTime(),
+
+            //format the start and end dates to match google specs
+            startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ');
+            endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+
+            //check if the current calendar is selected
+            if(sources[i].selected && ($.inArray(sources[i] + min + max, sources[i].dateRange) === -1)){
+                safeApply($scope, function(){
+                    var promise = Events.list({
+                        'calendarId': sources[i].id,
+                        'access_token': $.cookie('saturn_access_token'),
+                        'timeMin': startTime,
+                        'timeMax': endTime
+                    });
+
+                    promise.$then(function(){
+                        //loop over all the resulting events
+                        angular.forEach(promise.items, function(value, key){
+                            //if it's not already in the events array
+                            if($.inArray(value, sources[i].events) === -1){
+                                //add it
+                                sources[i].events.push(value);
+                            }
+                        });
+
+                        //update min and max time
+                        sources[i].dateRange.push(sources[i] + min + max);
+                        sources[i].dateRange = $.unique(sources[i].dateRange);
+
+                        i++;
+
+                        //recall the get events function
+                        $scope.getEvents(sources, start, end, callback);
+                    });
+                });
+            } else {
+                i++;
+
+                //recall the get events function
+                $scope.getEvents(sources, start, end, callback);
+            }
         };
 
         //cache event sources
-        $scope.cacheEventSources = function(sources){
+        $scope.createEventSourcesCache = function(sources){
             if(!sources.length){
                 return;
             }
@@ -318,18 +381,35 @@
             angular.forEach(sources, function(value, key){
                 $scope.data.eventSourcesCache[value.id] = {
                     'id': value.id,
-                    'title': value.summary,
-                    'description': value.description,
+                    'title': value.summary || 'Events',
+                    'description': value.description || '',
                     'color': value.backgroundColor,
                     'textColor': value.foregroundColor,
-                    'events': [],
-                    'dateRangeCache': []
+                    'events': this.events || [],
+                    'dateRange': this.dateRange || [],
+                    'selected': value.selected || false
                 };
             });
         };
 
+        $scope.$watch('data.calendars', function(){
+            if($.isEmptyObject($scope.data.eventSourcesCache)){
+                $scope.createEventSourcesCache($scope.data.calendars);
+            }
+        }, true);
+
+        $scope.$watch('data.eventSourcesCache', function(){
+            for(prop in $scope.data.eventSourcesCache){
+                if($scope.data.eventSourcesCache[prop].selected === true){
+                    $scope.calendar.fullCalendar('addEventSource', $scope.data.eventSourcesCache[prop]);
+                } else {
+                    $scope.calendar.fullCalendar('removeEventSource', $scope.data.eventSourcesCache[prop]);
+                }
+            }
+        }, true);
+
         //use stored sources for calendar events
-        $scope.eventSources = [$scope.data.eventSources];
+        $scope.eventSources = [$scope.events, $scope.data.eventSources];
 
         //master calendar
         $scope.masterCalendar = {
@@ -540,6 +620,10 @@
             //make sure the user knows what he's doing
             if(confirm('Are you sure you want to unsubscribe from "' + this.calendar.summary + '" ?')){
             }
+        };
+
+        $scope.updateEventSourcesCache = function(){
+            $scope.data.eventSourcesCache[this.calendar.id].selected = this.calendar.selected;
         };
     });
 
