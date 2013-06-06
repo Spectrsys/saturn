@@ -4,7 +4,7 @@
             <div class="widget-title">Create New Calendar</div>
         </div>
         <div class="widget-content">
-            <ol class="unstyled">
+            <ol class="unstyled clearfix">
                 <li>
                     <div class="span2">
                         <label for="calendar-name">Calendar name</label>
@@ -58,7 +58,7 @@
                         <label for="calendar-background">Background color</label>
                     </div>
                     <div class="span10">
-                        <input type="text" id="calendar-background" ng-change="colorPickerTest()" color-picker="calendar.color" ng-model="calendar.color" />
+                        <input type="text" id="calendar-background" color-picker="calendar.color" ng-model="calendar.color" />
                     </div>
                 </li>
                 <li>
@@ -66,7 +66,7 @@
                         <label for="calendar-foreground">Text color</label>
                     </div>
                     <div class="span10">
-                        <input type="text" id="calendar-foreground" ng-change="colorPickerTest()" color-picker="calendar.textColor" ng-model="calendar.textColor" />
+                        <input type="text" id="calendar-foreground" color-picker="calendar.textColor" ng-model="calendar.textColor" />
                     </div>
                 </li>
             </ol>
