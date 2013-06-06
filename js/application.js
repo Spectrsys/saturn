@@ -374,6 +374,10 @@
             }
         };
 
+        $scope.addEvent = function(){
+           
+        };
+
 
         //use stored sources for calendar events
         $scope.eventSources = [];
