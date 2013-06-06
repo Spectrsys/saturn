@@ -113,8 +113,17 @@
     //Data storage
     //will be used for communication between controllers
     saturnApp.factory('Data', function () {
+        var d = new Date();
+
         return {
-            'baseURL': 'https://www.googleapis.com/calendar/v3'
+            'baseURL': 'https://www.googleapis.com/calendar/v3',
+            'dateOptions': {
+                'dateFormat': 'yy/mm/dd',
+                'minDate': d,
+                'changeMonth': true,
+                'changeYear': true,
+                'yearRange': d.getFullYear() + ':' + (d.getFullYear() + 5)
+            }
         };
     });
 
