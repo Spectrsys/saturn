@@ -385,10 +385,12 @@
             }
         };
 
+        //add new event
         $scope.addEvent = function(){
 
         };
 
+        //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
             $scope.data.event = event;
 
@@ -400,6 +402,7 @@
             }
         };
 
+        //after the user has selected a time period
         $scope.select = function(startDate, endDate, allDay, jsEvent, view){
             safeApply($scope, function(){
                 //setup event meta
