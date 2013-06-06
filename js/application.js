@@ -61,6 +61,9 @@
                     when('/calendar/create', {
                         templateUrl: 'partials/create-calendar.html'
                     }).
+                    when('/event/create', {
+                        templateUrl: 'partials/create-event.html'
+                    }).
                     otherwise({
                         redirectTo: '/'
                     });
@@ -107,8 +110,8 @@
     });
 
     /******************************************************************/
-    //Data storage
-    //will be used for communication between controllers
+        //Data storage
+        //will be used for communication between controllers
     saturnApp.factory('Data', function () {
         return {
             'baseURL': 'https://www.googleapis.com/calendar/v3',
@@ -117,6 +120,7 @@
                 'authorised': false
             },
             'calendars': [],
+            'calendarChange': null,
             'calendarList': [{
                 'title': 'My calendars',
                 'calendars': []
@@ -131,7 +135,7 @@
     });
 
     /******************************************************************/
-    //ACL
+        //ACL
     saturnApp.factory('ACL', function ($resource, Data) {
         return $resource(
             Data.baseURL + '/calendars/:calendarId/acl/:ruleId', {
@@ -299,18 +303,9 @@
 
         var i = 0;
 
-        //store event sources and event sources cache in Data service
-        if(!$scope.data.eventSources){
-            $scope.data.eventSources = [];
-        }
-
-        if(!$scope.data.eventSourcesCache){
-            $scope.data.eventSourcesCache = [];
-        }
-
         $scope.events =  function(start, end, callback) {
             i = 0;
-            $scope.getEvents($scope.data.eventSourcesCache, start, end, function(){
+            $scope.getEvents($scope.data.calendars, start, end, function(){
                 callback();
             });
         };
@@ -331,11 +326,11 @@
                 max = end.getTime(),
 
             //format the start and end dates to match google specs
-            startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ');
-            endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+                startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
+                endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
 
             //check if the current calendar is selected
-            if(sources[i].selected && ($.inArray(sources[i] + min + max, sources[i].dateRange) === -1)){
+            if(sources[i].selected === true){
                 safeApply($scope, function(){
                     var promise = Events.list({
                         'calendarId': sources[i].id,
@@ -345,19 +340,26 @@
                     });
 
                     promise.$then(function(){
-                        //loop over all the resulting events
                         angular.forEach(promise.items, function(value, key){
-                            //if it's not already in the events array
-                            if($.inArray(value, sources[i].events) === -1){
-                                //add it
-                                sources[i].events.push(value);
+                            value.title = value.title || value.summary;
+
+                            if(value.start && value.start.date){
+                                value.start = value.start.date;
                             }
+
+                            if(value.start && value.start.dateTime){
+                                value.start = value.start.dateTime;
+                            }
+
+                            if(value.end && value.end.date){
+                                value.end = value.end.date;
+                            }
+
+                            if(value.end && value.end.dateTime){
+                                value.end = value.end.dateTime;
+                            }
+                            sources[i].events.push(value);
                         });
-
-                        //update min and max time
-                        sources[i].dateRange.push(sources[i] + min + max);
-                        sources[i].dateRange = $.unique(sources[i].dateRange);
-
                         i++;
 
                         //recall the get events function
@@ -372,44 +374,9 @@
             }
         };
 
-        //cache event sources
-        $scope.createEventSourcesCache = function(sources){
-            if(!sources.length){
-                return;
-            }
-
-            angular.forEach(sources, function(value, key){
-                $scope.data.eventSourcesCache[value.id] = {
-                    'id': value.id,
-                    'title': value.summary || 'Events',
-                    'description': value.description || '',
-                    'color': value.backgroundColor,
-                    'textColor': value.foregroundColor,
-                    'events': this.events || [],
-                    'dateRange': this.dateRange || [],
-                    'selected': value.selected || false
-                };
-            });
-        };
-
-        $scope.$watch('data.calendars', function(){
-            if($.isEmptyObject($scope.data.eventSourcesCache)){
-                $scope.createEventSourcesCache($scope.data.calendars);
-            }
-        }, true);
-
-        $scope.$watch('data.eventSourcesCache', function(){
-            for(prop in $scope.data.eventSourcesCache){
-                if($scope.data.eventSourcesCache[prop].selected === true){
-                    $scope.calendar.fullCalendar('addEventSource', $scope.data.eventSourcesCache[prop]);
-                } else {
-                    $scope.calendar.fullCalendar('removeEventSource', $scope.data.eventSourcesCache[prop]);
-                }
-            }
-        }, true);
 
         //use stored sources for calendar events
-        $scope.eventSources = [$scope.events, $scope.data.eventSources];
+        $scope.eventSources = [];
 
         //master calendar
         $scope.masterCalendar = {
@@ -424,43 +391,10 @@
             slotMinutes: 15,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
+                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
+                });
             },
-            eventDataTransform: function(eventData){
-                var newEvent = {
-                    'created': eventData.created,
-                    'creator': eventData.creator,
-                    'etag': eventData.etag,
-                    'gadget': eventData.gadget,
-                    'htmlLink': eventData.htmlLink,
-                    'iCalUID': eventData.iCalUID,
-                    'id': eventData.id,
-                    'kind': eventData.kind,
-                    'organizer': eventData.organizer,
-                    'sequence': eventData.sequence,
-                    'status': eventData.status,
-                    'title': eventData.title || eventData.summary,
-                    'updated': eventData.updated,
-                    'visibility': eventData.visibility
-                };
 
-                if(eventData.start && eventData.start.date){
-                    newEvent.start = $.fullCalendar.parseDate(eventData.start.date);
-                }
-
-                if(eventData.start && eventData.start.dateTime){
-                    newEvent.start = $.fullCalendar.parseDate(eventData.start.dateTime);
-                }
-
-                if(eventData.end && eventData.end.date){
-                    newEvent.end = $.fullCalendar.parseDate(eventData.end.date);
-                }
-
-                if(eventData.end && eventData.end.dateTime){
-                    newEvent.end = $.fullCalendar.parseDate(eventData.end.dateTime);
-                }
-
-                return newEvent;
-            },
             loading: function (bool) {
                 if (!bool) {
                     $scope.$broadcast('loading:Started');
@@ -489,11 +423,24 @@
             },
             dayClick: function (date, allDay, jsEvent, view) {}
         };
+
+        setTimeout(function(){
+            angular.forEach($scope.data.calendars, function(value, key){
+                if(value.selected === true){
+                    $scope.calendar.fullCalendar('addEventSource', value);
+                }
+            });
+
+            console.log($scope.eventSources);
+        }, 10000);
     });
 
     /******************************************************************/
     /* Calendars */
     saturnApp.controller('CalendarController', function ($scope, $location, CalendarList, Calendars, Data) {
+        $scope.updateEventSourcesCache = function(){
+            console.log(this);
+        }
         $scope.data = Data;
 
         var bgColor = randomHexColor();
@@ -505,8 +452,8 @@
         $scope.calendar = {
             //set random bg color
             //text color defaults to black
-            'backgroundColor': bgColor,
-            'foregroundColor': '#000'
+            'color': bgColor,
+            'textColor': '#000'
         };
 
         if($scope.data.currentCalendar){
@@ -529,8 +476,16 @@
 
             //after they've loaded
             promise.$then(function () {
-                //save the in the root scope
-                $scope.data.calendars = promise.items;
+                //loop over calendars and add/chenge metadata
+                angular.forEach(promise.items, function(value, key){
+                    value.events = [];
+                    value.color = value.backgroundColor;
+                    value.textColor = value.foregroundColor;
+                    value.dateRange = [];
+
+                    //push new calendar into stack
+                    $scope.data.calendars.push(value);
+                });
 
                 //sort them by owner
                 sortCalendars($scope.data.calendars);
@@ -555,7 +510,16 @@
 
         //save a new calendar
         $scope.createCalendar = function(){
-            //insert new calendar
+            //generate a random ID
+            $scope.calendar.id = $scope.calendar.summary.replace(/\s+/gi, '_') + Math.random();
+
+            //set the calendar to selected
+            $scope.calendar.selected = true;
+
+            //push the calendar to personal calendars array
+            $scope.data.calendarList[0].calendars.push($scope.calendar);
+
+            /*//insert new calendar
             var promise = Calendars.insert({
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
@@ -565,27 +529,29 @@
 
             //callback
             promise.$then(function(){
-
-            });
+                $scope.resetCalendar();
+            });*/
+            //redirect to the homepage
+            $location.path('/');
         };
 
         //save calendar settings
         $scope.saveCalendar = function(){
             angular.copy($scope.calendar, $scope.data.currentCalendar);
 
-            //update calendar meta
-            var promise = Calendars.update({
-                'calendarId': $scope.calendar.id,
-                'summary': $scope.calendar.summary,
-                'description': $scope.calendar.description,
-                'location': $scope.calendar.location,
-                'timeZone': $scope.calendar.timeZone
-            });
+            /*//update calendar meta
+             var promise = Calendars.update({
+             'calendarId': $scope.calendar.id,
+             'summary': $scope.calendar.summary,
+             'description': $scope.calendar.description,
+             'location': $scope.calendar.location,
+             'timeZone': $scope.calendar.timeZone
+             });
 
-            //callback
-            promise.$then(function(){
-                $scope.resetCalendar();
-            });
+             //callback
+             promise.$then(function(){
+             $scope.resetCalendar();
+             });*/
         };
 
         //set current calendar
@@ -621,10 +587,6 @@
             if(confirm('Are you sure you want to unsubscribe from "' + this.calendar.summary + '" ?')){
             }
         };
-
-        $scope.updateEventSourcesCache = function(){
-            $scope.data.eventSourcesCache[this.calendar.id].selected = this.calendar.selected;
-        };
     });
 
     /******************************************************************/
@@ -645,21 +607,21 @@
                 'user': $scope.loginData.user,
                 'password': $scope.loginData.password
             }).success(function(data, status, headers, config){
-                //set google auth key
-                gapi.client.setApiKey(data.apiKey);
+                    //set google auth key
+                    gapi.client.setApiKey(data.apiKey);
 
-                window.setTimeout(function(){
-                    gapi.auth.authorize({
-                        'client_id': data.clientId,
-                        'scope': data.scopes,
-                        'response_type': 'token',
-                        'immediate': false,
-                        'login_hint': data.login_hint,
-                        'approval_prompt': 'force'
-                    }, handleAuthResult);
-                }, 200);
-            }).error(function(data, status, headers, config){
-            });
+                    window.setTimeout(function(){
+                        gapi.auth.authorize({
+                            'client_id': data.clientId,
+                            'scope': data.scopes,
+                            'response_type': 'token',
+                            'immediate': false,
+                            'login_hint': data.login_hint,
+                            'approval_prompt': 'force'
+                        }, handleAuthResult);
+                    }, 200);
+                }).error(function(data, status, headers, config){
+                });
         };
 
         //called after the user has logged in
@@ -702,14 +664,14 @@
                         'access_token': $.cookie('saturn_access_token')
                     }
                 }).success(function(data, status, headers, config){
-                    //update user data
-                    $scope.data.user.firstName = data.given_name;
-                    $scope.data.user.lastName = data.family_name;
-                    $scope.data.user.email = data.email;
-                    $scope.data.user.gender = data.gender;
-                    $scope.data.user.picture = data.picture;
-                    $scope.data.user.profile = data.profile;
-                });
+                        //update user data
+                        $scope.data.user.firstName = data.given_name;
+                        $scope.data.user.lastName = data.family_name;
+                        $scope.data.user.email = data.email;
+                        $scope.data.user.gender = data.gender;
+                        $scope.data.user.picture = data.picture;
+                        $scope.data.user.profile = data.profile;
+                    });
             });
         };
 

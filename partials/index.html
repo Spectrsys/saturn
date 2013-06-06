@@ -6,8 +6,8 @@
                 <button class="btn btn-success" data-toggle="dropdown"> Create New </button>
                 <button data-toggle="dropdown" class="btn btn-success dropdown-toggle"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a href="" ng-click="modals.calendarDetails = true">Calendar</a></li>
-                    <li><a href="" ng-click="modals.eventDetails = true">Event</a></li>
+                    <li><a href="#/calendar/create">Calendar</a></li>
+                    <li><a href="#/event/create">Event</a></li>
                 </ul>
             </div>
         </div>
@@ -66,8 +66,8 @@
                         </div>
 
                         <label title={{calendar.description}}>
-                            <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.backgroundColor}}">
-                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-change="updateEventSourcesCache()" />
+                            <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
                             </span>
                             {{calendar.summary}}
                         </label>
