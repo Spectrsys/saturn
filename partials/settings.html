@@ -72,14 +72,14 @@
                         </li>
                         <li>
                             <label form="time-format">Time format</label>
-                            <select id="time-format" class="input-xxlarge" ng-model="data.settings.timeFormat">
-                                <option value="false">1:00pm</option>
-                                <option value="true">13:00</option>
+                            <select id="time-format" class="input-xxlarge" ng-model="data.settings.time.timeFormat">
+                                <option value="true">1:00pm</option>
+                                <option value="false">13:00</option>
                             </select>
                         </li>
                         <li>
                             <label for="meeting-length">Default meeting length</label>
-                            <select id="meeting-length" class="input-xxlarge" ng-model="data.settings.meetingLength">
+                            <select id="meeting-length" class="input-xxlarge" ng-model="data.settings.meetingLength" disabled>
                                 <option value="15">15 minutes</option>
                                 <option value="30">30 minutes</option>
                                 <option value="60">60 minutes</option>
