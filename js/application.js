@@ -5,7 +5,7 @@
     });
 
     /******************************************************************/
-        //helper functions
+    //helper functions
     function safeApply(scope, fn) {
         var phase = scope.$root.$$phase;
         if (phase === '$apply' || phase === '$digest')
@@ -74,6 +74,8 @@
                 if (Data.user.authorised === false) {
                     // no logged user, we should be going to #login
                     $location.path("/login");
+
+                    return false;
                 }
 
                 if (Data.user.authorised === true) {
@@ -662,7 +664,7 @@
         function handleAuthResult (response) {
             if (response && !response.error) {
                 var d = new Date();
-                
+
                 d.setTime(d.getTime() + (parseInt(response.expires_in) * 1000));
 
                 //save a copy of the access token for later use
@@ -682,7 +684,7 @@
         //logout
         $scope.logout = function () {
             //destroy token cookie
-            $.cookie('saturn_access_token', null);
+            $.cookie('saturn_access_token', null, {'expires': -1});
 
             //set the user as logged out
             $scope.data.user.authorised = false;
@@ -714,7 +716,6 @@
         };
 
         if($.cookie('saturn_access_token')){
-            console.log($.cookie('saturn_access_token'));
             //set the user as logged in
             $scope.data.user.authorised = true;
 
@@ -725,8 +726,4 @@
             $scope.getUserData();
         }
     });
-})(jQuery);
-
-(function($){
-    //$ is protected
 })(jQuery);
