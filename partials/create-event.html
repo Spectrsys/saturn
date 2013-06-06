@@ -51,7 +51,7 @@
                            <span class="add-on">
                                <i class="icon-calendar"></i>
                            </span>
-                           <input type="text" id="event-start-date" ui-date ng-model="data.event.startDate" required />
+                           <input type="text" id="event-start-date" ui-date="data.dateOptions" ng-model="data.event.startDate" required />
                        </div>
                        <div class="input-append">
                            <input type="text" id="event-start-time" bs-timepicker ng-model="data.event.startTime" required />
@@ -70,7 +70,7 @@
                            <span class="add-on">
                                <i class="icon-calendar"></i>
                            </span>
-                            <input type="text" id="event-end-date" ui-date ng-model="data.event.endDate" />
+                            <input type="text" id="event-end-date" ui-date="data.dateOptions" ng-model="data.event.endDate" />
                         </div>
                         <div class="input-append">
                             <input type="text" id="event-end-time" bs-timepicker ng-model="data.event.endTime" />
