@@ -110,27 +110,11 @@
     });
 
     /******************************************************************/
-        //Data storage
-        //will be used for communication between controllers
+    //Data storage
+    //will be used for communication between controllers
     saturnApp.factory('Data', function () {
         return {
-            'baseURL': 'https://www.googleapis.com/calendar/v3',
-            'user': {
-                'firstName': 'User',
-                'authorised': false
-            },
-            'calendars': [],
-            'calendarChange': null,
-            'calendarList': [{
-                'title': 'My calendars',
-                'calendars': []
-            }, {
-                'title': 'Subscribed calendars',
-                'calendars': []
-            }],
-            'eventTokens': [],
-            'tempCalendar': {},
-            'events': []
+            'baseURL': 'https://www.googleapis.com/calendar/v3'
         };
     });
 
@@ -301,6 +285,11 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
+        //used for creating and editing events
+        if(!$scope.data.event){
+            $scope.data.event = {};
+        }
+
         var i = 0;
 
         $scope.events =  function(start, end, callback) {
@@ -375,7 +364,30 @@
         };
 
         $scope.addEvent = function(){
-           
+
+        };
+
+        $scope.eventClick = function( event, jsEvent, view ){
+            $scope.data.event = event;
+
+            //if we can edit the event
+            if(event.editable === true || event.source.editable === true){
+
+                //go to the edit page
+                $location.path('/event/edit/' + event.id);
+            }
+        };
+
+        $scope.select = function(startDate, endDate, allDay, jsEvent, view){
+            safeApply($scope, function(){
+                //setup event meta
+                $scope.data.event.startDate = startDate;
+                $scope.data.event.endDate = endDate;
+                $scope.data.event.allDay = allDay;
+
+                //go to add event page
+                $location.path('/event/create');
+            });
         };
 
 
@@ -437,6 +449,19 @@
         }
         $scope.data = Data;
 
+        if(!$scope.data.calendars){
+            $scope.data.calendars = [];
+        }
+
+        if(!$scope.data.calendarList){
+            $scope.data.calendarList = [{
+            'title': 'My calendars',
+            'calendars': []
+        }, {
+            'title': 'Subscribed calendars',
+            'calendars': []
+        }];}
+
         var bgColor = randomHexColor();
         //avoid generating a black background
         if(bgColor === '#000000'){
@@ -472,6 +497,7 @@
             promise.$then(function () {
                 //loop over calendars and add/chenge metadata
                 angular.forEach(promise.items, function(value, key){
+                    value.editable = (value.accessRole === 'owner' ? true : false);
                     value.events = [];
                     value.color = value.backgroundColor;
                     value.textColor = value.foregroundColor;
@@ -593,6 +619,13 @@
         //User
     saturnApp.controller('UserController', function ($scope, $location, $http, Data) {
         $scope.data = Data;
+
+        if(!$scope.data.user){
+            $scope.data.user = {
+                'firstName': 'User',
+                'authorised': false
+            };
+        }
 
         //login
         $scope.login = function(){
