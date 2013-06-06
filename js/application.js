@@ -116,13 +116,20 @@
         var d = new Date();
 
         return {
-            'baseURL': 'https://www.googleapis.com/calendar/v3',
-            'dateOptions': {
-                'dateFormat': 'yy/mm/dd',
-                'minDate': d,
-                'changeMonth': true,
-                'changeYear': true,
-                'yearRange': d.getFullYear() + ':' + (d.getFullYear() + 5)
+            'settings': {
+                'baseURL': 'https://www.googleapis.com/calendar/v3',
+                'country': 'US',
+                'language': 'en',
+                'timeZone': 'America/Mexico_City',
+                'meetingLength': 15,
+                'weekStart': '1',
+                'date': {
+                    'dateFormat': 'mm/dd/yy',
+                    'minDate': d,
+                    'changeMonth': true,
+                    'changeYear': true,
+                    'yearRange': d.getFullYear() + ':' + (d.getFullYear() + 5)
+                }
             }
         };
     });
@@ -131,7 +138,7 @@
         //ACL
     saturnApp.factory('ACL', function ($resource, Data) {
         return $resource(
-            Data.baseURL + '/calendars/:calendarId/acl/:ruleId', {
+            Data.settings.baseURL + '/calendars/:calendarId/acl/:ruleId', {
                 'calendarId': '@calendarId',
                 'ruleId': '@ruleId'
             }, {
@@ -153,7 +160,7 @@
     //Calendar List
     saturnApp.factory('CalendarList', function ($resource, Data) {
         return $resource(
-            Data.baseURL + '/users/:user/calendarList/:calendarId', {
+            Data.settings.baseURL + '/users/:user/calendarList/:calendarId', {
                 'user': 'me',
                 'calendarId': '@calendarId'
             }, {
@@ -175,13 +182,13 @@
     //Calendars
     saturnApp.factory('Calendars', function ($resource, Data) {
         return $resource(
-            Data.baseURL + '/calendars/:calendarId', {
+            Data.settings.baseURL + '/calendars/:calendarId', {
                 'calendarId': '@calendarId',
                 'key': '@key'
             }, {
                 'clear': {
                     'method': 'POST',
-                    'url': Data.baseURL + '/calendars/:calendarId/clear'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/clear'
                 },
                 'insert': {
                     'method': 'POST'
@@ -201,10 +208,10 @@
     //Colors
     saturnApp.factory('Colors', function ($resource, Data) {
         return $resource(
-            Data.baseURL, {
+            Data.settings.baseURL, {
                 'get': {
                     'method': 'GET',
-                    'url': Data.baseURL + '/colors'
+                    'url': Data.settings.baseURL + '/colors'
                 }
             });
     });
@@ -212,50 +219,50 @@
     //Events
     saturnApp.factory('Events', function ($resource, Data) {
         return $resource(
-            Data.baseURL, {
+            Data.settings.baseURL, {
                 'calendarId': '@calendarId',
                 'eventId': '@eventId',
                 'access_token': '@access_token'
             }, {
                 'delete': {
                     'method': 'DELETE',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'get': {
                     'method': 'GET',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'import': {
                     'method': 'POST',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/import'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/import'
                 },
                 'insert': {
                     'method': 'POST',
-                    'url': Data.baseURL + '/calendars/:calendarId/events'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events'
                 },
                 'instances': {
                     'method': 'GET',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId/instances'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId/instances'
                 },
                 'list': {
                     'method': 'GET',
-                    'url': Data.baseURL + '/calendars/:calendarId/events'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events'
                 },
                 'move': {
                     'method': 'POST',
-                    'URL': Data.baseURL + '/calendars/:calendarId/events/:eventId/move'
+                    'URL': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId/move'
                 },
                 'quickAdd': {
                     'method': 'POST',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/quickAdd'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/quickAdd'
                 },
                 'update': {
                     'method': 'POST',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'patch': {
                     'method': 'PATCH',
-                    'url': Data.baseURL + '/calendars/:calendarId/events/:eventId'
+                    'url': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId'
                 }
             });
     });
@@ -263,10 +270,10 @@
     //Colors
     saturnApp.factory('Freebusy', function ($resource, Data) {
         return $resource(
-            Data.baseURL, {
+            Data.settings.baseURL, {
                 'query': {
                     'method': 'POST',
-                    'url': Data.baseURL + '/freeBusy'
+                    'url': Data.settings.baseURL + '/freeBusy'
                 }
             });
     });
@@ -274,17 +281,17 @@
     //Settings
     saturnApp.factory('Settings', function ($resource, Data) {
         return $resource(
-            Data.baseURL, {
+            Data.settings.baseURL, {
                 'userId': '@userId',
                 'setting': '@setting'
             }, {
                 'get': {
                     'method': 'GET',
-                    'url': Data.baseURL + '/users/:userId/settings/:setting'
+                    'url': Data.settings.baseURL + '/users/:userId/settings/:setting'
                 },
                 'list': {
                     'method': 'GET',
-                    'url': Data.baseURL + '/users/:userId/settings'
+                    'url': Data.settings.baseURL + '/users/:userId/settings'
                 }
             });
     });
@@ -413,7 +420,7 @@
             allDayDefault: false,
             selectable: true,
             defaultView: 'agendaWeek',
-            slotMinutes: 15,
+            slotMinutes: $scope.data.settings.meetingLength,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
                 $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
