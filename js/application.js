@@ -73,9 +73,7 @@
             $rootScope.$on("$routeChangeStart", function (event, next, current) {
                 if (Data.user.authorised === false) {
                     // no logged user, we should be going to #login
-                    if (next.templateUrl !== "partials/login.html") {
-                        $location.path("/login");
-                    }
+                    $location.path("/login");
                 }
 
                 if (Data.user.authorised === true) {
