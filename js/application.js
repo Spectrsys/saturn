@@ -423,16 +423,6 @@
             },
             dayClick: function (date, allDay, jsEvent, view) {}
         };
-
-        setTimeout(function(){
-            angular.forEach($scope.data.calendars, function(value, key){
-                if(value.selected === true){
-                    $scope.calendar.fullCalendar('addEventSource', value);
-                }
-            });
-
-            console.log($scope.eventSources);
-        }, 10000);
     });
 
     /******************************************************************/
