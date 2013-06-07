@@ -109,6 +109,9 @@
 
             //otherwise
             $httpBackend.whenGET(/.*/).passThrough();
+            $httpBackend.whenPUT(/.*/).passThrough();
+            $httpBackend.whenDELETE(/.*/).passThrough();
+            $httpBackend.whenPATCH(/.*/).passThrough();
         });
 
     /******************************************************************/
@@ -540,7 +543,7 @@
             //push the calendar to personal calendars array
             $scope.data.calendars.push($scope.calendar);
 
-            /*//insert new calendar
+            //insert new calendar
             var promise = Calendars.insert({
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
@@ -551,7 +554,7 @@
             //callback
             promise.$then(function(){
                 $scope.resetCalendar();
-            });*/
+            });
             //redirect to the homepage
             $location.path('/');
         };
@@ -560,7 +563,7 @@
         $scope.saveCalendar = function(){
             angular.copy($scope.calendar, $scope.data.currentCalendar);
 
-            /*//update calendar meta
+            //update calendar meta
              var promise = Calendars.update({
              'calendarId': $scope.calendar.id,
              'summary': $scope.calendar.summary,
@@ -572,7 +575,7 @@
              //callback
              promise.$then(function(){
              $scope.resetCalendar();
-             });*/
+             });
         };
 
         //set current calendar
@@ -590,14 +593,20 @@
 
         //delete calendar
         $scope.deleteCalendar = function(){
+            var self = this;
+
             //make sure the user knows what he's doing
             if(confirm('Are you sure you want to delete this calendar ?')){
-                //remove the current calendar from the array
-                $scope.data.calendarList[0].calendars.splice(this.$index, 1);
-
-                //send a request to teh server to delete the calendar
+                //send a request to the server to delete the calendar
                 Calendars.delete({
-                    'calendarId': this.calendar.id
+                    'calendarId': self.calendar.id
+                });
+
+                //remove the current calendar from the array
+                angular.forEach($scope.data.calendars, function(value, key){
+                    if(value.id === self.calendar.id){
+                        $scope.data.calendars.splice(key, 1);
+                    }
                 });
             }
         };
