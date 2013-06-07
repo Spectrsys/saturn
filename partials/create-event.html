@@ -3,7 +3,7 @@
         <div class="widget-heading">
             <div class="widget-title">Create New Event</div>
         </div>
-        <div class="widget-content" ng-show="data.calendarList[0].calendars.length">
+        <div class="widget-content" ng-show="data.calendars.length">
             <ol class="unstyled clearfix">
                 <li>
                     <div class="span2">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="span10">
                         <select id="event-calendar" ng-model="data.event.calendar" required>
-                            <option ng-repeat="calendar in data.calendarList[0].calendars" value="calendar.id">{{calendar.summary}}</option>
+                            <option ng-repeat="calendar in data.calendars | filter:{accessRole: 'owner'}" value="calendar.id">{{calendar.summary}}</option>
                         </select>
                     </div>
                 </li>
@@ -84,7 +84,7 @@
             <button type="submit" class="btn btn-success" ng-disabled="createEventForm.$invalid" ng-click="createEvent()"><i class="icon-save"></i> Save</button>
             <a href="#/" ng-click="resetEvent()" class="btn"><i class="icon-undo"></i> Cancel</a>
         </div>
-        <div ng-show="!data.calendarList[0].calendars.length">
+        <div ng-show="!data.calendars.length">
             <p class="alert">You need to have at least one calledar before you can create and event.</p>
             <a href="#/calendar/create" class="btn"><i class="icon-calendar"></i> Create a new calendar</a>
         </div>
