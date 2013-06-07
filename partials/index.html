@@ -52,7 +52,7 @@
                                     <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
                                 </li>
                                 <li>
-                                    <a ng-href="">Display only this calendar</a>
+                                    <a ng-click="displayCalendar()">Display only this calendar</a>
                                 </li>
                                 <li>
                                     <a ng-href="">Hide this calendar from the list</a>
@@ -102,7 +102,7 @@
                                     <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
                                 </li>
                                 <li>
-                                    <a ng-href="">Display only this calendar</a>
+                                    <a ng-click="displayCalendar()">Display only this calendar</a>
                                 </li>
                                 <li>
                                     <a ng-href="">Hide this calendar from the list</a>
@@ -112,7 +112,7 @@
 
                         <label title={{calendar.description}}>
                             <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
-                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-change="calTest()" />
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
                             </span>
                             {{calendar.summary}}
                         </label>

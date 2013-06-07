@@ -602,15 +602,24 @@
             }
         };
 
-        $scope.calTest = function(){
-            console.log(this);
-        };
-
         //unsubscribe from calendar
         $scope.unsubscribe = function(){
             //make sure the user knows what he's doing
             if(confirm('Are you sure you want to unsubscribe from "' + this.calendar.summary + '" ?')){
             }
+        };
+
+        //display only this calendar
+        $scope.displayCalendar = function(){
+            var self = this;
+
+            angular.forEach($scope.data.calendars, function(value, key){
+                if(value.id === self.calendar.id){
+                    value.selected = true;
+                } else {
+                    value.selected = false;
+                }
+            });
         };
     });
 
@@ -636,7 +645,7 @@
 
         //remove emails
         $scope.removeEmail = function(){
-            if(confirm('Are you sure you want to remove this email from your email list ?')){
+            if(confirm('Are you sure you want to remove this email from your list ?')){
                 $scope.data.settings.emails.splice(this.$index, 1);
             }
         };
