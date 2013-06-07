@@ -57,7 +57,7 @@
                             <th>Calendar</th>
                             <th>Show in list</th>
                             <th>Notifications</th>
-                            <th>Sharing</th>
+                            <th>Settings</th>
                             <th>Subscription</th>
                             <th>Delete</th>
                         </tr>
@@ -105,14 +105,16 @@
                         <colgroup>
                             <col width="40%" />
                             <col width="10%" />
-                            <col width="40%" />
+                            <col width="20%" />
                             <col width="10%" />
+                            <col width="20%" />
                         </colgroup>
                         <thead>
                         <tr>
                             <th>Calendar</th>
                             <th>Show in list</th>
                             <th>Notifications</th>
+                            <th>Settings</th>
                             <th>Subscription</th>
                         </tr>
                         </thead>
@@ -130,6 +132,9 @@
                             </td>
                             <td>
                                 <a ng-href="">Reminders and notifications</a>
+                            </td>
+                            <td>
+                                <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Edit settings</a>
                             </td>
                             <td>
                                 <a ng-click="unsubscribe()">Unsubscribe</a>
