@@ -104,7 +104,7 @@
 
 
             <!--calendar sharing-->
-            <div class="widget" id="calendar-sharing">
+            <div class="widget" id="calendar-sharing" ng-show="calendar.accessRole == 'owner'">
                 <div class="widget-heading">
                     <div class="widget-title">Sharing settings</div>
                 </div>
@@ -112,7 +112,7 @@
                     <ol class="unstyled clearfix">
                         <li>
                             <label>
-                                <input type="checkbox" ng-model="calendar.share" />
+                                <input type="checkbox" ng-model="calendar.share" ng-disabled="calendar.accessRole != 'owner'" />
                                 Share this calendar with others
                             </label>
                         </li>
