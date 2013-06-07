@@ -470,23 +470,11 @@
     /******************************************************************/
     /* Calendars */
     saturnApp.controller('CalendarController', function ($scope, $location, CalendarList, Calendars, Data) {
-        $scope.updateEventSourcesCache = function(){
-            console.log(this);
-        }
         $scope.data = Data;
 
         if(!$scope.data.calendars){
             $scope.data.calendars = [];
         }
-
-        if(!$scope.data.calendarList){
-            $scope.data.calendarList = [{
-            'title': 'My calendars',
-            'calendars': []
-        }, {
-            'title': 'Subscribed calendars',
-            'calendars': []
-        }];}
 
         var bgColor = randomHexColor();
         //avoid generating a black background
@@ -532,24 +520,6 @@
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
                 });
-
-                //sort them by owner
-                sortCalendars($scope.data.calendars);
-            });
-        }
-
-        //sort calendars by access role
-        function sortCalendars(calendars) {
-            angular.forEach(calendars, function (value, key) {
-                //personal calendars
-                if (calendars[key].accessRole === 'owner') {
-                    $scope.data.calendarList[0].calendars.push(calendars[key]);
-                }
-
-                //subscribed calendars
-                if (calendars[key].accessRole === 'reader') {
-                    $scope.data.calendarList[1].calendars.push(calendars[key]);
-                }
             });
         }
 
@@ -563,7 +533,7 @@
             $scope.calendar.selected = true;
 
             //push the calendar to personal calendars array
-            $scope.data.calendarList[0].calendars.push($scope.calendar);
+            $scope.data.calendars.push($scope.calendar);
 
             /*//insert new calendar
             var promise = Calendars.insert({

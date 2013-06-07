@@ -25,7 +25,7 @@
 
     <div ng-controller="CalendarController">
         <!--calendar listing-->
-        <div class="widget" ng-repeat="list in data.calendarList">
+        <div class="widget">
             <div class="widget-heading">
                 <div class="dropdown pull-right">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -38,11 +38,11 @@
                         <li><a href="#/settings/calendars">Settings</a></li>
                     </ul>
                 </div>
-                <div class="widget-title">{{list.title}}</div>
+                <div class="widget-title">My calendars</div>
             </div>
             <div class="widget-content">
-                <ul class="unstyled calendar-list" ng-show="list.calendars.length">
-                    <li ng-repeat="calendar in list.calendars">
+                <ul class="unstyled calendar-list" ng-show="data.calendars.length">
+                    <li ng-repeat="calendar in data.calendars | filter:{accessRole : 'owner'}">
                         <div class="dropdown pull-right">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <i class="icon-caret-down"></i>
@@ -57,8 +57,55 @@
                                 <li>
                                     <a ng-href="">Hide this calendar from the list</a>
                                 </li>
-                                <li ng-show="{{calendar.accessRole == 'owner'}}">
+                                <li>
                                     <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="panes.calendarShare = true">Share this calendar</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <label title={{calendar.description}}>
+                            <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-change="calTest()" />
+                            </span>
+                            {{calendar.summary}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--/calendar listing-->
+
+        <!--calendar listing-->
+        <div class="widget">
+            <div class="widget-heading">
+                <div class="dropdown pull-right">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        &nbsp;
+                        <i class="icon-caret-down"></i>
+                        &nbsp;
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/settings/calendars">Settings</a></li>
+                    </ul>
+                </div>
+                <div class="widget-title">Subscribed calendars</div>
+            </div>
+            <div class="widget-content">
+                <ul class="unstyled calendar-list" ng-show="data.calendars.length">
+                    <li ng-repeat="calendar in data.calendars | filter:{accessRole: '!owner'}">
+                        <div class="dropdown pull-right">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
+                                </li>
+                                <li>
+                                    <a ng-href="">Display only this calendar</a>
+                                </li>
+                                <li>
+                                    <a ng-href="">Hide this calendar from the list</a>
                                 </li>
                             </ul>
                         </div>
