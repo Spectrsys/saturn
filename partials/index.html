@@ -1,3 +1,4 @@
+<div ng-controller="EventController">
 <!--sidebar-->
 <aside id="sidebar" class="span2">
     <div class="widget">
@@ -13,12 +14,12 @@
         </div>
     </div>
 
-    <div class="widget" ng-controller="EventController">
+    <div class="widget">
         <div class="widget-heading">
             <div class="widget-title">Mini calendar</div>
         </div>
         <div class="widget-content">
-            <div ui-calendar="miniCalendar" class="mini-calendar" ng-model="eventSources"></div>
+            <div ui-calendar="miniCalendarOptions" class="mini-calendar" ng-model="eventSources" calendar="miniCalendar"></div>
         </div>
     </div>
 
@@ -64,7 +65,7 @@
 
                         <label title={{calendar.description}}>
                             <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
-                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-change="calTest()" />
                             </span>
                             {{calendar.summary}}
                         </label>
@@ -78,7 +79,8 @@
 <!--/sidebar-->
 
 <!--content-->
-<div id="content" class="span10" ng-controller="EventController">
-    <div ui-calendar="masterCalendar" class="calendar" ng-model="eventSources" calendar="masterCalendar"></div>
+<div id="content" class="span10">
+    <div ui-calendar="masterCalendarOptions" ng-model="eventSources" calendar="masterCalendar"></div>
 </div>
 <!--/content-->
+</div>
