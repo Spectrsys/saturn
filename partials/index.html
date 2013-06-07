@@ -28,11 +28,7 @@
         <div class="widget">
             <div class="widget-heading">
                 <div class="dropdown pull-right">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        &nbsp;
-                        <i class="icon-caret-down"></i>
-                        &nbsp;
-                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-caret-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#/calendar/create">Create new calendar</a></li>
                         <li><a href="#/settings/calendars">Settings</a></li>
@@ -44,9 +40,7 @@
                 <ul class="unstyled calendar-list" ng-show="data.calendars.length">
                     <li ng-repeat="calendar in data.calendars | filter:{accessRole : 'owner'}">
                         <div class="dropdown pull-right">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon-caret-down"></i>
-                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
@@ -54,7 +48,7 @@
                                 <li>
                                     <a ng-click="displayCalendar()">Display only this calendar</a>
                                 </li>
-                                <li>
+                                <li ng-show="!calendar.primary">
                                     <a ng-href="">Hide this calendar from the list</a>
                                 </li>
                                 <li>
@@ -79,11 +73,7 @@
         <div class="widget">
             <div class="widget-heading">
                 <div class="dropdown pull-right">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        &nbsp;
-                        <i class="icon-caret-down"></i>
-                        &nbsp;
-                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-caret-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#/settings/calendars">Settings</a></li>
                     </ul>
@@ -94,9 +84,7 @@
                 <ul class="unstyled calendar-list" ng-show="data.calendars.length">
                     <li ng-repeat="calendar in data.calendars | filter:{accessRole: '!owner'}">
                         <div class="dropdown pull-right">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon-caret-down"></i>
-                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-caret-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
