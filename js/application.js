@@ -89,6 +89,10 @@
                 }
             });
 
+            $rootScope.$on("$routeChangeSuccess", function(event, current, previous){
+                $.cookie('saturn_current_path', $location.path());
+            });
+
             //mock server interaction
             $httpBackend.whenPOST('/login').respond(function(method, url, data){
                 data = $rootScope.$eval(data);
@@ -675,8 +679,9 @@
 
         //logout
         $scope.logout = function () {
-            //destroy token cookie
+            //destroy stored cookie
             $.cookie('saturn_access_token', null, {'expires': -1});
+            $.cookie('saturn_current_path', null, {'expires': -1});
 
             //set the user as logged out
             $scope.data.user.authorised = false;
@@ -706,12 +711,19 @@
                     });
             });
         };
+
+        //if the user refreshes the page and is logged in
         if($.cookie('saturn_access_token')){
             //set the user as logged in
             $scope.data.user.authorised = true;
 
-            //redirect to the home page
-            $location.path('/');
+            //if we have a path stored, go there
+            if($.cookie('saturn_current_path')){
+                $location.path($.cookie('saturn_current_path'));
+            } else {
+                //redirect to the home page
+                $location.path('/');
+            }
 
             //get user data
             $scope.getUserData();
