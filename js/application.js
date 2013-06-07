@@ -322,7 +322,8 @@
             $scope.data.currentEvent = {};
         }
 
-        var i = 0;
+        var i = 0,
+            fetching = false;
 
         $scope.events =  function(start, end, callback) {
             i = 0;
@@ -334,12 +335,12 @@
         //get events
         $scope.getEvents = function(sources, start, end, callback){
             if(!sources.length){
-                return;
+                return false;
             }
 
             if(i === sources.length){
                 i = 0;
-                return;
+                return false;
             }
 
             //get min and max time
@@ -350,7 +351,8 @@
                 endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
 
             //check if the current calendar is selected
-            if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1){
+            if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1 && !fetching){
+                fetching = true;
                 safeApply($scope, function(){
                     var promise = Events.list({
                         'calendarId': sources[i].id,
@@ -361,28 +363,11 @@
 
                     promise.$then(function(){
                         sources[i].dateRange.push(timestamp);
-                        angular.forEach(promise.items, function(value, key){
-                            value.title = value.title || value.summary;
 
-                            if(value.start && value.start.date){
-                                value.start = value.start.date;
-                            }
+                        sources[i].events.push.apply(sources[i].events, promise.items);
 
-                            if(value.start && value.start.dateTime){
-                                value.start = value.start.dateTime;
-                            }
+                        fetching = false;
 
-                            if(value.end && value.end.date){
-                                value.end = value.end.date;
-                            }
-
-                            if(value.end && value.end.dateTime){
-                                value.end = value.end.dateTime;
-                            }
-                            if(sources[i].events.indexOf(value) === -1){
-                                sources[i].events.push(value);
-                            }
-                        });
                         i++;
 
                         //recall the get events function
@@ -402,16 +387,23 @@
 
         };
 
+        //update event
+        $scope.updateEvent = function(){
+            $scope.data.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
+        };
+
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
-            $scope.data.currentEvent = event;
+            console.log(event);
 
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
+                $scope.data.currentEvent = event;
 
-                console.log(event);
-                //go to the edit page
-                $location.path('/event/edit/' + event.id);
+                safeApply($scope, function(){
+                    //go to the edit page
+                    $location.path('/event/edit/' + event.id);
+                });
             }
         };
 
@@ -454,7 +446,27 @@
                 $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
                 });
             },
-
+            eventDataTransform: function(eventData){
+                return {
+                    title: eventData.title || eventData.summary,
+                    description: eventData.description,
+                    kind: eventData.kind,
+                    etag: eventData.etag,
+                    status: eventData.status,
+                    htmlLink: eventData.htmlLink,
+                    created: eventData.created,
+                    updated: eventData.updated,
+                    summary: eventData.summary,
+                    creator: eventData.creator,
+                    organizer: eventData.organizer,
+                    visibility: eventData.visibility,
+                    sequence: eventData.sequence,
+                    iCalUID: eventData.iCalUID,
+                    gadget: eventData.gadget,
+                    start: eventData.start.date || eventData.start.dateTime || eventData.start,
+                    end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : null
+                };
+            },
             loading: function (bool) {
                 if (!bool) {
                     $scope.$broadcast('loading:Started');
