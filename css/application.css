@@ -215,8 +215,8 @@ a.dropdown-toggle {
     color: #333;
 }
 
-a.dropdown-toggle:hover,
-a.dropdown-toggle:focus {
+.widget a.dropdown-toggle:hover,
+.widget a.dropdown-toggle:focus {
     background: #8BD5F9;
 }
 

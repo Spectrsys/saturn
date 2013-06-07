@@ -635,7 +635,7 @@
         //add emails
         $scope.addEmail = function(){
             //add email to stack
-            if($scope.data.settings.emails.indexOf($scope.data.settings.newEmail)){
+            if($scope.data.settings.emails.indexOf($scope.data.settings.newEmail) === -1){
                 $scope.data.settings.emails.push($scope.data.settings.newEmail);
             }
 
@@ -644,7 +644,7 @@
         };
 
         //remove emails
-        $scope.removeEmail = function(){
+        $scope.deleteEmail = function(){
             if(confirm('Are you sure you want to remove this email from your list ?')){
                 $scope.data.settings.emails.splice(this.$index, 1);
             }
