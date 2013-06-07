@@ -64,6 +64,9 @@
                     when('/event/create', {
                         templateUrl: 'partials/create-event.html'
                     }).
+                    when('/event/edit/:eventId', {
+                        templateUrl: 'partials/edit-event.html'
+                    }).
                     otherwise({
                         redirectTo: '/'
                     });
@@ -315,8 +318,8 @@
         $scope.data = Data;
 
         //used for creating and editing events
-        if(!$scope.data.event){
-            $scope.data.event = {};
+        if(!$scope.data.currentEvent){
+            $scope.data.currentEvent = {};
         }
 
         var i = 0;
@@ -340,15 +343,14 @@
             }
 
             //get min and max time
-            var min = start.getTime(),
-                max = end.getTime(),
+            var timestamp = start.getTime() + end.getTime(),
 
             //format the start and end dates to match google specs
                 startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
                 endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
 
             //check if the current calendar is selected
-            if(sources[i].selected === true){
+            if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1){
                 safeApply($scope, function(){
                     var promise = Events.list({
                         'calendarId': sources[i].id,
@@ -358,6 +360,7 @@
                     });
 
                     promise.$then(function(){
+                        sources[i].dateRange.push(timestamp);
                         angular.forEach(promise.items, function(value, key){
                             value.title = value.title || value.summary;
 
@@ -376,7 +379,9 @@
                             if(value.end && value.end.dateTime){
                                 value.end = value.end.dateTime;
                             }
-                            sources[i].events.push(value);
+                            if(sources[i].events.indexOf(value) === -1){
+                                sources[i].events.push(value);
+                            }
                         });
                         i++;
 
@@ -399,11 +404,12 @@
 
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
-            $scope.data.event = event;
+            $scope.data.currentEvent = event;
 
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
 
+                console.log(event);
                 //go to the edit page
                 $location.path('/event/edit/' + event.id);
             }
@@ -413,9 +419,9 @@
         $scope.select = function(startDate, endDate, allDay, jsEvent, view){
             safeApply($scope, function(){
                 //setup event meta
-                $scope.data.event.startDate = startDate;
-                $scope.data.event.endDate = endDate;
-                $scope.data.event.allDay = allDay;
+                $scope.data.currentEvent.startDate = startDate;
+                $scope.data.currentEvent.endDate = endDate;
+                $scope.data.currentEvent.allDay = allDay;
 
                 //go to add event page
                 $location.path('/event/create');
@@ -524,7 +530,6 @@
                 angular.forEach(promise.items, function(value, key){
                     value.editable = (value.accessRole === 'owner' ? true : false);
                     value.events = [];
-                    value.color = value.backgroundColor;
                     value.color = value.backgroundColor;
                     value.textColor = value.foregroundColor;
                     value.dateRange = [];
