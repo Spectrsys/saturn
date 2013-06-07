@@ -426,6 +426,12 @@
         //use stored sources for calendar events
         $scope.eventSources = [];
 
+        setTimeout(function(){
+            if(!$scope.eventSources.length){
+                $scope.eventSources.push.apply($scope.eventSources, $scope.data.calendars);
+            }
+        }, 4000);
+
         //master calendar
         $scope.masterCalendarOptions = {
             header: {
@@ -495,7 +501,7 @@
         };
 
         if($scope.data.currentCalendar){
-            angular.copy($scope.data.currentCalendar, $scope.calendar);
+            $.extend($scope.calendar, $scope.data.currentCalendar);
         }
 
         //render calendars after login
@@ -518,6 +524,7 @@
                 angular.forEach(promise.items, function(value, key){
                     value.editable = (value.accessRole === 'owner' ? true : false);
                     value.events = [];
+                    value.color = value.backgroundColor;
                     value.color = value.backgroundColor;
                     value.textColor = value.foregroundColor;
                     value.dateRange = [];
@@ -561,21 +568,23 @@
 
         //save calendar settings
         $scope.saveCalendar = function(){
-            angular.copy($scope.calendar, $scope.data.currentCalendar);
+            $.extend($scope.data.currentCalendar, $scope.calendar);
 
             //update calendar meta
              var promise = Calendars.update({
-             'calendarId': $scope.calendar.id,
-             'summary': $scope.calendar.summary,
-             'description': $scope.calendar.description,
-             'location': $scope.calendar.location,
-             'timeZone': $scope.calendar.timeZone
+                 'calendarId': $scope.calendar.id,
+                 'summary': $scope.calendar.summary,
+                 'description': $scope.calendar.description,
+                 'location': $scope.calendar.location,
+                 'timeZone': $scope.calendar.timeZone
              });
 
              //callback
              promise.$then(function(){
-             $scope.resetCalendar();
+                 $scope.calendar = null;
              });
+
+            $scope.calendar = null;
         };
 
         //set current calendar
@@ -585,7 +594,7 @@
 
         //reset current calendar settings
         $scope.resetCalendar = function(){
-            angular.copy($scope.data.currentCalendar, $scope.calendar);
+            $.extend($scope.calendar, $scope.data.currentCalendar);
 
             //redirect to the homepage
             $location.path('/');
