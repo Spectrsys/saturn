@@ -463,8 +463,6 @@
             },
             dayClick: function (date, allDay, jsEvent, view) {}
         };
-
-        console.log($scope);
     });
 
     /******************************************************************/
@@ -531,6 +529,9 @@
 
             //set the calendar to selected
             $scope.calendar.selected = true;
+
+            //set the calendar as a personal one
+            $scope.calendar.accessRole = 'owner';
 
             //push the calendar to personal calendars array
             $scope.data.calendars.push($scope.calendar);
