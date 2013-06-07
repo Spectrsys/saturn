@@ -420,7 +420,7 @@
         $scope.eventSources = [];
 
         //master calendar
-        $scope.masterCalendar = {
+        $scope.masterCalendarOptions = {
             header: {
                 left: 'month agendaWeek agendaDay',
                 center: 'title',
@@ -443,12 +443,11 @@
                     $scope.$broadcast('loading:Finished');
                 }
             },
-            select: $scope.select,
-            unselect: $scope.unselect
+            select: $scope.select
         };
 
         //mini calendar
-        $scope.miniCalendar = {
+        $scope.miniCalendarOptions = {
             header: {
                 left: '',
                 center: 'title',
@@ -464,6 +463,8 @@
             },
             dayClick: function (date, allDay, jsEvent, view) {}
         };
+
+        console.log($scope);
     });
 
     /******************************************************************/
@@ -626,6 +627,10 @@
             }
         };
 
+        $scope.calTest = function(){
+            console.log(this);
+        };
+
         //unsubscribe from calendar
         $scope.unsubscribe = function(){
             //make sure the user knows what he's doing
@@ -669,7 +674,7 @@
                             'response_type': 'token',
                             'immediate': false,
                             'login_hint': data.login_hint,
-                            'approval_prompt': 'force'
+                            'approval_prompt': 'auto'
                         }, handleAuthResult);
                     }, 200);
                 }).error(function(data, status, headers, config){
