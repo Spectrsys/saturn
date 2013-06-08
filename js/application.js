@@ -383,8 +383,8 @@
         $scope.createEvent = function(){
             //loop over all calendars
             angular.forEach($scope.data.calendars, function(value, key){
-                if(value.id === $scope.currentEvent.calendar){
-                    value.push($scope.currentEvent);
+                if(value.id === $scope.data.currentEvent.calendar){
+                    value.events.push($scope.data.currentEvent);
                 }
             });
 
