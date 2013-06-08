@@ -464,7 +464,7 @@
                     iCalUID: eventData.iCalUID,
                     gadget: eventData.gadget,
                     start: eventData.start.date || eventData.start.dateTime || eventData.start,
-                    end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : null
+                    end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : (eventData.start.date || eventData.start.dateTime || eventData.start)
                 };
             },
             eventRender: function(event, element, view){
