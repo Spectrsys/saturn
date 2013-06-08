@@ -320,7 +320,10 @@
 
         //used for creating and editing events
         if(!$scope.data.currentEvent){
-            $scope.data.currentEvent = {};
+            $scope.data.currentEvent = {
+                'start': new Date(),
+                'end': new Date()
+            };
         }
 
         var i = 0,
@@ -385,8 +388,18 @@
         };
 
         //add new event
-        $scope.addEvent = function(){
+        $scope.createEvent = function(){
+            console.log($scope.data.currentEvent);
 
+            //check if we have an event to add
+            if($scope.data.currentEvent){
+                //loop over all calendars
+                angular.forEach($scope.data.calendars, function(value, key){
+                    if(value.id === $scope.currentEvent.calendar){
+                        value.push($scope.currentEvent);
+                    }
+                });
+            }
         };
 
         //update event
@@ -489,6 +502,8 @@
                 } else {
                     $scope.$broadcast('loading:Finished');
                 }
+            },
+            eventAfterAllRender: function(view){
             },
             select: $scope.select
         };
