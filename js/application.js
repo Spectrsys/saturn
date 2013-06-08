@@ -400,6 +400,15 @@
             $scope.data.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
         };
 
+        //check start/end time and date
+        $scope.checkEventDates = function(){
+            //check if start date is greater than end date
+            if($scope.data.currentEvent.start.getTime() > $scope.data.currentEvent.end.getTime() || !$scope.data.currentEvent.end){
+                //end is equal to start
+                $scope.data.currentEvent.end = $scope.data.currentEvent.start;
+            }
+        };
+
         //current event
         $scope.setCurrentEvent = function(start, end, allDay){
             $scope.data.currentEvent = {
