@@ -421,15 +421,18 @@
             });
         };
 
-
         //use stored sources for calendar events
         $scope.eventSources = [];
 
-        setTimeout(function(){
-            if(!$scope.eventSources.length){
-                $scope.eventSources.push.apply($scope.eventSources, $scope.data.calendars);
-            }
-        }, 4000);
+        #scope.$on('calendarsLoaded', function() {
+            $scope.eventSources.push.apply($scope.eventSources, $scope.data.calendars);
+        });
+
+        // setTimeout(function(){
+        //     if(!$scope.eventSources.length){
+        //         $scope.eventSources.push.apply($scope.eventSources, $scope.data.calendars);
+        //     }
+        // }, 4000);
 
         //master calendar
         $scope.masterCalendarOptions = {
@@ -560,10 +563,11 @@
 
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
+
+                    $scope.$emit('calendarsLoaded');
                 });
             });
         }
-
 
         //save a new calendar
         $scope.createCalendar = function(){
