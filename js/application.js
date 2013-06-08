@@ -469,7 +469,14 @@
             },
             eventRender: function(event, element, view){
                 if(event.gadget){
-                    element.html('<img title="' + event.gadget.title + '" src="' + event.gadget.iconLink + '" />');
+                    //replace the element content with the icon
+                    element.html('<img title="' + event.gadget.title + '" src="' + event.gadget.iconLink + '" width="16" height="16" />');
+
+                    //no borders or backgrounds
+                    element.css({
+                        'background': 'none',
+                        'border': 0
+                    });
                 }
             },
             loading: function (bool) {
