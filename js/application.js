@@ -333,6 +333,7 @@
             });
         };
 
+
         //get events
         $scope.getEvents = function(sources, start, end, callback){
             if(!sources.length){
@@ -395,8 +396,6 @@
 
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
-            console.log(event);
-
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
                 $scope.data.currentEvent = event;
@@ -424,15 +423,17 @@
         //use stored sources for calendar events
         $scope.eventSources = [];
 
-        #scope.$on('calendarsLoaded', function() {
+        $scope.updateEventSources = function(){
             $scope.eventSources.push.apply($scope.eventSources, $scope.data.calendars);
-        });
+        };
 
-        // setTimeout(function(){
-        //     if(!$scope.eventSources.length){
-        //         $scope.eventSources.push.apply($scope.eventSources, $scope.data.calendars);
-        //     }
-        // }, 4000);
+        if($scope.data.calendars && $scope.data.calendars.length){
+            $scope.updateEventSources();
+        }
+
+        $scope.$on('calendarsLoaded', function() {
+            $scope.updateEventSources();
+        });
 
         //master calendar
         $scope.masterCalendarOptions = {
@@ -563,9 +564,8 @@
 
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
-
-                    $scope.$emit('calendarsLoaded');
                 });
+                $scope.$emit('calendarsLoaded');
             });
         }
 
