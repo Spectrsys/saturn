@@ -216,7 +216,8 @@
                     'method': 'PATCH'
                 },
                 'delete': {
-                    'method': 'DELETE'
+                    'method': 'DELETE',
+                    'url': Data.settings.baseURL + '/calendars/:calendarId?key=AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM'
                 }
             });
     });
@@ -437,7 +438,6 @@
                 center: 'title',
                 right: 'today prev,next'
             },
-            allDayDefault: true,
             selectable: true,
             defaultView: 'agendaWeek',
             slotMinutes: $scope.data.settings.meetingLength,
@@ -637,7 +637,8 @@
             if(confirm('Are you sure you want to delete this calendar ?')){
                 //send a request to the server to delete the calendar
                 Calendars.delete({
-                    'calendarId': self.calendar.id
+                    'calendarId': self.calendar.id,
+                    'key': $scope.data.apiKey
                 });
 
                 //remove the current calendar from the array
@@ -717,6 +718,7 @@
                 'user': $scope.loginData.user,
                 'password': $scope.loginData.password
             }).success(function(data, status, headers, config){
+                    $scope.data.apiKey = data.apiKey;
                     //set google auth key
                     gapi.client.setApiKey(data.apiKey);
 
