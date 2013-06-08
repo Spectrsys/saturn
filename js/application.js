@@ -467,6 +467,11 @@
                     end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : null
                 };
             },
+            eventRender: function(event, element, view){
+                if(event.gadget){
+                    element.html('<img title="' + event.gadget.title + '" src="' + event.gadget.iconLink + '" />');
+                }
+            },
             loading: function (bool) {
                 if (!bool) {
                     $scope.$broadcast('loading:Started');
