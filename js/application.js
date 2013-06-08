@@ -318,14 +318,6 @@
     saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
-        //used for creating and editing events
-        if(!$scope.data.currentEvent){
-            $scope.data.currentEvent = {
-                'start': new Date(),
-                'end': new Date()
-            };
-        }
-
         var i = 0,
             fetching = false;
 
@@ -389,8 +381,6 @@
 
         //add new event
         $scope.createEvent = function(){
-            console.log($scope.data.currentEvent);
-
             //check if we have an event to add
             if($scope.data.currentEvent){
                 //loop over all calendars
@@ -407,6 +397,20 @@
             $scope.data.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
         };
 
+        //current event
+        $scope.setCurrentEvent = function(start, end, allDay){
+            $scope.data.currentEvent = {
+                'title': 'New event',
+                'start': start || new Date(),
+                'end': end || new Date(),
+                'allDay': allDay || false
+            };
+        };
+
+        if(!$scope.data.currentEvent){
+            $scope.setCurrentEvent();
+        }
+
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
             //if we can edit the event
@@ -421,13 +425,10 @@
         };
 
         //after the user has selected a time period
-        $scope.select = function(startDate, endDate, allDay, jsEvent, view){
-            safeApply($scope, function(){
-                //setup event meta
-                $scope.data.currentEvent.startDate = startDate;
-                $scope.data.currentEvent.endDate = endDate;
-                $scope.data.currentEvent.allDay = allDay;
+        $scope.select = function(start, end, allDay, jsEvent, view){
+            $scope.setCurrentEvent(start, end, allDay);
 
+            safeApply($scope, function(){
                 //go to add event page
                 $location.path('/event/create');
             });
