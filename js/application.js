@@ -381,15 +381,18 @@
 
         //add new event
         $scope.createEvent = function(){
-            //check if we have an event to add
-            if($scope.data.currentEvent){
-                //loop over all calendars
-                angular.forEach($scope.data.calendars, function(value, key){
-                    if(value.id === $scope.currentEvent.calendar){
-                        value.push($scope.currentEvent);
-                    }
-                });
-            }
+            //loop over all calendars
+            angular.forEach($scope.data.calendars, function(value, key){
+                if(value.id === $scope.currentEvent.calendar){
+                    value.push($scope.currentEvent);
+                }
+            });
+
+            //reset the current event
+            $scope.setCurrentEvent();
+
+            //go to homepage
+            $location.path('/');
         };
 
         //update event
