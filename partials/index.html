@@ -59,7 +59,7 @@
 
                         <label title={{calendar.description}}>
                             <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
-                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-change="calTest()" />
+                                <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
                             </span>
                             {{calendar.summary}}
                         </label>

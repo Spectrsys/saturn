@@ -600,7 +600,7 @@
                 angular.forEach(promise.items, function(value, key){
                     value.editable = (value.accessRole === 'owner' ? true : false);
                     value.events = [];
-                    value.color = value.backgroundColor;
+                    value.color = value.borderColor = value.backgroundColor;
                     value.textColor = value.foregroundColor;
                     value.dateRange = [];
 
@@ -644,6 +644,10 @@
         //save calendar settings
         $scope.saveCalendar = function(){
             $.extend($scope.data.currentCalendar, $scope.calendar);
+
+            //hack to get calendar colors to behave ok
+            $scope.data.currentCalendar.backgroundColor =  $scope.data.currentCalendar.color;
+            $scope.data.currentCalendar.borderColor =  $scope.data.currentCalendar.color;
 
             //update calendar meta
              var promise = Calendars.update({
