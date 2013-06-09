@@ -340,8 +340,6 @@
                 //notify everyone that events have loaded
                 $rootScope.$broadcast('feedback:stop');
 
-                callback();
-
                 i = 0;
                 return false;
             }
@@ -378,6 +376,8 @@
                         fetching = false;
 
                         i++;
+
+                        callback();
 
                         //recall the get events function
                         $scope.getEvents(sources, start, end, callback);
