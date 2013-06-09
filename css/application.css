@@ -307,18 +307,18 @@ div.colorPicker-swatch {
 }
 
 /* loaders */
-.messages {
+.feedback {
     width: 100%;
     top: 3em;
     left: 0;
-    position: absolute;
+    position: fixed;
     z-index: 100;
     text-align: center;
     font-size: 1.1em;
     font-weight: bold;
 }
 
-.messages .alert {
+.feedback-content {
     display: -moz-inline-stack;
     display: inline-block;
     *display: inline;
@@ -327,6 +327,10 @@ div.colorPicker-swatch {
     -moz-box-shadow: 0 0 2px rgba(0,0,0,0.1);
     -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.1);
     box-shadow: 0 0 2px rgba(0,0,0,0.1);
+}
+
+.feedback-content .alert {
+    margin: 0;
 }
 
 /* menus */

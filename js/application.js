@@ -539,13 +539,6 @@
                     });
                 }
             },
-            loading: function (bool) {
-                if (!bool) {
-                    $scope.$broadcast('loading:Started');
-                } else {
-                    $scope.$broadcast('loading:Finished');
-                }
-            },
             eventAfterAllRender: function(view){
             },
             select: $scope.select
@@ -572,7 +565,7 @@
 
     /******************************************************************/
     /* Calendars */
-    saturnApp.controller('CalendarController', function ($scope, $location, CalendarList, Calendars, Data) {
+    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars, Data) {
         $scope.data = Data;
 
         if(!$scope.data.calendars){
@@ -605,6 +598,12 @@
 
         //load calendars
         function loadCalendarList() {
+            //notify everyone that calendars started loading
+            $rootScope.$broadcast('feedback:start', {
+                'type': 'alert',
+                'message': 'Loading calendars ...'
+            });
+
             //request calendars from the server
             var promise = CalendarList.list({
                 'access_token': $.cookie('saturn_access_token')
@@ -624,6 +623,9 @@
                     $scope.data.calendars.push(value);
                 });
                 $scope.$emit('calendarsLoaded');
+
+                //notify everyone that calendars have loaded
+                $rootScope.$broadcast('feedback:stop');
             });
         }
 
