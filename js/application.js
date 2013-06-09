@@ -274,7 +274,7 @@
                     'url': Data.settings.baseURL + '/calendars/:calendarId/events/quickAdd'
                 },
                 'update': {
-                    'method': 'POST',
+                    'method': 'PUT',
                     'url': Data.settings.baseURL + '/calendars/:calendarId/events/:eventId'
                 },
                 'patch': {
@@ -315,7 +315,7 @@
 
     /******************************************************************/
     /* Events */
-    saturnApp.controller('EventController', function ($scope, $filter, $location, Events, Data) {
+    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Data) {
         $scope.data = Data;
 
         var i = 0,
@@ -337,6 +337,9 @@
             }
 
             if(i === sources.length){
+                //notify everyone that events have loaded
+                $rootScope.$broadcast('feedback:stop');
+
                 callback();
 
                 i = 0;
@@ -352,6 +355,12 @@
 
             //check if the current calendar is selected
             if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1 && !fetching){
+                //notify everyone that events started loading
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert',
+                    'message': 'Loading events ...'
+                });
+
                 fetching = true;
                 safeApply($scope, function(){
                     var promise = Events.list({
