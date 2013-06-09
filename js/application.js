@@ -482,6 +482,7 @@
                 center: 'title',
                 right: 'today prev,next'
             },
+            allDayDefault: false,
             selectable: true,
             defaultView: 'agendaWeek',
             slotMinutes: $scope.data.settings.meetingLength,
