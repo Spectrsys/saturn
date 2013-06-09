@@ -324,7 +324,8 @@
         $scope.events =  function(start, end, callback) {
             i = 0;
             $scope.getEvents($scope.data.calendars, start, end, function(){
-                callback();
+              // when no more calendars to fetch, please re-render events fetched
+              $scope.calendar.fullCalendar('refetchEvents');
             });
         };
 
@@ -336,6 +337,8 @@
             }
 
             if(i === sources.length){
+                callback();
+
                 i = 0;
                 return false;
             }
@@ -344,8 +347,8 @@
             var timestamp = start.getTime() + end.getTime(),
 
             //format the start and end dates to match google specs
-                startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
-                endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+            startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
+            endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
 
             //check if the current calendar is selected
             if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1 && !fetching){
@@ -488,7 +491,10 @@
             slotMinutes: $scope.data.settings.meetingLength,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
-                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
+                // TODO: emit('loading:Started');
+                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){ 
+                    // when no more calendars to fetch, please re-render events fetched
+                    $scope.calendar.fullCalendar('refetchEvents');
                 });
             },
             eventDataTransform: function(eventData){
