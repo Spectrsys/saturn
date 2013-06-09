@@ -150,7 +150,7 @@
             eventSources.push(options.events);
             delete options.events;
         }
-
+        console.log('updated eventSources');
 
         options = $.extend(true, {},
             defaults,
@@ -158,12 +158,14 @@
             options
         );
 
-
         this.each(function(i, _element) {
             var element = $(_element);
             var calendar = new Calendar(element, options, eventSources);
+            console.log('created a Calendar with ' + eventSources.length + ' eventSources');
             element.data('fullCalendar', calendar); // TODO: look into memory leak implications
+            console.log('memory leak implications');
             calendar.render();
+            console.log('calendar rendered');
         });
 
 
@@ -210,9 +212,11 @@
         t.getView = getView;
         t.option = option;
         t.trigger = trigger;
-
+        t.renderView = renderView;
+        t.logEvents = logEvents;
 
         // imports
+        console.log('add events to EventManager');
         EventManager.call(t, options, eventSources);
         var isFetchNeeded = t.isFetchNeeded;
         var fetchEvents = t.fetchEvents;
@@ -383,6 +387,10 @@
                 }
 
                 var forceEventRender = false;
+                console.log('inc: ' +inc);
+                console.log('start :' + currentView.start);
+                console.log('date: ' + date);
+                console.log('end: ' + currentView.end);
                 if (!currentView.start || inc || date < currentView.start || date >= currentView.end) {
                     // view must render an entire new date range (and refetch/render events)
                     currentView.render(date, inc || 0); // responsible for clearing events
@@ -396,6 +404,7 @@
                     forceEventRender = true;
                 }
                 else if (currentView.eventsDirty) {
+                    console.log('actually, the events are dirty - just showed up');
                     currentView.clearEvents();
                     forceEventRender = true;
                 }
@@ -535,6 +544,9 @@
             }
         }
 
+        function logEvents() {
+            console.log('[Fullcalendar] events', events);
+        }
 
         function markEventsDirty() {
             $.each(viewInstances, function(i, inst) {
@@ -3807,6 +3819,8 @@
 
 
         function renderEvents(events, modifiedEventId) {
+            console.log('renderEvents - should have something', events, modifiedEventId);
+
             reportEvents(events);
             var i, len=events.length,
                 dayEvents=[],
@@ -3822,6 +3836,7 @@
                 renderDaySegs(compileDaySegs(dayEvents), modifiedEventId);
                 setHeight(); // no params means set to viewHeight
             }
+
             renderSlotSegs(compileSlotSegs(slotEvents), modifiedEventId);
             trigger('eventAfterAllRender');
         }
