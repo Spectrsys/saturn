@@ -1,5 +1,5 @@
 (function ($) {
-    //tooltips
+    //tooltips test
     $('body').tooltip({
         selector: "*[data-toggle=tooltip]"
     });
@@ -323,11 +323,12 @@
 
         $scope.events =  function(start, end, callback) {
             i = 0;
+            console.log('events'); // to recognize as eventSources
             $scope.getEvents($scope.data.calendars, start, end, function(){
-                callback();
+                // when no more calendars to fetch, please re-render events fetched
+                $scope.calendar.fullCalendar('refetchEvents');
             });
         };
-
 
         //get events
         $scope.getEvents = function(sources, start, end, callback){
@@ -336,6 +337,8 @@
             }
 
             if(i === sources.length){
+                callback();
+
                 i = 0;
                 return false;
             }
@@ -344,8 +347,12 @@
             var timestamp = start.getTime() + end.getTime(),
 
             //format the start and end dates to match google specs
-                startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
-                endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+            startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
+            endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+
+            console.log('[getEvents]');
+            console.log('start: ', startTime);
+            console.log('end: ', endTime);
 
             //check if the current calendar is selected
             if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1 && !fetching){
@@ -358,7 +365,7 @@
                         'timeMax': endTime
                     });
 
-                    promise.$then(function(){
+                    promise.$then(function() {
                         sources[i].dateRange.push(timestamp);
 
                         sources[i].events.push.apply(sources[i].events, promise.items);
@@ -439,6 +446,8 @@
 
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
+            console.log(event, jsEvent, view);
+
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
                 $scope.data.currentEvent = event;
@@ -471,7 +480,9 @@
             $scope.updateEventSources();
         }
 
+        // calendarsLoaded slot
         $scope.$on('calendarsLoaded', function() {
+            console.log('slot calendarsLoaded');
             $scope.updateEventSources();
         });
 
@@ -488,7 +499,10 @@
             slotMinutes: $scope.data.settings.meetingLength,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
-                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
+                // TODO: emit('loading:Started');
+                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){ 
+                    // when no more calendars to fetch, please re-render events fetched
+                    $scope.calendar.fullCalendar('refetchEvents');
                 });
             },
             eventDataTransform: function(eventData){
@@ -608,6 +622,8 @@
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
                 });
+
+                console.log('emit calendarsLoaded for ' + $scope.data.calendars.length + ' calendars');
                 $scope.$emit('calendarsLoaded');
             });
         }
