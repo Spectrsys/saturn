@@ -388,6 +388,20 @@
                 }
             });
 
+            //send the event to the server
+            var promise = Events.insert({
+                'calendarId': $scope.data.currentEvent.calendar,
+                'start': $scope.data.currentEvent.start,
+                'end': $scope.data.currentEvent.end,
+                'summary': $scope.data.currentEvent.title,
+                'description': $scope.data.currentEvent.description,
+                'location': $scope.data.currentEvent.location
+            });
+
+            promise.$then(function(){
+
+            });
+
             //reset the current event
             $scope.setCurrentEvent();
 
