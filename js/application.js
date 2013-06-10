@@ -22,30 +22,6 @@
         return "#"+c()+c()+c();
     }
 
-    //get time in steps
-    function stepTime(date, options){
-        var dTime = date || new Date(),
-            hours = dTime.getHours(),
-            minutes = Math.floor(dTime.getMinutes() / this.minuteStep) * this.minuteStep,
-            seconds = Math.floor(dTime.getSeconds() / this.secondStep) * this.secondStep,
-            meridian = 'AM';
-
-        if (this.showMeridian) {
-            if (hours === 0) {
-                hours = 12;
-            } else if (hours >= 12) {
-                if (hours > 12) {
-                    hours = hours - 12;
-                }
-                meridian = 'PM';
-            } else {
-                meridian = 'AM';
-            }
-        }
-
-        return hours + ' : ' + minutes
-    }
-
     //highlight selected day in mini calendar
     $(document).on('click', 'div.mini-calendar tbody td', function () {
         $('div.mini-calendar tbody td').removeClass('on');
@@ -480,8 +456,8 @@
             var startDate = start || new Date(),
                 endDate = end || new Date();
 
-            var startTime = $.fullCalendar.formatDate(startDate, 'HH:mm'),
-                endTime = $.fullCalendar.formatDate(endDate, 'HH:mm');
+            var startTime = $.fullCalendar.formatDate(startDate, 'hh:mm TT'),
+                endTime = $.fullCalendar.formatDate(endDate, 'hh:mm TT');
 
             $scope.data.currentEvent = {
                 'title': 'New event',
