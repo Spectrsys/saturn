@@ -120,11 +120,3 @@
         margin-left: -100px;
     }
 }
-@media (max-width: 767px) {
-    .bootstrap-timepicker {
-        width: 100%;
-    }
-    .bootstrap-timepicker .dropdown-menu {
-        width: 100%;
-    }
-}
