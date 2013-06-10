@@ -46,6 +46,9 @@
                                     <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Calendar settings</a>
                                 </li>
                                 <li>
+                                    <a href="#/event/create" ng-click="setCurrentCalendarID()">Create an event on this calendar</a>
+                                </li>
+                                <li>
                                     <a ng-click="displayCalendar()">Display only this calendar</a>
                                 </li>
                                 <li ng-show="!calendar.primary">
