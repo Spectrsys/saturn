@@ -43,6 +43,7 @@
                     <div class="widget-title">Calendar Details</div>
                 </div>
                 <div class="widget-content">
+                    <div class="alert" ng-show="data.currentCalendar.accessRole != 'owner'">You are only <strong>subscribed</strong> to this calendar. Any changes you make to it, will only be visible to you.</div>
                     <ol class="unstyled clearfix">
                         <li>
                             <div class="span2">
