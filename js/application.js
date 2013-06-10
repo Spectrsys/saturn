@@ -28,6 +28,17 @@
         $(this).addClass('on');
     });
 
+    //resize window
+    $(window).bind('resizestop', function(event){
+        if($(this).width() < 1400){
+            $('#sidebar').removeClass('span2').addClass('span3');
+            $('#content').removeClass('span10').addClass('span9');
+        } else {
+            $('#sidebar').removeClass('span3').addClass('span2');
+            $('#content').removeClass('span9').addClass('span10');
+        }
+    });
+
     //define applicaton
     var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ui.filters', 'ngResource', 'ngMockE2E']);
 

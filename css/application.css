@@ -173,6 +173,7 @@ input {
 
 .mini-calendar .fc-border-separate th,
 .mini-calendar .fc-border-separate td {
+    width: 14.3%;
     border-left: 0;
 }
 
