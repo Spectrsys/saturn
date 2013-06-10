@@ -46,7 +46,7 @@
         return hours + ' : ' + minutes
     }
 
-    //calendar
+    //highlight selected day in mini calendar
     $(document).on('click', 'div.mini-calendar tbody td', function () {
         $('div.mini-calendar tbody td').removeClass('on');
         $(this).addClass('on');
