@@ -22,6 +22,30 @@
         return "#"+c()+c()+c();
     }
 
+    //get time in steps
+    function stepTime(date, options){
+        var dTime = date || new Date(),
+            hours = dTime.getHours(),
+            minutes = Math.floor(dTime.getMinutes() / this.minuteStep) * this.minuteStep,
+            seconds = Math.floor(dTime.getSeconds() / this.secondStep) * this.secondStep,
+            meridian = 'AM';
+
+        if (this.showMeridian) {
+            if (hours === 0) {
+                hours = 12;
+            } else if (hours >= 12) {
+                if (hours > 12) {
+                    hours = hours - 12;
+                }
+                meridian = 'PM';
+            } else {
+                meridian = 'AM';
+            }
+        }
+
+        return hours + ' : ' + minutes
+    }
+
     //calendar
     $(document).on('click', 'div.mini-calendar tbody td', function () {
         $('div.mini-calendar tbody td').removeClass('on');
@@ -135,7 +159,7 @@
                 'country': 'US',
                 'language': 'en',
                 'timeZone': 'America/Mexico_City',
-                'meetingLength': 15,
+                'eventDuration': 15,
                 'weekStart': '1',
                 'date': {
                     'dateFormat': 'mm/dd/yy',
@@ -398,6 +422,7 @@
         $scope.createEvent = function(){
             var d = new Date();
 
+            //created and updated dates
             $scope.data.currentEvent.created = $.fullCalendar.formatDate(d, 'u');
             $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
 
@@ -436,6 +461,9 @@
             $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
 
             $scope.data.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
+
+            //go to homepage
+            $location.path('/');
         };
 
         //check start/end time and date
@@ -449,11 +477,21 @@
 
         //current event
         $scope.setCurrentEvent = function(start, end, allDay){
+            var startDate = start || new Date(),
+                endDate = end || new Date();
+
+            var startTime = $.fullCalendar.formatDate(startDate, 'HH:mm'),
+                endTime = $.fullCalendar.formatDate(endDate, 'HH:mm');
+
             $scope.data.currentEvent = {
                 'title': 'New event',
                 'id': Math.random().toString(36).slice(2),
-                'start': start || new Date(),
-                'end': end || new Date(),
+                'start': startDate,
+                'end': endDate,
+                'startDate': startDate,
+                'endDate': endDate,
+                'startTime': startTime,
+                'endTime': endTime,
                 'allDay': allDay || false,
                 'organizer': {
                     'displayName': $scope.data.user.firstName + ' ' + $scope.data.user.lastName,
@@ -526,7 +564,8 @@
             allDayDefault: false,
             selectable: true,
             defaultView: 'agendaWeek',
-            slotMinutes: $scope.data.settings.meetingLength,
+            slotMinutes: 15,
+            defaultEventMinutes: $scope.data.settings.eventDuration,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
                 // TODO: emit('loading:Started');
