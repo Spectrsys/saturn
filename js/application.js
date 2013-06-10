@@ -464,7 +464,11 @@
                     'self': true
                 },
                 'created': '',
-                'updated': ''
+                'updated': '',
+                'editable': true,
+                'source': {
+                    'editable': true
+                }
             };
         };
 
@@ -708,6 +712,11 @@
             $location.path('/');
 
             $scope.calendar = null;
+        };
+
+        //set current calendar ID
+        $scope.setCurrentCalendarID = function(){
+          $scope.data.currentEvent.source.id = this.calendar.id;
         };
 
         //set current calendar
