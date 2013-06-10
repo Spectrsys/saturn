@@ -29,7 +29,7 @@
     });
 
     //define applicaton
-    var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ngResource', 'ngMockE2E']);
+    var saturnApp = angular.module('saturnApp', ['ui', 'ui.bootstrap', 'ui.filters', 'ngResource', 'ngMockE2E']);
 
     saturnApp.config(['$routeProvider',
             function ($routeProvider) {
@@ -373,6 +373,8 @@
                         sources[i].dateRange.push(timestamp);
 
                         sources[i].events.push.apply(sources[i].events, promise.items);
+
+                        sources[i].events = $filter('unique')(sources[i].events);
 
                         fetching = false;
 
