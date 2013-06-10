@@ -132,11 +132,6 @@
         return {
             'settings': {
                 'baseURL': 'https://www.googleapis.com/calendar/v3',
-                'country': 'US',
-                'language': 'en',
-                'timeZone': 'America/Mexico_City',
-                'eventDuration': 15,
-                'weekStart': '1',
                 'date': {
                     'dateFormat': 'mm/dd/yy',
                     'minDate': d,
@@ -540,7 +535,7 @@
             selectable: true,
             defaultView: 'agendaWeek',
             slotMinutes: 15,
-            defaultEventMinutes: $scope.data.settings.eventDuration,
+            defaultEventMinutes: $scope.data.settings.defaultEventLength,
             eventClick: $scope.eventClick,
             viewDisplay: function (view) {
                 // TODO: emit('loading:Started');
@@ -697,7 +692,7 @@
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
                 'location': $scope.calendar.location,
-                'timeZone': $scope.calendar.timeZone
+                'timezone': $scope.calendar.timezone
             });
 
             //callback
@@ -722,7 +717,7 @@
                  'summary': $scope.calendar.summary,
                  'description': $scope.calendar.description,
                  'location': $scope.calendar.location,
-                 'timeZone': $scope.calendar.timeZone
+                 'timezone': $scope.calendar.timezone
              });
 
              //callback
@@ -882,6 +877,13 @@
                 //get user settings
                 var promise = Settings.list({
                     'access_token': $.cookie('saturn_access_token')
+                });
+
+                promise.$then(function(){
+                    //loop over all the settings
+                    angular.forEach(promise.items, function(value, key){
+                        $scope.data.settings[value.id] = value.value;
+                    });
                 });
             }
         }
