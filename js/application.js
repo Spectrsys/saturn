@@ -111,6 +111,7 @@
             });
 
             //otherwise
+            $httpBackend.whenPOST(/.*/).passThrough();
             $httpBackend.whenGET(/.*/).passThrough();
             $httpBackend.whenPUT(/.*/).passThrough();
             $httpBackend.whenDELETE(/.*/).passThrough();
@@ -393,16 +394,21 @@
 
         //add new event
         $scope.createEvent = function(){
+            var d = new Date();
+
+            $scope.data.currentEvent.created = $.fullCalendar.formatDate(d, 'u');
+            $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
+
             //loop over all calendars
             angular.forEach($scope.data.calendars, function(value, key){
-                if(value.id === $scope.data.currentEvent.calendar){
+                if(value.id === $scope.data.currentEvent.source.id){
                     value.events.push($scope.data.currentEvent);
                 }
             });
 
             //send the event to the server
             var promise = Events.insert({
-                'calendarId': $scope.data.currentEvent.calendar,
+                'calendarId': $scope.data.currentEvent.source.id,
                 'start': $scope.data.currentEvent.start,
                 'end': $scope.data.currentEvent.end,
                 'summary': $scope.data.currentEvent.title,
@@ -423,6 +429,10 @@
 
         //update event
         $scope.updateEvent = function(){
+            var d = new Date();
+
+            $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
+
             $scope.data.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
         };
 
@@ -439,9 +449,22 @@
         $scope.setCurrentEvent = function(start, end, allDay){
             $scope.data.currentEvent = {
                 'title': 'New event',
+                'id': Math.random().toString(36).slice(2),
                 'start': start || new Date(),
                 'end': end || new Date(),
-                'allDay': allDay || false
+                'allDay': allDay || false,
+                'organizer': {
+                    'displayName': $scope.data.user.firstName + ' ' + $scope.data.user.lastName,
+                    'email': $scope.data.user.email,
+                    'self': true
+                },
+                'creator': {
+                    'displayName': $scope.data.user.firstName + ' ' + $scope.data.user.lastName,
+                    'email': $scope.data.user.email,
+                    'self': true
+                },
+                'created': '',
+                'updated': ''
             };
         };
 

@@ -37,9 +37,7 @@
                         <label for="event-calendar">Calendar</label>
                     </div>
                     <div class="span10">
-                        <select id="event-calendar" ng-model="data.currentEvent.calendar" required>
-                            <option ng-repeat="calendar in data.calendars | filter:{accessRole: 'owner'}" value="{{calendar.id}}">{{calendar.summary}}</option>
-                        </select>
+                        <select id="event-calendar" ng-model="data.currentEvent.source.id" ng-options="calendar.id as calendar.summary for calendar in data.calendars | filter:{accessRole: 'owner'}" required></select>
                     </div>
                 </li>
                 <li>
