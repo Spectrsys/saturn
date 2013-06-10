@@ -51,7 +51,7 @@
                            </span>
                             <input type="text" id="event-start-date" ui-date="data.settings.date" ng-model="data.currentEvent.startDate" required />
                         </div>
-                        <div class="input-append">
+                        <div class="input-append" ng-hide="data.currentEvent.allDay">
                             <input type="text" id="event-start-time" bs-timepicker ng-model="data.currentEvent.startTime" required />
                            <span class="add-on">
                                <i class="icon-time"></i>
@@ -70,12 +70,20 @@
                            </span>
                             <input type="text" id="event-end-date" ui-date="data.settings.date" ng-model="data.currentEvent.endDate" />
                         </div>
-                        <div class="input-append">
+                        <div class="input-append" ng-hide="data.currentEvent.allDay">
                             <input type="text" id="event-end-time" bs-timepicker ng-model="data.currentEvent.endTime" />
                            <span class="add-on">
                                <i class="icon-time"></i>
                            </span>
                         </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="span2">
+                        <label for="event-all-day">All day</label>
+                    </div>
+                    <div class="span10">
+                        <input type="checkbox" id="event-all-day" ng-model="data.currentEvent.allDay" />
                     </div>
                 </li>
             </ol>
