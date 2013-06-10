@@ -508,6 +508,7 @@
             },
             eventDataTransform: function(eventData){
                 return {
+                    id: eventData.id,
                     title: eventData.title || eventData.summary,
                     description: eventData.description,
                     kind: eventData.kind,
