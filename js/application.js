@@ -101,7 +101,7 @@
                 data = $rootScope.$eval(data);
                 return [200, {
                     'login_hint': data.user,
-                    'apiKey': 'AIzaSyC3K--D5YHRX9rz0hU4tkb6evngzEuk-34',
+                    'apiKey': 'AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM',
                     'clientId': '314009841930-t42p9qgq3ga5m31i795s7dkdo9pvavgl.apps.googleusercontent.com',
                     'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
                 }];
@@ -300,16 +300,15 @@
     saturnApp.factory('Settings', function ($resource, Data) {
         return $resource(
             Data.settings.baseURL, {
-                'userId': '@userId',
                 'setting': '@setting'
             }, {
                 'get': {
                     'method': 'GET',
-                    'url': Data.settings.baseURL + '/users/:userId/settings/:setting'
+                    'url': Data.settings.baseURL + '/users/me/settings/:setting'
                 },
                 'list': {
                     'method': 'GET',
-                    'url': Data.settings.baseURL + '/users/:userId/settings'
+                    'url': Data.settings.baseURL + '/users/me/settings/'
                 }
             });
     });
@@ -826,7 +825,7 @@
 
     /******************************************************************/
         //User
-    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, Data) {
+    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, Data, Settings) {
         $scope.data = Data;
 
         if(!$scope.data.user){
@@ -879,6 +878,11 @@
 
                 //get user data
                 $scope.getUserData();
+
+                //get user settings
+                var promise = Settings.list({
+                    'access_token': $.cookie('saturn_access_token')
+                });
             }
         }
 
