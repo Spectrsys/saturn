@@ -692,7 +692,7 @@
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
                 'location': $scope.calendar.location,
-                'timezone': $scope.calendar.timezone
+                'timeZone': $scope.calendar.timeZone
             });
 
             //callback
@@ -717,7 +717,7 @@
                  'summary': $scope.calendar.summary,
                  'description': $scope.calendar.description,
                  'location': $scope.calendar.location,
-                 'timezone': $scope.calendar.timezone
+                 'timeZone': $scope.calendar.timeZone
              });
 
              //callback
