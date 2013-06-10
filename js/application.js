@@ -681,6 +681,8 @@
                  $scope.calendar = null;
              });
 
+            $location.path('/');
+
             $scope.calendar = null;
         };
 
@@ -769,7 +771,7 @@
 
     /******************************************************************/
         //User
-    saturnApp.controller('UserController', function ($scope, $location, $http, Data) {
+    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, Data) {
         $scope.data = Data;
 
         if(!$scope.data.user){
@@ -831,8 +833,12 @@
             $.cookie('saturn_access_token', null, {'expires': -1});
             $.cookie('saturn_current_path', null, {'expires': -1});
 
-            //set the user as logged out
+            //reset data
             $scope.data.user.authorised = false;
+            $scope.data.calendars = [];
+
+            //hide feedback
+            $rootScope.$broadcast('feedback:stop');
 
             //redirect to the login page
             $location.path('/login');
