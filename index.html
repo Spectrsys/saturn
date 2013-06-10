@@ -45,31 +45,25 @@
                     </a>
 
                     <!--user navigation-->
-                    <nav id="user-nav" class="pull-right" ng-controller="UserController">
-                        <ul ng-show="data.user.authorised">
+                    <div class="btn-group pull-right" ng-controller="UserController" ng-show="data.user.authorised">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="icon-user"></i>
+                            <span ng-bind="data.user.firstName + ' ' + data.user.lastName"></span>
+                            <span class="icon-caret-down"></span>
+                        </a>
+                        <ul class="dropdown-menu">
                             <li>
-                                <div class="btn-group">
-                                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                        <i class="icon-user"></i>
-                                        <span ng-bind="data.user.firstName + ' ' + data.user.lastName"></span>
-                                        <span class="icon-caret-down"></span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="#/settings/profile">
-                                                <i class="icon-wrench"></i> Profile settings
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="" ng-click="logout()">
-                                                <i class="icon-signout"></i> Log out
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a href="#/settings/profile">
+                                    <i class="icon-wrench"></i> Profile settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" ng-click="logout()">
+                                    <i class="icon-signout"></i> Log out
+                                </a>
                             </li>
                         </ul>
-                    </nav>
+                    </div>
                     <!--/user navigation-->
                 </div>
             </div>
