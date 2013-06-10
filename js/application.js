@@ -628,7 +628,9 @@
             eventRender: function () {
                 return false;
             },
-            dayClick: function (date, allDay, jsEvent, view) {}
+            dayClick: function (date, allDay, jsEvent, view) {
+                $scope.calendar.fullCalendar('gotoDate', date);
+            }
         };
     });
 
