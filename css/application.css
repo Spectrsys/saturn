@@ -316,6 +316,7 @@ div.colorPicker-swatch {
     text-align: center;
     font-size: 1.1em;
     font-weight: bold;
+    height: 0;
 }
 
 .feedback-content {
