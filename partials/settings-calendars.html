@@ -81,7 +81,7 @@
                                 <a ng-href="#/calendar/{{calendar.id | encodeURIComponent}}/settings" ng-click="setCalendar()">Edit settings</a>
                             </td>
                             <td>
-                                <a ng-click="unsubscribe()">Unsubscribe</a>
+                                <a ng-click="unsubscribe()" ng-hide="calendar.primary">Unsubscribe</a>
                             </td>
                             <td>
                                 <a ng-click="deleteCalendar()" title="Delete">
