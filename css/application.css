@@ -282,6 +282,12 @@ div.colorPicker-swatch {
 }
 
 /* calendar listings */
+.calendar-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 20em;
+}
+
 .calendar-list li {
     padding: 0 3px;
     margin: 0 -3px;
