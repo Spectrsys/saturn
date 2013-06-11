@@ -501,7 +501,19 @@
         $scope.eventClick = function( event, jsEvent, view ){
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
-                $scope.data.currentEvent = event;
+                //reset current event
+                $scope.data.currentEvent = {};
+
+                //copy selected event into current event
+                $.extend($scope.data.currentEvent, event);
+
+                //hackish way to check all day
+                //works for now
+                if(event.end && event.end.getTime() - event.start.getTime() === 86400000){
+                    $scope.data.currentEvent.allDay = true;
+                } else {
+                    $scope.data.currentEvent.allDay = false;
+                }
 
                 safeApply($scope, function(){
                     //go to the edit page
