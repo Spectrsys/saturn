@@ -417,8 +417,12 @@
             //send the event to the server
             var promise = Events.insert({
                 'calendarId': $scope.data.currentEvent.source.id,
-                'start': $scope.data.currentEvent.start,
-                'end': $scope.data.currentEvent.end,
+                'start': {
+                    'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                },
+                'end': {
+                    'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                },
                 'summary': $scope.data.currentEvent.title,
                 'description': $scope.data.currentEvent.description,
                 'location': $scope.data.currentEvent.location
