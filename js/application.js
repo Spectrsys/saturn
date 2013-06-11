@@ -491,7 +491,7 @@
 
                         //go to homepage
                         $location.path('/');
-                    }, 2000);
+                    }, 1000);
                 });
             });
         };
@@ -604,6 +604,13 @@
             $scope.updateEvent();
         };
 
+        //after an event has been resized
+        $scope.eventResize = function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
+            $scope.data.currentEvent = event;
+
+            $scope.updateEvent();
+        };
+
         //use stored sources for calendar events
         $scope.eventSources = [];
 
@@ -633,6 +640,7 @@
             defaultEventMinutes: $scope.data.settings.defaultEventLength,
             eventClick: $scope.eventClick,
             eventDrop: $scope.eventDrop,
+            eventResize: $scope.eventResize,
             viewDisplay: function (view) {
                 // TODO: emit('loading:Started');
                 $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
@@ -706,7 +714,7 @@
 
     /******************************************************************/
     /* Calendars */
-    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, CalendarList, Calendars, Data) {
+    saturnApp.controller('CalendarController', function ($scope, $rootScope, $location, $timeout, CalendarList, Calendars, Data) {
         $scope.data = Data;
 
         if(!$scope.data.calendars){
@@ -772,17 +780,11 @@
 
         //save a new calendar
         $scope.createCalendar = function(){
-            //generate a random ID
-            $scope.calendar.id = $scope.calendar.summary.replace(/\s+/gi, '_') + Math.random();
-
-            //set the calendar to selected
-            $scope.calendar.selected = true;
-
-            //set the calendar as a personal one
-            $scope.calendar.accessRole = 'owner';
-
-            //push the calendar to personal calendars array
-            $scope.data.calendars.push($scope.calendar);
+            //feedback
+            $rootScope.$broadcast('feedback:start', {
+                'type': 'alert',
+                'message': 'Saving calendar ...'
+            });
 
             //insert new calendar
             var promise = Calendars.insert({
@@ -793,11 +795,58 @@
             });
 
             //callback
-            promise.$then(function(){
-                $scope.resetCalendar();
+            promise.$then(function(response){
+                //save the calendat into a calendar list
+                var calendarList = CalendarList.insert({
+                    'id': response.data.id,
+                    'kind': response.data.kind,
+                    'etag': response.data.etag,
+                    'summary': response.data.summary,
+                    'description': response.data.description,
+                    'location': response.data.location,
+                    'timeZone': response.data.timeZone,
+                    'backgroundColor': $scope.calendar.color,
+                    'foregroundColor': $scope.calendar.textColor,
+                    'hidden': false,
+                    'selected': true,
+                    'accessRole': 'owner',
+                    'defaultReminders': [{
+                        "method": 'email',
+                        "minutes": 10
+                    }]
+                });
+
+                calendarList.$then(function(response){
+                    if(response.status === 200){
+                        //feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-success',
+                            'message': 'Calendar successfully created'
+                        });
+
+                        $timeout(function(){
+                            $rootScope.$broadcast('feedback:stop');
+                        }, 1000);
+
+                        //push the calendar to personal calendars array
+                        $scope.data.calendars.push(response.data);
+                    } else {
+                        //feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-errot',
+                            'message': 'Calendar could not be saved. Try again.'
+                        });
+
+                        $timeout(function(){
+                            $rootScope.$broadcast('feedback:stop');
+                        }, 1000);
+                    }
+                });
+
+                //$scope.resetCalendar();
             });
             //redirect to the homepage
-            $location.path('/');
+            //$location.path('/');
         };
 
         //save calendar settings
