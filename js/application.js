@@ -206,8 +206,7 @@
     saturnApp.factory('Calendars', function ($resource, Data) {
         return $resource(
             Data.settings.baseURL + '/calendars/:calendarId', {
-                'calendarId': '@calendarId',
-                'key': '@key'
+                'calendarId': '@calendarId'
             }, {
                 'clear': {
                     'method': 'POST',
@@ -223,8 +222,7 @@
                     'method': 'PATCH'
                 },
                 'delete': {
-                    'method': 'DELETE',
-                    'url': Data.settings.baseURL + '/calendars/:calendarId?key=AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM'
+                    'method': 'DELETE'
                 }
             });
     });
@@ -822,8 +820,7 @@
             if(confirm('Are you sure you want to delete this calendar ?')){
                 //send a request to the server to delete the calendar
                 Calendars.delete({
-                    'calendarId': self.calendar.id,
-                    'key': $scope.data.apiKey
+                    'calendarId': self.calendar.id
                 });
 
                 //remove the current calendar from the array
