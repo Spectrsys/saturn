@@ -507,6 +507,22 @@
                 //copy selected event into current event
                 $.extend($scope.data.currentEvent, event);
 
+                var startDate = event.start,
+                    endDate = event.end;
+
+                var startTime = $.fullCalendar.formatDate(startDate, 'hh:mm TT'),
+                    endTime;
+                if(endDate){
+                    endTime = $.fullCalendar.formatDate(endDate, 'hh:mm TT');
+                }
+
+                //start/end datetimes
+                $scope.data.currentEvent.startDate = startDate;
+                $scope.data.currentEvent.endDate = endDate;
+
+                $scope.data.currentEvent.startTime = startTime;
+                $scope.data.currentEvent.endTime = endTime;
+
                 //hackish way to check all day
                 //works for now
                 if(event.end && event.end.getTime() - event.start.getTime() === 86400000){
@@ -585,6 +601,7 @@
                     sequence: eventData.sequence,
                     iCalUID: eventData.iCalUID,
                     gadget: eventData.gadget,
+                    location: eventData.location,
                     start: eventData.start.date || eventData.start.dateTime || eventData.start,
                     end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : (eventData.start.date || eventData.start.dateTime || eventData.start)
                 };
