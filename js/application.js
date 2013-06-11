@@ -801,15 +801,8 @@
                     'id': response.data.id,
                     'kind': response.data.kind,
                     'etag': response.data.etag,
-                    'summary': response.data.summary,
-                    'description': response.data.description,
-                    'location': response.data.location,
-                    'timeZone': response.data.timeZone,
-                    'backgroundColor': $scope.calendar.color,
-                    'foregroundColor': $scope.calendar.textColor,
                     'hidden': false,
                     'selected': true,
-                    'accessRole': 'owner',
                     'defaultReminders': [{
                         "method": 'email',
                         "minutes": 10
@@ -828,6 +821,9 @@
                             $rootScope.$broadcast('feedback:stop');
                         }, 1000);
 
+                        //update color meta
+                        response.data.color = response.data.backgroundColor;
+
                         //push the calendar to personal calendars array
                         $scope.data.calendars.push(response.data);
                     } else {
@@ -843,10 +839,11 @@
                     }
                 });
 
-                //$scope.resetCalendar();
+                $scope.resetCalendar();
+
+                //redirect to the homepage
+                $location.path('/');
             });
-            //redirect to the homepage
-            //$location.path('/');
         };
 
         //save calendar settings
