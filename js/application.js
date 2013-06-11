@@ -441,7 +441,7 @@
 
             $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
 
-            $scope.data.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
+            $scope.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
 
             //go to homepage
             $location.path('/');
@@ -548,6 +548,12 @@
             });
         };
 
+        //after an event has been moved to another slot
+        $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+            //update it's meta
+            $scope.calendar.fullCalendar('updateEvent', event);
+        };
+
         //use stored sources for calendar events
         $scope.eventSources = [];
 
@@ -576,6 +582,7 @@
             slotMinutes: 15,
             defaultEventMinutes: $scope.data.settings.defaultEventLength,
             eventClick: $scope.eventClick,
+            eventDrop: $scope.eventDrop,
             viewDisplay: function (view) {
                 // TODO: emit('loading:Started');
                 $scope.getEvents($scope.data.calendars, view.start, view.end, function(){ 
