@@ -319,7 +319,7 @@
 
     /******************************************************************/
     /* Events */
-    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, Events, Data) {
+    saturnApp.controller('EventController', function ($scope, $rootScope, $filter, $location, $timeout, Events, Data) {
         $scope.data = Data;
 
         var i = 0,
@@ -441,27 +441,59 @@
         $scope.updateEvent = function(){
             var d = new Date();
 
-            $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
-            $scope.data.currentEvent.sequence++;
+            safeApply($scope, function(){
+                //let the user know events are saving
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert',
+                    'message': 'Updating event ...'
+                });
 
-            //send data to the server
-            Events.update({
-                'calendarId': $scope.data.currentEvent.source.id,
-                'eventId': $scope.data.currentEvent.id,
-                'start': {
-                    'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
-                },
-                'end': {
-                    'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
-                },
-                'summary': $scope.data.currentEvent.title,
-                'description': $scope.data.currentEvent.description,
-                'location': $scope.data.currentEvent.location,
-                'sequence': $scope.data.currentEvent.sequence
+                $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
+                $scope.data.currentEvent.sequence++;
+
+                //send data to the server
+                var promise = Events.update({
+                    'calendarId': $scope.data.currentEvent.source.id,
+                    'eventId': $scope.data.currentEvent.id,
+                    'start': {
+                        'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                    },
+                    'end': {
+                        'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                    },
+                    'summary': $scope.data.currentEvent.title,
+                    'description': $scope.data.currentEvent.description,
+                    'location': $scope.data.currentEvent.location,
+                    'sequence': $scope.data.currentEvent.sequence
+                });
+
+                promise.$then(function(response){
+                    //success
+                    if(response.status === 200){
+                        //show feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-success',
+                            'message': 'Event updated'
+                        });
+                    }
+                    //error
+                    else {
+                        //show feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-error',
+                            'message': 'Failed to update event'
+                        });
+                    }
+
+                    //hide feedback
+                    $timeout(function(){
+                        $rootScope.$broadcast('feedback:stop');
+
+                        //go to homepage
+                        $location.path('/');
+                    }, 2000);
+                });
             });
-
-            //go to homepage
-            $location.path('/');
         };
 
         //check start/end time and date
@@ -567,8 +599,9 @@
 
         //after an event has been moved to another slot
         $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-            //update it's meta
-            $scope.calendar.fullCalendar('updateEvent', event);
+            $scope.data.currentEvent = event;
+
+            $scope.updateEvent();
         };
 
         //use stored sources for calendar events
@@ -659,7 +692,7 @@
             columnFormat: {
                 day: 'D'
             },
-            eventRender: function () {
+            eventRender: function (event, element, view) {
                 return false;
             },
             viewDisplay: function(view){
