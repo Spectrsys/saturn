@@ -5,7 +5,7 @@
     });
 
     /******************************************************************/
-    //helper functions
+        //helper functions
     function safeApply(scope, fn) {
         var phase = scope.$root.$$phase;
         if (phase === '$apply' || phase === '$digest')
@@ -135,8 +135,8 @@
     });
 
     /******************************************************************/
-    //Data storage
-    //will be used for communication between controllers
+        //Data storage
+        //will be used for communication between controllers
     saturnApp.factory('Data', function () {
         var d = new Date();
 
@@ -330,8 +330,8 @@
         $scope.events =  function(start, end, callback) {
             i = 0;
             $scope.getEvents($scope.data.calendars, start, end, function(){
-              // when no more calendars to fetch, please re-render events fetched
-              $scope.calendar.fullCalendar('refetchEvents');
+                // when no more calendars to fetch, please re-render events fetched
+                $scope.calendar.fullCalendar('refetchEvents');
             });
         };
 
@@ -354,8 +354,8 @@
             var timestamp = start.getTime() + end.getTime(),
 
             //format the start and end dates to match google specs
-            startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
-            endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
+                startTime  = $filter('date')(start, 'yyyy-MM-ddTHH:mm:ssZ'),
+                endTime  = $filter('date')(end, 'yyyy-MM-ddTHH:mm:ssZ');
 
             //check if the current calendar is selected
             if(sources[i].selected === true && sources[i].dateRange.indexOf(timestamp) === -1 && !fetching){
@@ -440,8 +440,23 @@
             var d = new Date();
 
             $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
+            $scope.data.currentEvent.sequence++;
 
-            $scope.calendar.fullCalendar('updateEvent', $scope.data.currentEvent);
+            //send data to the server
+            Events.update({
+                'calendarId': $scope.data.currentEvent.source.id,
+                'eventId': $scope.data.currentEvent.id,
+                'start': {
+                    'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                },
+                'end': {
+                    'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                },
+                'summary': $scope.data.currentEvent.title,
+                'description': $scope.data.currentEvent.description,
+                'location': $scope.data.currentEvent.location,
+                'sequence': $scope.data.currentEvent.sequence
+            });
 
             //go to homepage
             $location.path('/');
@@ -585,7 +600,7 @@
             eventDrop: $scope.eventDrop,
             viewDisplay: function (view) {
                 // TODO: emit('loading:Started');
-                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){ 
+                $scope.getEvents($scope.data.calendars, view.start, view.end, function(){
                     // when no more calendars to fetch, please re-render events fetched
                     $scope.calendar.fullCalendar('refetchEvents');
                 });
@@ -759,18 +774,18 @@
             $scope.data.currentCalendar.borderColor =  $scope.data.currentCalendar.color;
 
             //update calendar meta
-             var promise = Calendars.update({
-                 'calendarId': $scope.calendar.id,
-                 'summary': $scope.calendar.summary,
-                 'description': $scope.calendar.description,
-                 'location': $scope.calendar.location,
-                 'timeZone': $scope.calendar.timeZone
-             });
+            var promise = Calendars.update({
+                'calendarId': $scope.calendar.id,
+                'summary': $scope.calendar.summary,
+                'description': $scope.calendar.description,
+                'location': $scope.calendar.location,
+                'timeZone': $scope.calendar.timeZone
+            });
 
-             //callback
-             promise.$then(function(){
-                 $scope.calendar = null;
-             });
+            //callback
+            promise.$then(function(){
+                $scope.calendar = null;
+            });
 
             $location.path('/');
 
@@ -779,7 +794,7 @@
 
         //set current calendar ID
         $scope.setCurrentCalendarID = function(){
-          $scope.data.currentEvent.source.id = this.calendar.id;
+            $scope.data.currentEvent.source.id = this.calendar.id;
         };
 
         //set current calendar
@@ -912,6 +927,8 @@
                 //save a copy of the access token for later use
                 $.cookie('saturn_access_token', response.access_token, {'expires': d});
 
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + $.cookie('saturn_access_token');
+
                 //set the user as logged in
                 $scope.data.user.authorised = true;
 
@@ -978,6 +995,8 @@
         if($.cookie('saturn_access_token')){
             //set the user as logged in
             $scope.data.user.authorised = true;
+
+            $http.defaults.headers.common['Authorization'] = 'Bearer ' + $.cookie('saturn_access_token');
 
             //if we have a path stored, go there
             if($.cookie('saturn_current_path')){
