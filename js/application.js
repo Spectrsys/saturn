@@ -649,6 +649,22 @@
                 });
             },
             eventDataTransform: function(eventData){
+                var d = new Date(),
+                    endDate,
+                    eventClass;
+
+                if(eventData.end instanceof Date) {
+                    endDate = eventData.end;
+                } else if(eventData.end.date){
+                    endDate = $.fullCalendar.parseDate(eventData.end.date);
+                } else if(eventData.end.dateTime) {
+                    endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
+                }
+
+                if(endDate < d){
+                    eventClass = 'past-event';
+                }
+
                 return {
                     id: eventData.id,
                     title: eventData.title || eventData.summary,
@@ -667,6 +683,7 @@
                     iCalUID: eventData.iCalUID,
                     gadget: eventData.gadget,
                     location: eventData.location,
+                    className: eventClass,
                     start: eventData.start.date || eventData.start.dateTime || eventData.start,
                     end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : (eventData.start.date || eventData.start.dateTime || eventData.start)
                 };
