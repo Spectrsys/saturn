@@ -459,7 +459,7 @@
                         'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
                     },
                     'end': {
-                        'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
+                        'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.end, 'u')
                     },
                     'summary': $scope.data.currentEvent.title,
                     'description': $scope.data.currentEvent.description,
