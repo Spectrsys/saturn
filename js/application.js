@@ -113,11 +113,7 @@
                 return [200, {
                     'login_hint': data.user,
                     'apiKey': 'AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM',
-<<<<<<< HEAD
                     'clientId': '314009841930-iq278jutp1hfh159a2eg9pippfg4j581.apps.googleusercontent.com',
-=======
-                    'clientId': '314009841930-t42p9qgq3ga5m31i795s7dkdo9pvavgl.apps.googleusercontent.com',
->>>>>>> totb
                     'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
                 }];
             });
@@ -479,7 +475,6 @@
                             'type': 'alert alert-success',
                             'message': 'Event updated'
                         });
-<<<<<<< HEAD
                     }
                     //error
                     else {
@@ -489,17 +484,6 @@
                             'message': 'Failed to update event'
                         });
                     }
-=======
-                    }
-                    //error
-                    else {
-                        //show feedback
-                        $rootScope.$broadcast('feedback:start', {
-                            'type': 'alert alert-error',
-                            'message': 'Failed to update event'
-                        });
-                    }
->>>>>>> totb
 
                     //hide feedback
                     $timeout(function(){
@@ -508,130 +492,10 @@
                         //go to homepage
                         $location.path('/');
                     }, 1000);
-<<<<<<< HEAD
                 });
             });
         };
 
-        //check start/end time and date
-        $scope.checkEventDates = function(){
-            //check if start date is greater than end date
-            if($scope.data.currentEvent.start.getTime() > $scope.data.currentEvent.end.getTime() || !$scope.data.currentEvent.end){
-                //end is equal to start
-                $scope.data.currentEvent.end = $scope.data.currentEvent.start;
-            }
-        };
-
-        //current event
-        $scope.setCurrentEvent = function(start, end, allDay){
-            var startDate = start || new Date(),
-                endDate = end || new Date();
-
-            var startTime = $.fullCalendar.formatDate(startDate, 'hh:mm TT'),
-                endTime = $.fullCalendar.formatDate(endDate, 'hh:mm TT');
-
-            $scope.data.currentEvent = {
-                'title': 'New event',
-                'id': Math.random().toString(36).slice(2),
-                'start': startDate,
-                'end': endDate,
-                'startDate': startDate,
-                'endDate': endDate,
-                'startTime': startTime,
-                'endTime': endTime,
-                'allDay': allDay || false,
-                'organizer': {
-                    'displayName': $scope.data.user.firstName + ' ' + $scope.data.user.lastName,
-                    'email': $scope.data.user.email,
-                    'self': true
-                },
-                'creator': {
-                    'displayName': $scope.data.user.firstName + ' ' + $scope.data.user.lastName,
-                    'email': $scope.data.user.email,
-                    'self': true
-                },
-                'created': '',
-                'updated': '',
-                'editable': true,
-                'source': {
-                    'editable': true
-                }
-            };
-        };
-
-        if(!$scope.data.currentEvent){
-            $scope.setCurrentEvent();
-        }
-
-        //after the user has clicked an event
-        $scope.eventClick = function( event, jsEvent, view ){
-            //if we can edit the event
-            if(event.editable === true || event.source.editable === true){
-                //reset current event
-                $scope.data.currentEvent = {};
-
-                //copy selected event into current event
-                $.extend($scope.data.currentEvent, event);
-
-                var startDate = event.start,
-                    endDate = event.end;
-
-                var startTime = $.fullCalendar.formatDate(startDate, 'hh:mm TT'),
-                    endTime;
-                if(endDate){
-                    endTime = $.fullCalendar.formatDate(endDate, 'hh:mm TT');
-                }
-
-                //start/end datetimes
-                $scope.data.currentEvent.startDate = startDate;
-                $scope.data.currentEvent.endDate = endDate;
-
-                $scope.data.currentEvent.startTime = startTime;
-                $scope.data.currentEvent.endTime = endTime;
-
-                //hackish way to check all day
-                //works for now
-                if(event.end && event.end.getTime() - event.start.getTime() === 86400000){
-                    $scope.data.currentEvent.allDay = true;
-                } else {
-                    $scope.data.currentEvent.allDay = false;
-                }
-
-                safeApply($scope, function(){
-                    //go to the edit page
-                    $location.path('/event/edit/' + event.id);
-=======
->>>>>>> totb
-                });
-            }
-        };
-
-        //after the user has selected a time period
-        $scope.select = function(start, end, allDay, jsEvent, view){
-            $scope.setCurrentEvent(start, end, allDay);
-
-            safeApply($scope, function(){
-                //go to add event page
-                $location.path('/event/create');
-            });
-        };
-
-<<<<<<< HEAD
-        //after an event has been moved to another slot
-        $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-            $scope.data.currentEvent = event;
-
-            $scope.updateEvent();
-        };
-
-        //after an event has been resized
-        $scope.eventResize = function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
-            $scope.data.currentEvent = event;
-
-            $scope.updateEvent();
-        };
-
-=======
         //check start/end time and date
         $scope.checkEventDates = function(){
             //check if start date is greater than end date
@@ -747,7 +611,6 @@
             $scope.updateEvent();
         };
 
->>>>>>> totb
         //use stored sources for calendar events
         $scope.eventSources = [];
 
@@ -786,8 +649,6 @@
                 });
             },
             eventDataTransform: function(eventData){
-<<<<<<< HEAD
-=======
                 var d = new Date(),
                     endDate,
                     eventClass;
@@ -804,7 +665,6 @@
                     eventClass = 'past-event';
                 }
 
->>>>>>> totb
                 return {
                     id: eventData.id,
                     title: eventData.title || eventData.summary,
@@ -823,10 +683,7 @@
                     iCalUID: eventData.iCalUID,
                     gadget: eventData.gadget,
                     location: eventData.location,
-<<<<<<< HEAD
-=======
                     className: eventClass,
->>>>>>> totb
                     start: eventData.start.date || eventData.start.dateTime || eventData.start,
                     end: eventData.end ? (eventData.end.date || eventData.end.dateTime || eventData.end) : (eventData.start.date || eventData.start.dateTime || eventData.start)
                 };
@@ -961,22 +818,10 @@
                     'id': response.data.id,
                     'kind': response.data.kind,
                     'etag': response.data.etag,
-<<<<<<< HEAD
-                    'summary': response.data.summary,
-                    'description': response.data.description,
-                    'location': response.data.location,
-                    'timeZone': response.data.timeZone,
-                    'backgroundColor': $scope.calendar.color,
-                    'foregroundColor': $scope.calendar.textColor,
-                    'hidden': false,
-                    'selected': true,
-                    'accessRole': 'owner',
-=======
                     'hidden': false,
                     'selected': true,
                     'foregroundColor': $scope.calendar.foregroundColor,
                     'backgroundColor': $scope.calendar.backgroundColor,
->>>>>>> totb
                     'defaultReminders': [{
                         "method": 'email',
                         "minutes": 10
@@ -995,12 +840,9 @@
                             $rootScope.$broadcast('feedback:stop');
                         }, 1000);
 
-<<<<<<< HEAD
-=======
                         //update color meta
                         response.data.color = response.data.backgroundColor;
 
->>>>>>> totb
                         //push the calendar to personal calendars array
                         $scope.data.calendars.push(response.data);
                     } else {
@@ -1016,14 +858,10 @@
                     }
                 });
 
-<<<<<<< HEAD
-                //$scope.resetCalendar();
-=======
                 $scope.resetCalendar();
 
                 //redirect to the homepage
                 $location.path('/');
->>>>>>> totb
             });
             //redirect to the homepage
             //$location.path('/');
