@@ -454,7 +454,7 @@
                 //show feedback
                 $rootScope.$broadcast('feedback:start', {
                     'type': 'alert alert-success',
-                    'message': 'Event updated'
+                    'message': 'Event saved'
                 });
 
                 //hide feedback
@@ -481,7 +481,7 @@
         };
 
         //update event
-        $scope.updateEvent = function(){
+        $scope.updateEvent = function(successCallback, errorCallback){
             var d = new Date();
 
             safeApply($scope, function(){
@@ -492,7 +492,6 @@
                 });
 
                 $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
-                $scope.data.currentEvent.sequence++;
 
                 //send data to the server
                 Events.update({
@@ -527,6 +526,10 @@
                         //go to homepage
                         $location.path('/');
                     }, 1000);
+
+                    if(typeof successCallback === 'function'){
+                        successCallback();
+                    }
                 },
 
                 //error
@@ -541,6 +544,10 @@
                     $timeout(function(){
                         $rootScope.$broadcast('feedback:stop');
                     }, 1000);
+
+                    if(typeof errorCallback === 'function'){
+                        errorCallback();
+                    }
                 });
             });
         };
@@ -554,7 +561,7 @@
 
                 safeApply($scope, function(){
                     //delete the event from the server
-                    var promise = Events.delete({
+                    Events.delete({
                         'calendarId': $scope.data.currentEvent.source.id,
                         'eventId': $scope.data.currentEvent.id,
                         'sendNotifications': true
@@ -587,9 +594,6 @@
                         }, 1000);
                     });
                 });
-
-                //hackish way to delete the event
-
             }
         };
 
@@ -699,7 +703,12 @@
             //copy selected event into current event
             $scope.data.currentEvent = event;
 
-            $scope.updateEvent();
+            $scope.updateEvent(
+                function(){},
+                function(){
+                    revertFunc();
+                }
+            );
         };
 
         //after an event has been resized
