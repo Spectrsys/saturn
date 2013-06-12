@@ -348,6 +348,7 @@
                 return false;
             }
 
+
             //get min and max time
             var timestamp = start.getTime() + end.getTime(),
 
@@ -452,7 +453,7 @@
                 $scope.data.currentEvent.sequence++;
 
                 //send data to the server
-                var promise = Events.update({
+                Events.update({
                     'calendarId': $scope.data.currentEvent.source.id,
                     'eventId': $scope.data.currentEvent.id,
                     'start': {
@@ -465,25 +466,17 @@
                     'description': $scope.data.currentEvent.description,
                     'location': $scope.data.currentEvent.location,
                     'sequence': $scope.data.currentEvent.sequence
-                });
+                },
+                //success
+                function(response){
+                    //update sequence
+                    $scope.data.currentEvent.sequence++;
 
-                promise.$then(function(response){
-                    //success
-                    if(response.status === 200){
-                        //show feedback
-                        $rootScope.$broadcast('feedback:start', {
-                            'type': 'alert alert-success',
-                            'message': 'Event updated'
-                        });
-                    }
-                    //error
-                    else {
-                        //show feedback
-                        $rootScope.$broadcast('feedback:start', {
-                            'type': 'alert alert-error',
-                            'message': 'Failed to update event'
-                        });
-                    }
+                    //show feedback
+                    $rootScope.$broadcast('feedback:start', {
+                        'type': 'alert alert-success',
+                        'message': 'Event updated'
+                    });
 
                     //hide feedback
                     $timeout(function(){
@@ -491,6 +484,19 @@
 
                         //go to homepage
                         $location.path('/');
+                    }, 1000);
+                },
+                //error
+                function(response){
+                    //show feedback
+                    $rootScope.$broadcast('feedback:start', {
+                        'type': 'alert alert-error',
+                        'message': response.data.error.message
+                    });
+
+                    //hide feedback
+                    $timeout(function(){
+                        $rootScope.$broadcast('feedback:stop');
                     }, 1000);
                 });
             });
@@ -509,9 +515,9 @@
                         'calendarId': $scope.data.currentEvent.source.id,
                         'eventId': $scope.data.currentEvent.id,
                         'sendNotifications': true
-                    });
-
-                    promise.$then(function(){
+                    },
+                    //success
+                    function(response){
                         //feedback
                         $rootScope.$broadcast('feedback:start', {
                             'type': 'alert alert-success',
@@ -523,7 +529,19 @@
                         }, 1000);
 
                         //redirect to homepage
-                        $location.path('/');
+                        //$location.path('/');
+                    },
+                    //error
+                    function(response){
+                        //feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-error',
+                            'message': response.data.error.message
+                        });
+
+                        $timeout(function(){
+                            $rootScope.$broadcast('feedback:stop');
+                        }, 1000);
                     });
                 });
 
@@ -584,8 +602,6 @@
 
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
-            console.log(event);
-
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
                 //reset current event
@@ -637,6 +653,7 @@
 
         //after an event has been moved to another slot
         $scope.eventDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+            //copy selected event into current event
             $scope.data.currentEvent = event;
 
             $scope.updateEvent();
@@ -644,6 +661,7 @@
 
         //after an event has been resized
         $scope.eventResize = function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
+            //copy selected event into current event
             $scope.data.currentEvent = event;
 
             $scope.updateEvent();
@@ -691,20 +709,22 @@
                     endDate,
                     eventClass;
 
-                if(eventData.end instanceof Date) {
-                    endDate = eventData.end;
-                }
+                if(eventData.end){
+                    if(eventData.end instanceof Date) {
+                        endDate = eventData.end;
+                    }
 
-                if(eventData.end.date){
-                    endDate = $.fullCalendar.parseDate(eventData.end.date);
-                }
+                    if(eventData.end.date){
+                        endDate = $.fullCalendar.parseDate(eventData.end.date);
+                    }
 
-                if(eventData.end.dateTime) {
-                    endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
-                }
+                    if(eventData.end.dateTime) {
+                        endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
+                    }
 
-                if(endDate < d){
-                    eventClass = 'past-event';
+                    if(endDate < d){
+                        eventClass = 'past-event';
+                    }
                 }
 
                 return {
