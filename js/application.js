@@ -960,35 +960,50 @@
                         "minutes": 10
                     }]
                 },
+
                 //success
-                function(response){
+                function(resp){
+                    var calendar = {
+                        'id': resp.id,
+                        'kind': resp.kind,
+                        'etag': resp.etag,
+                        'hidden': resp.hidden,
+                        'selected': resp.selected,
+                        'foregroundColor': resp.foregroundColor,
+                        'backgroundColor': resp.backgroundColor,
+                        'colorId': resp.colorId,
+                        'defaultReminders': resp.defaultReminders,
+                        'locaton': resp.defaultReminders,
+                        'summary': resp.summary,
+                        'title': resp.summary,
+                        'accessRole': resp.accessRole
+                    };
+
+                    //update color meta
+                    calendar.data.color = resp.backgroundColor;
+
+                    //push the calendar to personal calendars array
+                    $scope.data.calendars.push(calendar);
+
                     //feedback
                     $rootScope.$broadcast('feedback:start', {
                         'type': 'alert alert-success',
-                        'message': 'Calendars saved'
+                        'message': 'Calendar saved'
                     });
 
                     $timeout(function(){
                         $rootScope.$broadcast('feedback:stop');
                     }, 1000);
 
-                    //update color meta
-                    response.data.color = response.backgroundColor;
-
-                    //push the calendar to personal calendars array
-                    $scope.data.calendars.push(response);
-
-                    $scope.resetCalendar();
-
                     //redirect to the homepage
                     $location.path('/');
                 },
                 //error
-                function(response){
+                function(resp){
                     //feedback
                     $rootScope.$broadcast('feedback:start', {
                         'type': 'alert alert-error',
-                        'message': response.error.message
+                        'message': resp.error.message
                     });
 
                     $timeout(function(){
