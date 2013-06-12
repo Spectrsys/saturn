@@ -425,17 +425,39 @@
                 'summary': $scope.data.currentEvent.title,
                 'description': $scope.data.currentEvent.description,
                 'location': $scope.data.currentEvent.location
+            },
+            //success
+            function(response){
+                //reset the current event
+                $scope.setCurrentEvent();
+
+                //show feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-success',
+                    'message': 'Event updated'
+                });
+
+                //hide feedback
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+
+                    //go to homepage
+                    $location.path('/');
+                }, 1000);
+            },
+            //error
+            function(response){
+                //show feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-error',
+                    'message': response.data.error.message
+                });
+
+                //hide feedback
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+                }, 1000);
             });
-
-            promise.$then(function(){
-
-            });
-
-            //reset the current event
-            $scope.setCurrentEvent();
-
-            //go to homepage
-            $location.path('/');
         };
 
         //update event
