@@ -365,17 +365,18 @@
 
                 fetching = true;
                 safeApply($scope, function(){
-                    var promise = Events.list({
+                    Events.list({
                         'calendarId': sources[i].id,
                         'access_token': $.cookie('saturn_access_token'),
                         'timeMin': startTime,
                         'timeMax': endTime
-                    });
+                    },
 
-                    promise.$then(function(){
+                    //success
+                    function(response){
                         sources[i].dateRange.push(timestamp);
 
-                        sources[i].events.push.apply(sources[i].events, promise.items);
+                        sources[i].events.push.apply(sources[i].events, response.items);
 
                         sources[i].events = $filter('unique')(sources[i].events);
 
@@ -387,6 +388,20 @@
 
                         //recall the get events function
                         $scope.getEvents(sources, start, end, callback);
+                    },
+
+                    //error
+                    function(response){
+                        //show feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-error',
+                            'message': response.data.error.message
+                        });
+
+                        //hide feedback
+                        $timeout(function(){
+                            $rootScope.$broadcast('feedback:stop');
+                        }, 1000);
                     });
                 });
             } else {
@@ -513,6 +528,7 @@
                         $location.path('/');
                     }, 1000);
                 },
+
                 //error
                 function(response){
                     //show feedback
