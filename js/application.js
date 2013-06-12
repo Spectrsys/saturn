@@ -716,7 +716,12 @@
             //copy selected event into current event
             $scope.data.currentEvent = event;
 
-            $scope.updateEvent();
+            $scope.updateEvent(
+                function(){},
+                function(){
+                    revertFunc();
+                }
+            );
         };
 
         //use stored sources for calendar events
