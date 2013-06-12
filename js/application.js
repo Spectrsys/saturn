@@ -584,6 +584,8 @@
 
         //after the user has clicked an event
         $scope.eventClick = function( event, jsEvent, view ){
+            console.log(event);
+
             //if we can edit the event
             if(event.editable === true || event.source.editable === true){
                 //reset current event
@@ -689,18 +691,20 @@
                     endDate,
                     eventClass;
 
-                if(eventData.end){
-                    if(eventData.end instanceof Date) {
-                        endDate = eventData.end;
-                    } else if(eventData.end.date){
-                        endDate = $.fullCalendar.parseDate(eventData.end.date);
-                    } else if(eventData.end.dateTime) {
-                        endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
-                    }
+                if(eventData.end instanceof Date) {
+                    endDate = eventData.end;
+                }
 
-                    if(endDate < d){
-                        eventClass = 'past-event';
-                    }
+                if(eventData.end.date){
+                    endDate = $.fullCalendar.parseDate(eventData.end.date);
+                }
+
+                if(eventData.end.dateTime) {
+                    endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
+                }
+
+                if(endDate < d){
+                    eventClass = 'past-event';
                 }
 
                 return {
