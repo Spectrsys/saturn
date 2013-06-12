@@ -498,6 +498,11 @@
 
         $scope.deleteEvent = function(){
             if(confirm('Are you sure you want to delete this event ?')){
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert',
+                    'message': 'Deleting event ...'
+                });
+
                 safeApply($scope, function(){
                     //delete the event from the server
                     var promise = Events.delete({
@@ -507,13 +512,23 @@
                     });
 
                     promise.$then(function(){
+                        //feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-success',
+                            'message': 'Event deleted.'
+                        });
+
+                        $timeout(function(){
+                            $rootScope.$broadcast('feedback:stop');
+                        }, 1000);
+
                         //redirect to homepage
                         $location.path('/');
                     });
                 });
 
                 //hackish way to delete the event
-                
+
             }
         };
 
@@ -871,7 +886,7 @@
                     } else {
                         //feedback
                         $rootScope.$broadcast('feedback:start', {
-                            'type': 'alert alert-errot',
+                            'type': 'alert alert-error',
                             'message': 'Calendar could not be saved. Try again.'
                         });
 
