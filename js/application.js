@@ -348,7 +348,6 @@
                 return false;
             }
 
-
             //get min and max time
             var timestamp = start.getTime() + end.getTime(),
 
@@ -413,8 +412,14 @@
                 }
             });
 
+            //show feedback
+            $rootScope.$broadcast('feedback:start', {
+                'type': 'alert',
+                'message': 'Saving event ...'
+            });
+
             //send the event to the server
-            var promise = Events.insert({
+            Events.insert({
                 'calendarId': $scope.data.currentEvent.source.id,
                 'start': {
                     'dateTime': $.fullCalendar.formatDate($scope.data.currentEvent.start, 'u')
@@ -855,14 +860,23 @@
             });
 
             //request calendars from the server
-            var promise = CalendarList.list({
+            CalendarList.list({
                 'access_token': $.cookie('saturn_access_token')
-            });
+            },
+            //success
+            function(response){
+                //feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-success',
+                    'message': 'Calendars loaded'
+                });
 
-            //after they've loaded
-            promise.$then(function () {
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+                }, 1000);
+
                 //loop over calendars and add/chenge metadata
-                angular.forEach(promise.items, function(value, key){
+                angular.forEach(response.items, function(value, key){
                     value.editable = (value.accessRole === 'owner' ? true : false);
                     value.events = [];
                     value.color = value.borderColor = value.backgroundColor;
@@ -872,10 +886,20 @@
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
                 });
+                
                 $scope.$emit('calendarsLoaded');
+            },
+            //error
+            function(response){
+                //feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-error',
+                    'message': response.data.error.message
+                });
 
-                //notify everyone that calendars have loaded
-                $rootScope.$broadcast('feedback:stop');
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+                }, 1000);
             });
         }
 
