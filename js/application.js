@@ -1127,7 +1127,7 @@
 
     /******************************************************************/
         //User
-    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, Data, Settings) {
+    saturnApp.controller('UserController', function ($scope, $rootScope, $location, $http, $timeout, Data, Settings) {
         $scope.data = Data;
 
         if(!$scope.data.user){
@@ -1184,15 +1184,30 @@
                 $scope.getUserData();
 
                 //get user settings
-                var promise = Settings.list({
+                Settings.list({
                     'access_token': $.cookie('saturn_access_token')
-                });
+                },
 
-                promise.$then(function(){
+                //success
+                function(response){
                     //loop over all the settings
-                    angular.forEach(promise.items, function(value, key){
+                    angular.forEach(response.items, function(value, key){
                         $scope.data.settings[value.id] = value.value;
                     });
+                },
+
+                //error
+                function(response){
+                    //show feedback
+                    $rootScope.$broadcast('feedback:start', {
+                        'type': 'alert alert-error',
+                        'message': response.data.error.message
+                    });
+
+                    //hide feedback
+                    $timeout(function(){
+                        $rootScope.$broadcast('feedback:stop');
+                    }, 1000);
                 });
             }
         }
