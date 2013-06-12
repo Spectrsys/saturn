@@ -986,8 +986,14 @@
             });
         };
 
-        //save calendar settings
-        $scope.saveCalendar = function(){
+        //update calendar settings
+        $scope.updateCalendar = function(){
+            //feedback
+            $rootScope.$broadcast('feedback:start', {
+                'type': 'alert',
+                'message': 'Updating calendar ...'
+            });
+
             $.extend($scope.data.currentCalendar, $scope.calendar);
 
             //hack to get calendar colors to behave ok
@@ -995,22 +1001,44 @@
             $scope.data.currentCalendar.borderColor =  $scope.data.currentCalendar.color;
 
             //update calendar meta
-            var promise = Calendars.update({
+            Calendars.update({
                 'calendarId': $scope.calendar.id,
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
                 'location': $scope.calendar.location,
                 'timeZone': $scope.calendar.timeZone
-            });
+            },
 
-            //callback
-            promise.$then(function(){
+            //success
+            function(response){
+                //feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-success',
+                    'message': 'Calendar updated'
+                });
+
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+                }, 1000);
+
                 $scope.calendar = null;
+
+                //redirect to the homepage
+                $location.path('/');
+            },
+
+            //error
+            function(response){
+                //feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-error',
+                    'message': response.error.message
+                });
+
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+                }, 1000);
             });
-
-            $location.path('/');
-
-            $scope.calendar = null;
         };
 
         //set current calendar ID
