@@ -803,6 +803,8 @@
                     'etag': response.data.etag,
                     'hidden': false,
                     'selected': true,
+                    'foregroundColor': $scope.calendar.foregroundColor,
+                    'backgroundColor': $scope.calendar.backgroundColor,
                     'defaultReminders': [{
                         "method": 'email',
                         "minutes": 10

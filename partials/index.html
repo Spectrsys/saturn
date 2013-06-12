@@ -64,7 +64,7 @@
                             <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
                                 <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" />
                             </span>
-                            {{calendar.summary}}
+                            <span class="calendar-summary" ng-bind="calendar.summary"></span>
                         </label>
                     </li>
                 </ul>
@@ -105,7 +105,7 @@
                             <span ng-class="{'color-preview': true, 'color-preview-inactive': !calendar.selected}" style="background-color:{{calendar.color}}">
                                 <input type="checkbox" value="{{calendar.id}}" ng-model="calendar.selected" ng-change="calTest()" />
                             </span>
-                            {{calendar.summary}}
+                            <span class="calendar-summary" ng-bind="calendar.summary"></span>
                         </label>
                     </li>
                 </ul>
