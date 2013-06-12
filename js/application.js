@@ -886,7 +886,7 @@
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
                 });
-                
+
                 $scope.$emit('calendarsLoaded');
             },
             //error
@@ -912,20 +912,20 @@
             });
 
             //insert new calendar
-            var promise = Calendars.insert({
+            Calendars.insert({
                 'summary': $scope.calendar.summary,
                 'description': $scope.calendar.description,
                 'location': $scope.calendar.location,
                 'timeZone': $scope.calendar.timeZone
-            });
+            },
 
-            //callback
-            promise.$then(function(response){
+            //success
+            function(response){
                 //save the calendat into a calendar list
-                var calendarList = CalendarList.insert({
-                    'id': response.data.id,
-                    'kind': response.data.kind,
-                    'etag': response.data.etag,
+                CalendarList.insert({
+                    'id': response.id,
+                    'kind': response.kind,
+                    'etag': response.etag,
                     'hidden': false,
                     'selected': true,
                     'foregroundColor': $scope.calendar.foregroundColor,
@@ -934,42 +934,55 @@
                         "method": 'email',
                         "minutes": 10
                     }]
+                },
+                //success
+                function(response){
+                    //feedback
+                    $rootScope.$broadcast('feedback:start', {
+                        'type': 'alert alert-success',
+                        'message': 'Calendars saved'
+                    });
+
+                    $timeout(function(){
+                        $rootScope.$broadcast('feedback:stop');
+                    }, 1000);
+
+                    //update color meta
+                    response.data.color = response.backgroundColor;
+
+                    //push the calendar to personal calendars array
+                    $scope.data.calendars.push(response);
+
+                    $scope.resetCalendar();
+
+                    //redirect to the homepage
+                    $location.path('/');
+                },
+                //error
+                function(response){
+                    //feedback
+                    $rootScope.$broadcast('feedback:start', {
+                        'type': 'alert alert-error',
+                        'message': response.error.message
+                    });
+
+                    $timeout(function(){
+                        $rootScope.$broadcast('feedback:stop');
+                    }, 1000);
+                });
+            },
+
+            //error
+            function(response){
+                //feedback
+                $rootScope.$broadcast('feedback:start', {
+                    'type': 'alert alert-error',
+                    'message': response.error.message
                 });
 
-                calendarList.$then(function(response){
-                    if(response.status === 200){
-                        //feedback
-                        $rootScope.$broadcast('feedback:start', {
-                            'type': 'alert alert-success',
-                            'message': 'Calendar successfully created'
-                        });
-
-                        $timeout(function(){
-                            $rootScope.$broadcast('feedback:stop');
-                        }, 1000);
-
-                        //update color meta
-                        response.data.color = response.data.backgroundColor;
-
-                        //push the calendar to personal calendars array
-                        $scope.data.calendars.push(response.data);
-                    } else {
-                        //feedback
-                        $rootScope.$broadcast('feedback:start', {
-                            'type': 'alert alert-error',
-                            'message': 'Calendar could not be saved. Try again.'
-                        });
-
-                        $timeout(function(){
-                            $rootScope.$broadcast('feedback:stop');
-                        }, 1000);
-                    }
-                });
-
-                $scope.resetCalendar();
-
-                //redirect to the homepage
-                $location.path('/');
+                $timeout(function(){
+                    $rootScope.$broadcast('feedback:stop');
+                }, 1000);
             });
         };
 
@@ -1013,9 +1026,6 @@
         //reset current calendar settings
         $scope.resetCalendar = function(){
             $.extend($scope.calendar, $scope.data.currentCalendar);
-
-            //redirect to the homepage
-            $location.path('/');
         };
 
         //delete calendar
