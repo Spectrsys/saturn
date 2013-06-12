@@ -111,11 +111,13 @@ input {
     overflow: visible;
 }
 
-.fc-event {
-    border: 1px solid #99CCFF;
-    font-size: 90%;
-    color: #333;
-    background: #99CCFF;
+.past-event {
+    zoom: 1;
+    opacity: .5;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
+    filter: alpha(opacity=45);
+    -khtml-opacity: .5;
+    -moz-opacity: .5;
 }
 
 .fc-header-title h2 {

@@ -54,7 +54,7 @@
                         </li>
                         <li>
                             <label for="user-url">URL</label>
-                            <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="data.user.url" />
+                            <input type="url" id="user-url" name="user-url" class="input-xxlarge" ng-model="data.user.profile" readonly />
                         </li>
                         <li>
                             <label for="user-company">Company</label>
@@ -66,7 +66,7 @@
                         </li>
                         <li>
                             <label for="user-gravatar">Gravatar email</label>
-                            <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="data.user.gravatar" />
+                            <input type="email" id="user-gravatar" name="user-gravatar" class="input-xxlarge" ng-model="data.user.email" />
                         </li>
                         <li ng-show="data.user.picture">
                             <img width="100" ng-src="{{data.user.picture}}?s=100" />
