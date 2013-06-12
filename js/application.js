@@ -496,6 +496,27 @@
             });
         };
 
+        $scope.deleteEvent = function(){
+            if(confirm('Are you sure you want to delete this event ?')){
+                safeApply($scope, function(){
+                    //delete the event from the server
+                    var promise = Events.delete({
+                        'calendarId': $scope.data.currentEvent.source.id,
+                        'eventId': $scope.data.currentEvent.id,
+                        'sendNotifications': true
+                    });
+
+                    promise.$then(function(){
+                        //redirect to homepage
+                        $location.path('/');
+                    });
+                });
+
+                //hackish way to delete the event
+                
+            }
+        };
+
         //check start/end time and date
         $scope.checkEventDates = function(){
             //check if start date is greater than end date
@@ -1000,22 +1021,22 @@
                 'user': $scope.loginData.user,
                 'password': $scope.loginData.password
             }).success(function(data, status, headers, config){
-                    $scope.data.apiKey = data.apiKey;
-                    //set google auth key
-                    gapi.client.setApiKey(data.apiKey);
+                $scope.data.apiKey = data.apiKey;
+                //set google auth key
+                gapi.client.setApiKey(data.apiKey);
 
-                    window.setTimeout(function(){
-                        gapi.auth.authorize({
-                            'client_id': data.clientId,
-                            'scope': data.scopes,
-                            'response_type': 'token',
-                            'immediate': false,
-                            'login_hint': data.login_hint,
-                            'approval_prompt': 'auto'
-                        }, handleAuthResult);
-                    }, 200);
-                }).error(function(data, status, headers, config){
-                });
+                window.setTimeout(function(){
+                    gapi.auth.authorize({
+                        'client_id': data.clientId,
+                        'scope': data.scopes,
+                        'response_type': 'token',
+                        'immediate': false,
+                        'login_hint': data.login_hint,
+                        'approval_prompt': 'auto'
+                    }, handleAuthResult);
+                }, 200);
+            }).error(function(data, status, headers, config){
+            });
         };
 
         //called after the user has logged in
