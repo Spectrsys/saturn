@@ -653,16 +653,18 @@
                     endDate,
                     eventClass;
 
-                if(eventData.end instanceof Date) {
-                    endDate = eventData.end;
-                } else if(eventData.end.date){
-                    endDate = $.fullCalendar.parseDate(eventData.end.date);
-                } else if(eventData.end.dateTime) {
-                    endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
-                }
+                if(eventData.end){
+                    if(eventData.end instanceof Date) {
+                        endDate = eventData.end;
+                    } else if(eventData.end.date){
+                        endDate = $.fullCalendar.parseDate(eventData.end.date);
+                    } else if(eventData.end.dateTime) {
+                        endDate = $.fullCalendar.parseDate(eventData.end.dateTime);
+                    }
 
-                if(endDate < d){
-                    eventClass = 'past-event';
+                    if(endDate < d){
+                        eventClass = 'past-event';
+                    }
                 }
 
                 return {
