@@ -446,8 +446,10 @@
                 'description': $scope.data.currentEvent.description,
                 'location': $scope.data.currentEvent.location
             },
+
             //success
             function(response){
+
                 //reset the current event
                 $scope.setCurrentEvent();
 
@@ -508,11 +510,11 @@
                     'location': $scope.data.currentEvent.location,
                     'sequence': $scope.data.currentEvent.sequence
                 },
+
                 //success
                 function(response){
                     //update sequence
                     $scope.data.currentEvent.sequence++;
-
                     //show feedback
                     $rootScope.$broadcast('feedback:start', {
                         'type': 'alert alert-success',
@@ -531,7 +533,6 @@
                         successCallback();
                     }
                 },
-
                 //error
                 function(response){
                     //show feedback
@@ -573,7 +574,6 @@
                             'type': 'alert alert-success',
                             'message': 'Event deleted.'
                         });
-
                         $timeout(function(){
                             $rootScope.$broadcast('feedback:stop');
                         }, 1000);
@@ -839,9 +839,9 @@
             eventRender: function (event, element, view) {
                 return false;
             },
-            viewDisplay: function(view){
-                $scope.calendar.fullCalendar('gotoDate', view.start);
-            },
+            // viewDisplay: function(view){
+            //    $scope.calendar.fullCalendar('gotoDate', view.start);
+            // },
             dayClick: function (date, allDay, jsEvent, view) {
                 $scope.calendar.fullCalendar('gotoDate', date);
             }
@@ -916,9 +916,9 @@
                     //push new calendar into stack
                     $scope.data.calendars.push(value);
                 });
-
                 $scope.$emit('calendarsLoaded');
             },
+
             //error
             function(response){
                 //feedback
@@ -989,7 +989,6 @@
 
                     //push the calendar to personal calendars array
                     $scope.data.calendars.push(calendar);
-
                     //feedback
                     $rootScope.$broadcast('feedback:start', {
                         'type': 'alert alert-success',
@@ -1003,6 +1002,7 @@
                     //redirect to the homepage
                     $location.path('/');
                 },
+
                 //error
                 function(resp){
                     //feedback
@@ -1016,6 +1016,7 @@
                     }, 1000);
                 });
             },
+
 
             //error
             function(response){
@@ -1040,7 +1041,6 @@
                 'type': 'alert',
                 'message': 'Updating calendar ...'
             });
-
             $.extend($scope.data.currentCalendar, $scope.calendar);
 
             //hack to get calendar colors to behave ok

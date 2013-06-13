@@ -87,9 +87,9 @@
                     </div>
                 </li>
             </ol>
-            <button type="submit" class="btn btn-success" ng-disabled="eventDetailsForm.$invalid" ng-click="updateEvent()"><i class="icon-save"></i> Update</button>
+            <a href="#/" class="btn btn-success" ng-disabled="eventDetailsForm.$invalid" ng-click="updateEvent()"><i class="icon-save"></i> Update</a>
             <a href="#/" ng-click="resetEvent()" class="btn"><i class="icon-undo"></i> Cancel</a>
-            <button type="button" class="btn btn-danger" ng-click="deleteEvent()"><i class="icon-trash"></i> Delete</button>
+            <a href="#/" class="btn btn-danger" ng-click="deleteEvent()"><i class="icon-trash"></i> Delete</a>
         </div>
         <div ng-show="!data.calendars.length">
             <p class="alert">You need to have at least one calledar before you can create and event.</p>
