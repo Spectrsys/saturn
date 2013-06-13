@@ -365,17 +365,18 @@
 
                 fetching = true;
                 safeApply($scope, function(){
-                    var promise = Events.list({
+                    Events.list({
                         'calendarId': sources[i].id,
                         'access_token': $.cookie('saturn_access_token'),
                         'timeMin': startTime,
                         'timeMax': endTime
-                    });
+                    },
 
-                    promise.$then(function(){
+                    //success
+                    function(response){
                         sources[i].dateRange.push(timestamp);
 
-                        sources[i].events.push.apply(sources[i].events, promise.items);
+                        sources[i].events.push.apply(sources[i].events, response.items);
 
                         sources[i].events = $filter('unique')(sources[i].events);
 
@@ -387,6 +388,20 @@
 
                         //recall the get events function
                         $scope.getEvents(sources, start, end, callback);
+                    },
+
+                    //error
+                    function(response){
+                        //show feedback
+                        $rootScope.$broadcast('feedback:start', {
+                            'type': 'alert alert-error',
+                            'message': response.data.error.message
+                        });
+
+                        //hide feedback
+                        $timeout(function(){
+                            $rootScope.$broadcast('feedback:stop');
+                        }, 1000);
                     });
                 });
             } else {
@@ -439,7 +454,7 @@
                 //show feedback
                 $rootScope.$broadcast('feedback:start', {
                     'type': 'alert alert-success',
-                    'message': 'Event updated'
+                    'message': 'Event saved'
                 });
 
                 //hide feedback
@@ -466,7 +481,7 @@
         };
 
         //update event
-        $scope.updateEvent = function(){
+        $scope.updateEvent = function(successCallback, errorCallback){
             var d = new Date();
 
             safeApply($scope, function(){
@@ -477,7 +492,6 @@
                 });
 
                 $scope.data.currentEvent.updated = $.fullCalendar.formatDate(d, 'u');
-                $scope.data.currentEvent.sequence++;
 
                 //send data to the server
                 Events.update({
@@ -512,7 +526,12 @@
                         //go to homepage
                         $location.path('/');
                     }, 1000);
+
+                    if(typeof successCallback === 'function'){
+                        successCallback();
+                    }
                 },
+
                 //error
                 function(response){
                     //show feedback
@@ -525,6 +544,10 @@
                     $timeout(function(){
                         $rootScope.$broadcast('feedback:stop');
                     }, 1000);
+
+                    if(typeof errorCallback === 'function'){
+                        errorCallback();
+                    }
                 });
             });
         };
@@ -538,7 +561,7 @@
 
                 safeApply($scope, function(){
                     //delete the event from the server
-                    var promise = Events.delete({
+                    Events.delete({
                         'calendarId': $scope.data.currentEvent.source.id,
                         'eventId': $scope.data.currentEvent.id,
                         'sendNotifications': true
@@ -571,9 +594,6 @@
                         }, 1000);
                     });
                 });
-
-                //hackish way to delete the event
-
             }
         };
 
@@ -683,7 +703,12 @@
             //copy selected event into current event
             $scope.data.currentEvent = event;
 
-            $scope.updateEvent();
+            $scope.updateEvent(
+                function(){},
+                function(){
+                    revertFunc();
+                }
+            );
         };
 
         //after an event has been resized
@@ -691,7 +716,12 @@
             //copy selected event into current event
             $scope.data.currentEvent = event;
 
-            $scope.updateEvent();
+            $scope.updateEvent(
+                function(){},
+                function(){
+                    revertFunc();
+                }
+            );
         };
 
         //use stored sources for calendar events
@@ -935,35 +965,50 @@
                         "minutes": 10
                     }]
                 },
+
                 //success
-                function(response){
+                function(resp){
+                    var calendar = {
+                        'id': resp.id,
+                        'kind': resp.kind,
+                        'etag': resp.etag,
+                        'hidden': resp.hidden,
+                        'selected': resp.selected,
+                        'foregroundColor': resp.foregroundColor,
+                        'backgroundColor': resp.backgroundColor,
+                        'colorId': resp.colorId,
+                        'defaultReminders': resp.defaultReminders,
+                        'locaton': resp.defaultReminders,
+                        'summary': resp.summary,
+                        'title': resp.summary,
+                        'accessRole': resp.accessRole
+                    };
+
+                    //update color meta
+                    calendar.data.color = resp.backgroundColor;
+
+                    //push the calendar to personal calendars array
+                    $scope.data.calendars.push(calendar);
+
                     //feedback
                     $rootScope.$broadcast('feedback:start', {
                         'type': 'alert alert-success',
-                        'message': 'Calendars saved'
+                        'message': 'Calendar saved'
                     });
 
                     $timeout(function(){
                         $rootScope.$broadcast('feedback:stop');
                     }, 1000);
 
-                    //update color meta
-                    response.data.color = response.backgroundColor;
-
-                    //push the calendar to personal calendars array
-                    $scope.data.calendars.push(response);
-
-                    $scope.resetCalendar();
-
                     //redirect to the homepage
                     $location.path('/');
                 },
                 //error
-                function(response){
+                function(resp){
                     //feedback
                     $rootScope.$broadcast('feedback:start', {
                         'type': 'alert alert-error',
-                        'message': response.error.message
+                        'message': resp.error.message
                     });
 
                     $timeout(function(){
