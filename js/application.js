@@ -742,7 +742,7 @@
         //master calendar
         $scope.masterCalendarOptions = {
             header: {
-                left: 'month agendaWeek agendaDay',
+                left: 'month agendaWeek agendaDay agendaList',
                 center: 'title',
                 right: 'today prev,next'
             },
