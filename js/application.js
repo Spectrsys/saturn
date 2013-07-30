@@ -112,8 +112,8 @@
                 data = $rootScope.$eval(data);
                 return [200, {
                     'login_hint': data.user,
-                    'apiKey': 'AIzaSyCFj15TpkchL4OUhLD1Q2zgxQnMb7v3XaM',
-                    'clientId': '314009841930-t42p9qgq3ga5m31i795s7dkdo9pvavgl.apps.googleusercontent.com',
+                    'apiKey': 'AIzaSyDBKGUfuXDiE_SSs8hUoVKC58v1zoii9Z0',
+                    'clientId': '512508236814-shh88q7m8kmongk24vgnagsm5p7q5ghl.apps.googleusercontent.com',
                     'scopes': 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
                 }];
             });
