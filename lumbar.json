@@ -1,0 +1,45 @@
+{
+  "scope": "none",
+  "packages": {
+    "saturn": {
+      "modules": [
+        "saturn"
+      ]
+    }
+  },
+  "modules": {
+    "saturn": {
+      "scripts": [
+        "js/src/angular-mocks-1.1.5.js",
+        "js/src/angular-resource-1.1.5.js",
+        "js/src/angular-ui.js",
+        "js/src/http-auth-interceptor.js",
+        "js/src/jquery.cookie.js",
+        "js/src/fullcalendar.min.js",
+        "js/src/gcal.js",
+        "js/src/bootstrap.js",
+        "js/src/ui-bootstrap-tpls-0.3.0.js",
+        "js/src/bootstrap-timepicker.js",
+        "js/src/spectrum.js",
+        "js/src/jquery.resizeStop.js",
+        "js/src/directives/timepicker.js",
+        "js/src/directives/colorpicker.js",
+        "js/src/directives/feedback.js",
+        "js/src/intro.js",
+        "js/src/application.js",
+        "js/src/outro.js"
+      ],
+      "styles": [
+        "css/src/bootstrap.css",
+        "css/src/bootstrap-responsive.css",
+        "css/src/angular-ui.min.css",
+        "css/src/fullcalendar.css",
+        "css/src/bootstrap-timepicker.css",
+        "css/src/font-awesome.css",
+        "themes/smoothness/jquery-ui-1.10.2.smoothness.min.css",
+        "css/src/spectrum.css",
+        "css/src/application.css"
+      ]
+    }
+  }
+}
