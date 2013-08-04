@@ -12,6 +12,7 @@
   "readmeFilename": "README.md",
   "gitHead": "4a08191c91f5f2a1a8e852a5923acd1ebc5dc432",
   "name": "saturn",
+  "homepage": "http://www.saturn.com",
   "description": "Saturn",
   "version": "0.0.1",
   "main": "Gruntfile.js",
