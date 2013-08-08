@@ -37,7 +37,7 @@
                 <div class="widget-title">My calendars</div>
             </div>
             <div class="widget-content">
-                <ul class="unstyled calendar-list" ng-show="data.calendars.length">
+                <ul class="list-unstyled calendar-list" ng-show="data.calendars.length">
                     <li ng-repeat="calendar in data.calendars | filter:{accessRole : 'owner'}">
                         <div class="dropdown pull-right">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-caret-down"></i></a>
@@ -84,7 +84,7 @@
                 <div class="widget-title">Subscribed calendars</div>
             </div>
             <div class="widget-content">
-                <ul class="unstyled calendar-list" ng-show="data.calendars.length">
+                <ul class="list-unstyled calendar-list" ng-show="data.calendars.length">
                     <li ng-repeat="calendar in data.calendars | filter:{accessRole: '!owner'}">
                         <div class="dropdown pull-right">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-caret-down"></i></a>

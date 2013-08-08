@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="widget-content">
-                <ul class="unstyled menu">
+                <ul class="list-unstyled menu">
                     <li>
                         <a href="#/settings">General</a>
                     </li>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="widget-content">
                     <div class="alert" ng-show="data.currentCalendar.accessRole != 'owner'">You are only <strong>subscribed</strong> to this calendar. Any changes you make to it, will only be visible to you.</div>
-                    <ol class="unstyled clearfix">
+                    <ol class="list-unstyled clearfix">
                         <li>
                             <div class="span2">
                                 <label for="calendar-name">Calendar name</label>
@@ -110,7 +110,7 @@
                     <div class="widget-title">Sharing settings</div>
                 </div>
                 <div class="widget-content">
-                    <ol class="unstyled clearfix">
+                    <ol class="list-unstyled clearfix">
                         <li>
                             <label>
                                 <input type="checkbox" ng-model="calendar.share" ng-disabled="calendar.accessRole != 'owner'" />
@@ -158,7 +158,7 @@
                     <div ng-hide="calendar.defaultReminders" class="alert">No reminders set</div>
 
                     <div ng-show="calendar.defaultReminders">
-                        <ul class="unstyled">
+                        <ul class="list-unstyled">
                             <li ng-repeat="reminder in calendar.defaultReminders">
                                 By default, remind me via
                                 <select ng-model="reminder.method" class="input-small">

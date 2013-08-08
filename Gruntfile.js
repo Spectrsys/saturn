@@ -38,7 +38,6 @@ module.exports = function(grunt) {
             },
             css:{
                 src: ["css/src/bootstrap.css",
-                    "css/src/bootstrap-responsive.css",
                     "css/src/angular-ui.min.css",
                     "css/src/fullcalendar.css",
                     "css/src/bootstrap-timepicker.css",
