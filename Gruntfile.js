@@ -30,6 +30,7 @@ module.exports = function(grunt) {
                     "js/src/directives/timepicker.js",
                     "js/src/directives/colorpicker.js",
                     "js/src/directives/feedback.js",
+                    "js/src/directives/ngrightclick.js",
                     "js/src/intro.js",
                     "js/src/application.js",
                     "js/src/outro.js"],
