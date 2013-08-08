@@ -1,6 +1,6 @@
 <div ng-controller="SettingsController">
     <!--sidebar-->
-    <aside id="sidebar" class="span2">
+    <aside id="sidebar" class="col-lg-2">
         <div class="widget">
             <div class="widget-heading">
                 <div class="widget-title">
@@ -35,7 +35,7 @@
     <!--/sidebar-->
 
     <!--content-->
-    <div id="content" class="span10">
+    <div id="content" class="col-lg-10">
         <!--account settings-->
         <form name="accountSettingsForm">
             <div id="account-settings" class="widget">
@@ -44,15 +44,15 @@
                 </div>
                 <div class="widget-content">
                     <ol class="list-unstyled">
-                        <li>
+                        <li class="form-group">
                             <label for="old-password">Old password</label>
                             <input type="password" id="old-password" name="old-password" class="form-control" required ng-model="settings.oldPassword" />
                         </li>
-                        <li>
+                        <li class="form-group">
                             <label for="new-password">New password</label>
                             <input type="password" id="new-password" name="new-password" class="form-control" required  ng-model="settings.newPassword" />
                         </li>
-                        <li>
+                        <li class="form-group">
                             <label for="confirm-password">Confirm password</label>
                             <input type="password" id="confirm-password" name="confirm-password" class="form-control" required  ng-model="settings.confirmPassword" />
                         </li>

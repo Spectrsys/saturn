@@ -5,46 +5,46 @@
         </div>
         <div class="widget-content" ng-show="data.calendars.length">
             <ol class="list-unstyled clearfix">
-                <li>
-                    <div class="span2">
+                <li class="form-group">
+                    <div class="col-lg-2">
                         <label for="event-name">Event name</label>
                     </div>
-                    <div class="span10">
+                    <div class="col-lg-10">
                         <input type="text" id="event-name" name="event-name" class="form-control" required ng-model="data.currentEvent.title" />
                     </div>
                 </li>
-                <li>
-                    <div class="span2">
+                <li class="form-group">
+                    <div class="col-lg-2">
                         <label for="event-description">Description</label>
                     </div>
-                    <div class="span10">
+                    <div class="col-lg-10">
                         <textarea id="event-description" name="event-description" class="input-block-level" ng-model="data.currentEvent.description"></textarea>
                     </div>
                 </li>
-                <li>
-                    <div class="span2">
+                <li class="form-group">
+                    <div class="col-lg-2">
                         <label for="event-location">Location</label>
                     </div>
-                    <div class="span10">
+                    <div class="col-lg-10">
                         <input type="text" id="event-location" name="event-location" class="form-control" ng-model="data.currentEvent.location" />
                         <label for="event-location">
                             <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
                         </label>
                     </div>
                 </li>
-                <li>
-                    <div class="span2">
+                <li class="form-group">
+                    <div class="col-lg-2">
                         <label for="event-calendar">Calendar</label>
                     </div>
-                    <div class="span10">
+                    <div class="col-lg-10">
                         <select id="event-calendar" ng-model="data.currentEvent.source.id" ng-options="calendar.id as calendar.summary for calendar in data.calendars | filter:{accessRole: 'owner'}" required></select>
                     </div>
                 </li>
-                <li>
-                   <div class="span2">
+                <li class="form-group">
+                   <div class="col-lg-2">
                        <label for="event-start-date">Start date</label>
                    </div>
-                   <div class="span10">
+                   <div class="col-lg-10">
                        <div class="input-prepend">
                            <span class="add-on">
                                <i class="icon-calendar"></i>
@@ -59,11 +59,11 @@
                        </div>
                    </div>
                 </li>
-                <li>
-                    <div class="span2">
+                <li class="form-group">
+                    <div class="col-lg-2">
                         <label for="event-end-date">End date</label>
                     </div>
-                    <div class="span10">
+                    <div class="col-lg-10">
                         <div class="input-prepend">
                            <span class="add-on">
                                <i class="icon-calendar"></i>
@@ -78,11 +78,11 @@
                         </div>
                     </div>
                 </li>
-                <li>
-                    <div class="span2">
+                <li class="form-group">
+                    <div class="col-lg-2">
                         <label for="event-all-day">All day</label>
                     </div>
-                    <div class="span10">
+                    <div class="col-lg-10">
                         <input type="checkbox" id="event-all-day" ng-model="data.currentEvent.allDay" />
                     </div>
                 </li>
