@@ -24,6 +24,7 @@ Thumbs.db
 ######################
 build-local.properties
 build
+node_modules/
 
 # IDE generated files
 ######################
