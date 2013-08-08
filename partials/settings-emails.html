@@ -65,7 +65,7 @@
         <form name="emailSettingsForm" ng-submit="addEmail()" novalidate>
             <label for="user-email">Add another email address</label>
             <div class="input-append">
-                <input type="email" id="user-email" name="user-email" ng-model="data.settings.newEmail" required />
+                <input type="email" id="user-email" name="user-email" class="form-control" ng-model="data.settings.newEmail" required />
                 <button type="submit" class="btn" ng-disabled="emailSettingsForm.$invalid">Add</button>
             </div>
         </form>

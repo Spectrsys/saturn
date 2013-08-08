@@ -50,7 +50,7 @@
                                 <label for="calendar-name">Calendar name</label>
                             </div>
                             <div class="span10">
-                                <input type="text" id="calendar-name" name="calendar-name" class="input-block-level" required ng-model="calendar.summary" />
+                                <input type="text" id="calendar-name" name="calendar-name" class="form-control" required ng-model="calendar.summary" />
                             </div>
                         </li>
                         <li>
@@ -66,7 +66,7 @@
                                 <label for="calendar-location">Location</label>
                             </div>
                             <div class="span10">
-                                <input type="text" id="calendar-location" name="calendar-location" class="input-block-level" ng-model="calendar.location" />
+                                <input type="text" id="calendar-location" name="calendar-location" class="form-control" ng-model="calendar.location" />
                                 <label for="calendar-location">
                                     <small>e.g. "San Francisco" or "New York" or "USA." Specifying a general location will help people find events on your calendar (if it's public)</small>
                                 </label>
@@ -87,7 +87,7 @@
                                 <label for="calendar-background">Background color</label>
                             </div>
                             <div class="span10">
-                                <input type="text" id="calendar-background" color-picker="calendar.color" ng-model="calendar.color" />
+                                <input type="text" id="calendar-background" class="form-control" color-picker="calendar.color" ng-model="calendar.color" />
                             </div>
                         </li>
                         <li>
@@ -95,7 +95,7 @@
                                 <label for="calendar-foreground">Text color</label>
                             </div>
                             <div class="span10">
-                                <input type="text" id="calendar-foreground" color-picker="calendar.textColor" ng-model="calendar.textColor" />
+                                <input type="text" id="calendar-foreground" class="form-control" color-picker="calendar.textColor" ng-model="calendar.textColor" />
                             </div>
                         </li>
                     </ol>
@@ -166,7 +166,7 @@
                                     <option value="popup">Pop-up</option>
                                 </select>
                                 every
-                                <input type="text" class="input-mini" ng-model="reminder.minutes" />
+                                <input type="text" class="form-control" ng-model="reminder.minutes" />
                                 <select class="input-small">
                                     <option value="60">minutes</option>
                                     <option value="3600">hours</option>

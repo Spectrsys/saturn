@@ -46,15 +46,15 @@
                     <ol class="list-unstyled">
                         <li>
                             <label for="old-password">Old password</label>
-                            <input type="password" id="old-password" name="old-password" class="input-xxlarge" required ng-model="settings.oldPassword" />
+                            <input type="password" id="old-password" name="old-password" class="form-control" required ng-model="settings.oldPassword" />
                         </li>
                         <li>
                             <label for="new-password">New password</label>
-                            <input type="password" id="new-password" name="new-password" class="input-xxlarge" required  ng-model="settings.newPassword" />
+                            <input type="password" id="new-password" name="new-password" class="form-control" required  ng-model="settings.newPassword" />
                         </li>
                         <li>
                             <label for="confirm-password">Confirm password</label>
-                            <input type="password" id="confirm-password" name="confirm-password" class="input-xxlarge" required  ng-model="settings.confirmPassword" />
+                            <input type="password" id="confirm-password" name="confirm-password" class="form-control" required  ng-model="settings.confirmPassword" />
                         </li>
                     </ol>
                     <button type="submit" class="btn btn-success" ng-disabled="accountSettingsForm.$invalid"><i class="icon-save"></i> Save</button>
