@@ -84,6 +84,10 @@ input {
 }
 
 /* user navigation */
+.navbar {
+
+}
+
 #user-nav > ul > li {
     padding: 10px 0 0 10px;
     float: left;

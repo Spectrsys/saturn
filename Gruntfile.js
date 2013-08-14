@@ -62,6 +62,9 @@ module.exports = function(grunt) {
             }
         },
         cssmin: {
+            options: {
+                keepSpecialComments: 0
+            },
             css: {
                 src: '<%= concat.css.dest %>',
                 dest:'<%= css_build_path %>/app.min.css'

@@ -324,14 +324,16 @@ saturnApp.controller('EventController', ['$scope', '$rootScope', '$filter', '$lo
     var i = 0,
         fetching = false;
 
-    $scope.events =  function(start, end, callback) {
+    $scope.toggleMenu = function(){
+    };
+
+    $scope.events = function(start, end, callback) {
         i = 0;
         $scope.getEvents($scope.data.calendars, start, end, function(){
             // when no more calendars to fetch, please re-render events fetched
             $scope.calendar.fullCalendar('refetchEvents');
         });
     };
-
 
     //get events
     $scope.getEvents = function(sources, start, end, callback){
